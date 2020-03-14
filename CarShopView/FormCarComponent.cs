@@ -27,8 +27,6 @@ namespace CarShopView
             set { countTextBox.Text = value.ToString(); }
         }
 
-        private readonly IComponentLogic componentLogic;
-
         public FormCarComponent(IComponentLogic componentLogic)
         {
             InitializeComponent();
