@@ -78,7 +78,7 @@ namespace CarShopView
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,  MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -86,7 +86,7 @@ namespace CarShopView
         private void orderReadyButton_Click(object sender, EventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1)
-            { 
+            {
                 int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 try
                 {

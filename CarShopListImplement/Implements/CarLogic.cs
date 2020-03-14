@@ -45,7 +45,7 @@ namespace CarShopListImplement.Implements
                 source.Cars.Add(CreateModel(model, tempCar));
             }
         }
-   
+
         public void Delete(CarBindingModel model)
         {
             // удаляем записи по компонентам при удалении изделия
@@ -129,7 +129,7 @@ namespace CarShopListImplement.Implements
         private CarViewModel CreateViewModel(Car car)
         {
             // требуется дополнительно получить список компонентов для изделия с названиями и их количество
-        Dictionary<int, (string, int)> carComponents = new Dictionary<int, (string, int)>();
+            Dictionary<int, (string, int)> carComponents = new Dictionary<int, (string, int)>();
             foreach (var cc in source.CarComponents)
             {
                 if (cc.CarId == car.Id)

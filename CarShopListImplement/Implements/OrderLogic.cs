@@ -4,7 +4,6 @@ using CarShopBuisnessLogic.ViewModels;
 using CarShopListImplement.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CarShopListImplement.Implements
 {

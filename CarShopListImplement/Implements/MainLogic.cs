@@ -2,11 +2,7 @@
 using CarShopBuisnessLogic.BindingModels;
 using CarShopBuisnessLogic.Enums;
 using CarShopBuisnessLogic.Interfaces;
-using CarShopBuisnessLogic.ViewModels;
-using CarShopListImplement.Models;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CarShopListImplement.Implements
 {
