@@ -92,10 +92,10 @@ namespace CarShopListImplement.Implements
         private ComponentViewModel CreateViewModel(Component component)
         {
             return new ComponentViewModel
-             {
-                 Id = component.Id,
-                 ComponentName = component.ComponentName
-             };
+            {
+                Id = component.Id,
+                ComponentName = component.ComponentName
+            };
         }
     }
 }

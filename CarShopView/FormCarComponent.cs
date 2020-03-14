@@ -17,9 +17,9 @@ namespace CarShopView
             get { return Convert.ToInt32(componentsComboBox.SelectedValue); }
             set { componentsComboBox.SelectedValue = value; }
         }
-        public string ComponentName 
-        { 
-            get { return componentsComboBox.Text; } 
+        public string ComponentName
+        {
+            get { return componentsComboBox.Text; }
         }
         public int Count
         {

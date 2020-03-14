@@ -1,5 +1,5 @@
 ﻿namespace CarShopBuisnessLogic.Enums
-{ 
+{
     /// <summary>
     /// Статус заказа
     /// </summary>
