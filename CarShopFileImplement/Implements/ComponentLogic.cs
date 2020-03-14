@@ -12,8 +12,8 @@ namespace CarShopFileImplement.Implements
     {
         private readonly FileDataListSingleton source;
 
-        public ComponentLogic() 
-        { 
+        public ComponentLogic()
+        {
             source = FileDataListSingleton.GetInstance();
         }
 

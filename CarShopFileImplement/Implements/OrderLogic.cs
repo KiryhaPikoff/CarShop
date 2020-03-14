@@ -6,7 +6,6 @@ using CarShopFileImplement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace CarShopFileImplement.Implements
 {
@@ -33,7 +32,8 @@ namespace CarShopFileImplement.Implements
             else
             {
                 int maxId = source.Orders.Count > 0 ? source.Orders.Max(rec => rec.Id) : 0;
-                order = new Order { 
+                order = new Order
+                {
                     Id = maxId + 1,
                     CarId = model.CarId,
                     Count = model.Count,
@@ -82,6 +82,6 @@ namespace CarShopFileImplement.Implements
                 Sum = rec.Sum
             })
             .ToList();
-        }  
+        }
     }
 }

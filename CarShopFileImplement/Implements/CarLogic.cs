@@ -12,9 +12,9 @@ namespace CarShopFileImplement.Implements
     {
         private readonly FileDataListSingleton source;
 
-        public CarLogic() 
-        { 
-            source = FileDataListSingleton.GetInstance(); 
+        public CarLogic()
+        {
+            source = FileDataListSingleton.GetInstance();
         }
 
         public void CreateOrUpdate(CarBindingModel model)

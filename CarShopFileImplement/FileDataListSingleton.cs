@@ -28,30 +28,31 @@ namespace CarShopFileImplement
 
         public List<CarComponent> CarComponents { get; set; }
 
-        private FileDataListSingleton() { 
+        private FileDataListSingleton()
+        {
             Components = LoadComponents();
             Orders = LoadOrders();
             Cars = LoadCars();
-            CarComponents = LoadCarComponents(); 
+            CarComponents = LoadCarComponents();
         }
 
         public static FileDataListSingleton GetInstance()
         {
-            if (instance == null) 
-            { 
+            if (instance == null)
+            {
                 instance = new FileDataListSingleton();
             }
             return instance;
         }
 
-        ~FileDataListSingleton() 
-        { 
-            SaveComponents(); 
-            SaveOrders(); 
-            SaveCars(); 
-            SaveCarComponents(); 
-        } 
- 
+        ~FileDataListSingleton()
+        {
+            SaveComponents();
+            SaveOrders();
+            SaveCars();
+            SaveCarComponents();
+        }
+
         private List<Component> LoadComponents()
         {
             var list = new List<Component>();
@@ -62,10 +63,10 @@ namespace CarShopFileImplement
 
                 var xElements = xDocument.Root.Elements("Component").ToList();
 
-                foreach (var elem in xElements) 
-                { 
-                    list.Add(new Component 
-                    { 
+                foreach (var elem in xElements)
+                {
+                    list.Add(new Component
+                    {
                         Id = Convert.ToInt32(elem.Attribute("Id").Value),
                         ComponentName = elem.Element("ComponentName").Value
                     });
@@ -85,19 +86,19 @@ namespace CarShopFileImplement
 
                 var xElements = xDocument.Root.Elements("Order").ToList();
 
-                foreach (var elem in xElements) 
+                foreach (var elem in xElements)
                 {
-                    list.Add(new Order 
-                    { 
-                        Id = Convert.ToInt32(elem.Attribute("Id").Value), 
+                    list.Add(new Order
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
                         CarId = Convert.ToInt32(elem.Element("ProductId").Value),
-                        Count = Convert.ToInt32(elem.Element("Count").Value), 
+                        Count = Convert.ToInt32(elem.Element("Count").Value),
                         Sum = Convert.ToDecimal(elem.Element("Sum").Value),
                         Status = (OrderStatus)Enum.Parse(typeof(OrderStatus),
-                        elem.Element("Status").Value), 
-                        DateCreate = Convert.ToDateTime(elem.Element("DateCreate").Value), 
+                        elem.Element("Status").Value),
+                        DateCreate = Convert.ToDateTime(elem.Element("DateCreate").Value),
                         DateImplement = string.IsNullOrEmpty(elem.Element("DateImplement").Value) ? (DateTime?)null : Convert.ToDateTime(elem.Element("DateImplement").Value),
-                    }); 
+                    });
                 }
             }
 
@@ -114,13 +115,14 @@ namespace CarShopFileImplement
 
                 var xElements = xDocument.Root.Elements("Car").ToList();
 
-                foreach (var elem in xElements) 
+                foreach (var elem in xElements)
                 {
-                    list.Add(new Car 
-                    { Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                    list.Add(new Car
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
                         CarName = elem.Element("CarName").Value,
                         Price = Convert.ToDecimal(elem.Element("Price").Value)
-                    }); 
+                    });
                 }
             }
 
@@ -138,14 +140,14 @@ namespace CarShopFileImplement
                 var xElements = xDocument.Root.Elements("CarComponent").ToList();
 
                 foreach (var elem in xElements)
-                { 
-                    list.Add(new CarComponent 
-                    { 
+                {
+                    list.Add(new CarComponent
+                    {
                         Id = Convert.ToInt32(elem.Attribute("Id").Value),
                         CarId = Convert.ToInt32(elem.Element("CarId").Value),
                         ComponentId = Convert.ToInt32(elem.Element("ComponentId").Value),
-                        Count = Convert.ToInt32(elem.Element("Count").Value) 
-                    }); 
+                        Count = Convert.ToInt32(elem.Element("Count").Value)
+                    });
                 }
             }
 
@@ -159,12 +161,12 @@ namespace CarShopFileImplement
                 var xElement = new XElement("Components");
 
                 foreach (var component in Components)
-                { 
+                {
                     xElement.Add(
                         new XElement("Component",
                         new XAttribute("Id", component.Id),
                         new XElement("ComponentName", component.ComponentName)
-                        )); 
+                        ));
                 }
 
                 XDocument xDocument = new XDocument(xElement);
@@ -178,8 +180,8 @@ namespace CarShopFileImplement
             {
                 var xElement = new XElement("Orders");
 
-                foreach (var order in Orders) 
-                { 
+                foreach (var order in Orders)
+                {
                     xElement.Add(
                         new XElement("Order",
                         new XAttribute("Id", order.Id),
@@ -189,7 +191,7 @@ namespace CarShopFileImplement
                         new XElement("Status", order.Status),
                         new XElement("DateCreate", order.DateCreate),
                         new XElement("DateImplement", order.DateImplement)
-                        )); 
+                        ));
                 }
 
                 XDocument xDocument = new XDocument(xElement);
@@ -203,17 +205,17 @@ namespace CarShopFileImplement
             {
                 var xElement = new XElement("cars");
 
-                foreach (var car in Cars) 
-                { 
+                foreach (var car in Cars)
+                {
                     xElement.Add(
                         new XElement("Car",
                         new XAttribute("Id", car.Id),
                         new XElement("CarName", car.CarName),
                         new XElement("Price", car.Price)
-                        )); 
+                        ));
                 }
 
-                XDocument xDocument = new XDocument(xElement); 
+                XDocument xDocument = new XDocument(xElement);
                 xDocument.Save(CarFileName);
             }
         }
@@ -225,13 +227,13 @@ namespace CarShopFileImplement
                 var xElement = new XElement("CarComponents");
 
                 foreach (var carComponent in CarComponents)
-                { 
+                {
                     xElement.Add(new XElement("CarComponent",
                         new XAttribute("Id", carComponent.Id),
                         new XElement("CarId", carComponent.CarId),
                         new XElement("ComponentId", carComponent.ComponentId),
                         new XElement("Count", carComponent.Count)
-                        )); 
+                        ));
                 }
 
                 XDocument xDocument = new XDocument(xElement);
