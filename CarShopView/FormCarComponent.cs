@@ -17,17 +17,15 @@ namespace CarShopView
             get { return Convert.ToInt32(componentsComboBox.SelectedValue); }
             set { componentsComboBox.SelectedValue = value; }
         }
-        public string ComponentName 
-        { 
-            get { return componentsComboBox.Text; } 
+        public string ComponentName
+        {
+            get { return componentsComboBox.Text; }
         }
         public int Count
         {
             get { return Convert.ToInt32(countTextBox.Text); }
             set { countTextBox.Text = value.ToString(); }
         }
-
-        private readonly IComponentLogic componentLogic;
 
         public FormCarComponent(IComponentLogic componentLogic)
         {

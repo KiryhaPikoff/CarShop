@@ -24,8 +24,8 @@ namespace CarShopView
         }
         private void LoadData()
         {
-            try 
-            { 
+            try
+            {
                 var componentList = componentLogic.Read(null);
                 if (componentList != null)
                 {
