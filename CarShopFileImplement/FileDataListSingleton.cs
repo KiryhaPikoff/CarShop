@@ -16,9 +16,13 @@ namespace CarShopFileImplement
 
         private readonly string OrderFileName = "Order.xml";
 
-        private readonly string CarFileName = "Product.xml";
+        private readonly string CarFileName = "Car.xml";
 
-        private readonly string CarComponentFileName = "ProductComponent.xml";
+        private readonly string CarComponentFileName = "CarComponent.xml";
+
+        private readonly string StorageFileName = "Storage.xml";
+
+        private readonly string StorageComponentFileName = "StorageComponent.xml";
 
         public List<Component> Components { get; set; }
 
@@ -28,12 +32,18 @@ namespace CarShopFileImplement
 
         public List<CarComponent> CarComponents { get; set; }
 
+        public List<Storage> Storages { get; set; }
+
+        public List<StorageComponent> StorageComponents { get; set; }
+
         private FileDataListSingleton()
         {
             Components = LoadComponents();
             Orders = LoadOrders();
             Cars = LoadCars();
             CarComponents = LoadCarComponents();
+            Storages = LoadStorages();
+            StorageComponents = LoadStorageComponents();
         }
 
         public static FileDataListSingleton GetInstance()
@@ -51,6 +61,8 @@ namespace CarShopFileImplement
             SaveOrders();
             SaveCars();
             SaveCarComponents();
+            SaveStorages();
+            SaveStorageComponents();
         }
 
         private List<Component> LoadComponents()
@@ -91,7 +103,7 @@ namespace CarShopFileImplement
                     list.Add(new Order
                     {
                         Id = Convert.ToInt32(elem.Attribute("Id").Value),
-                        CarId = Convert.ToInt32(elem.Element("ProductId").Value),
+                        CarId = Convert.ToInt32(elem.Element("CarId").Value),
                         Count = Convert.ToInt32(elem.Element("Count").Value),
                         Sum = Convert.ToDecimal(elem.Element("Sum").Value),
                         Status = (OrderStatus)Enum.Parse(typeof(OrderStatus),
@@ -154,6 +166,54 @@ namespace CarShopFileImplement
             return list;
         }
 
+        private List<Storage> LoadStorages()
+        {
+            var list = new List<Storage>();
+
+            if (File.Exists(StorageFileName))
+            {
+                XDocument xDocument = XDocument.Load(StorageFileName);
+
+                var xElements = xDocument.Root.Elements("Storage").ToList();
+
+                foreach (var elem in xElements)
+                {
+                    list.Add(new Storage
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        StorageName = elem.Element("StorageName").Value
+                    });
+                }
+            }
+
+            return list;
+        }
+
+        private List<StorageComponent> LoadStorageComponents()
+        {
+            var list = new List<StorageComponent>();
+
+            if (File.Exists(StorageComponentFileName))
+            {
+                XDocument xDocument = XDocument.Load(StorageComponentFileName);
+
+                var xElements = xDocument.Root.Elements("StorageComponent").ToList();
+
+                foreach (var elem in xElements)
+                {
+                    list.Add(new StorageComponent
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        StorageId = Convert.ToInt32(elem.Element("StorageId").Value),
+                        ComponentId = Convert.ToInt32(elem.Element("ComponentId").Value),
+                        Count = Convert.ToInt32(elem.Element("Count").Value)
+                    });
+                }
+            }
+
+            return list;
+        }
+
         private void SaveComponents()
         {
             if (Components != null)
@@ -185,7 +245,7 @@ namespace CarShopFileImplement
                     xElement.Add(
                         new XElement("Order",
                         new XAttribute("Id", order.Id),
-                        new XElement("ProductId", order.CarId),
+                        new XElement("CarId", order.CarId),
                         new XElement("Count", order.Count),
                         new XElement("Sum", order.Sum),
                         new XElement("Status", order.Status),
@@ -238,6 +298,47 @@ namespace CarShopFileImplement
 
                 XDocument xDocument = new XDocument(xElement);
                 xDocument.Save(CarComponentFileName);
+            }
+        }
+
+        private void SaveStorages()
+        {
+            if (Storages != null)
+            {
+                var xElement = new XElement("Storages");
+
+                foreach (var storage in Storages)
+                {
+                    xElement.Add(
+                        new XElement("Storage",
+                        new XAttribute("Id", storage.Id),
+                        new XElement("StorageName", storage.StorageName)
+                        ));
+                }
+
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(StorageFileName);
+            }
+        }
+
+        private void SaveStorageComponents()
+        {
+            if (StorageComponents != null)
+            {
+                var xElement = new XElement("StorageComponents");
+
+                foreach (var storageComponent in StorageComponents)
+                {
+                    xElement.Add(new XElement("StorageComponent",
+                        new XAttribute("Id", storageComponent.Id),
+                        new XElement("StorageId", storageComponent.StorageId),
+                        new XElement("ComponentId", storageComponent.ComponentId),
+                        new XElement("Count", storageComponent.Count)
+                        ));
+                }
+
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(StorageComponentFileName);
             }
         }
     }
