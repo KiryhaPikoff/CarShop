@@ -58,6 +58,11 @@ namespace CarShopView
             var form = Container.Resolve<FormCars>();
             form.ShowDialog();
         }
+        private void складыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormStorages>();
+            form.ShowDialog();
+        }
 
         private void createOrderButton_Click(object sender, EventArgs e)
         {
