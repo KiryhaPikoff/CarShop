@@ -80,8 +80,8 @@ namespace CarShopBuisnessLogic
             SaveToWord.CreateDoc(new WordInfo
             {
                 FileName = model.FileName,
-                 Title = "Список компонент",
-                 Components = componentLogic.Read(null)
+                Title = "Список компонент",
+                Components = componentLogic.Read(null)
             });
         }
         /// <summary>

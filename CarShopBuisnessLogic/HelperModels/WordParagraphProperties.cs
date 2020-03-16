@@ -1,6 +1,4 @@
-﻿using DocumentFormat.OpenXml.Wordprocessing;
-
-namespace CarShopBuisnessLogic.HelperModels
+﻿namespace CarShopBuisnessLogic.HelperModels
 {
     class WordParagraphProperties
     {

@@ -1,7 +1,4 @@
-﻿using MigraDoc.DocumentObjectModel;
-using MigraDoc.DocumentObjectModel.Tables;
-
-namespace CarShopBuisnessLogic.HelperModels
+﻿namespace CarShopBuisnessLogic.HelperModels
 {
     class PdfCellParameters
     {
