@@ -1,5 +1,5 @@
-﻿using DocumentFormat.OpenXml.Drawing;
-using MigraDoc.DocumentObjectModel;
+﻿using MigraDoc.DocumentObjectModel;
+using MigraDoc.DocumentObjectModel.Tables;
 using System.Collections.Generic;
 
 namespace CarShopBuisnessLogic.HelperModels

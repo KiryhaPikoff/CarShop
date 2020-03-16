@@ -1,5 +1,5 @@
-﻿using DocumentFormat.OpenXml.Spreadsheet;
-using MigraDoc.DocumentObjectModel;
+﻿using MigraDoc.DocumentObjectModel;
+using MigraDoc.DocumentObjectModel.Tables;
 
 namespace CarShopBuisnessLogic.HelperModels
 {
@@ -10,6 +10,5 @@ namespace CarShopBuisnessLogic.HelperModels
         public string Style { get; set; }
         public ParagraphAlignment ParagraphAlignment { get; set; }
         public Unit BorderWidth { get; set; }
-
     }
 }
