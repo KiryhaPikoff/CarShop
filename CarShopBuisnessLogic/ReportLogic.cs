@@ -1,4 +1,7 @@
-﻿using CarShopBuisnessLogic.Interfaces;
+﻿using CarShopBuisnessLogic.BindingModels;
+using CarShopBuisnessLogic.HelperModels;
+using CarShopBuisnessLogic.Interfaces;
+using CarShopBuisnessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,25 +14,26 @@ namespace CarShopBuisnessLogic
         private readonly IComponentLogic componentLogic;
         private readonly ICarLogic carLogic;
         private readonly IOrderLogic orderLogic;
+
         public ReportLogic(ICarLogic carLogic, IComponentLogic componentLogic, IOrderLogic orderLLogic)
         {
             this.carLogic = carLogic;
             this.componentLogic = componentLogic;
             this.orderLogic = orderLLogic;
         }
-93
- /// <summary>
- /// Получение списка компонент с указанием, в каких изделиях используются
- /// </summary>
- /// <returns></returns>
- public List<ReportProductComponentViewModel> GetProductComponent()
+
+         /// <summary>
+         /// Получение списка компонент с указанием, в каких изделиях используются
+         /// </summary>
+         /// <returns></returns>
+        public List<ReportCarComponentViewModel> GetProductComponent()
         {
             var components = componentLogic.Read(null);
             var products = carLogic.Read(null);
-            var list = new List<ReportProductComponentViewModel>();
+            var list = new List<ReportCarComponentViewModel>();
             foreach (var component in components)
             {
-                var record = new ReportProductComponentViewModel
+                var record = new ReportCarComponentViewModel
                 {
                     ComponentName = component.ComponentName,
                     Products = new List<Tuple<string, int>>(),
@@ -37,18 +41,17 @@ namespace CarShopBuisnessLogic
                 };
                 foreach (var product in products)
                 {
-                    if (product.ProductComponents.ContainsKey(component.Id))
+                    if (product.CarComponents.ContainsKey(component.Id))
                     {
-                        record.Products.Add(new Tuple<string, int>(product.ProductName,
-                       product.ProductComponents[component.Id].Item2));
-                        record.TotalCount +=
-                       product.ProductComponents[component.Id].Item2;
+                        record.Products.Add(new Tuple<string, int>(product.CarName, product.CarComponents[component.Id].Item2));
+                        record.TotalCount += product.CarComponents[component.Id].Item2;
                     }
                 }
                 list.Add(record);
             }
             return list;
         }
+
         /// <summary>
         /// Получение списка заказов за определенный период
         /// </summary>
@@ -64,13 +67,14 @@ namespace CarShopBuisnessLogic
             .Select(x => new ReportOrdersViewModel
             {
                 DateCreate = x.DateCreate,
-                ProductName = x.ProductName,
+                ProductName = x.CarName,
                 Count = x.Count,
                 Sum = x.Sum,
                 Status = x.Status
             })
            .ToList();
         }
+
         /// <summary>
         /// Сохранение компонент в файл-Word
         /// </summary>
@@ -84,6 +88,7 @@ namespace CarShopBuisnessLogic
                 Components = componentLogic.Read(null)
             });
         }
+
         /// <summary>
         /// Сохранение компонент с указаеним продуктов в файл-Excel
         /// </summary>
@@ -97,10 +102,12 @@ namespace CarShopBuisnessLogic
                 ProductComponents = GetProductComponent()
             });
         }
+
         /// <summary>
         /// Сохранение заказов в файл-Pdf
         /// </summary>
         /// <param name="model"></param>
+        [Obsolete]
         public void SaveOrdersToPdfFile(ReportBindingModel model)
         {
             SaveToPdf.CreateDoc(new PdfInfo
