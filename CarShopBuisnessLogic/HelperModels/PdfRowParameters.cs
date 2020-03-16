@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using MigraDoc.DocumentObjectModel;
+using MigraDoc.DocumentObjectModel.Tables;
+using System.Collections.Generic;
 
 namespace CarShopBuisnessLogic.HelperModels
 {

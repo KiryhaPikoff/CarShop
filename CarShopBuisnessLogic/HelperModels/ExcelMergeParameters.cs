@@ -1,4 +1,6 @@
-﻿namespace CarShopBuisnessLogic.HelperModels
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+
+namespace CarShopBuisnessLogic.HelperModels
 {
     class ExcelMergeParameters
     {

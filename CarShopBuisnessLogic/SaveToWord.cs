@@ -1,4 +1,7 @@
 ﻿using CarShopBuisnessLogic.HelperModels;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
 using System.Collections.Generic;
 
 namespace CarShopBuisnessLogic
@@ -11,8 +14,7 @@ namespace CarShopBuisnessLogic
         /// <param name="info"></param>
         public static void CreateDoc(WordInfo info)
         {
-            using (WordprocessingDocument wordDocument =
-           WordprocessingDocument.Create(info.FileName, WordprocessingDocumentType.Document))
+            using (WordprocessingDocument wordDocument = WordprocessingDocument.Create(info.FileName, WordprocessingDocumentType.Document))
             {
                 MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
                 mainPart.Document = new Document();
@@ -77,8 +79,7 @@ namespace CarShopBuisnessLogic
                     RunProperties properties = new RunProperties();
                     properties.AppendChild(new FontSize
                     {
-                        Val =
-                   paragraph.TextProperties.Size
+                        Val = paragraph.TextProperties.Size
                     });
                     if (paragraph.TextProperties.Bold)
                     {
@@ -88,8 +89,7 @@ namespace CarShopBuisnessLogic
                     docRun.AppendChild(new Text
                     {
                         Text = run,
-                        Space =
-                   SpaceProcessingModeValues.Preserve
+                        Space = SpaceProcessingModeValues.Preserve
                     });
                     docParagraph.AppendChild(docRun);
                 }
@@ -117,14 +117,12 @@ namespace CarShopBuisnessLogic
                     LineRule = LineSpacingRuleValues.Auto
                 });
                 properties.AppendChild(new Indentation());
-                ParagraphMarkRunProperties paragraphMarkRunProperties = new
-               ParagraphMarkRunProperties();
+                ParagraphMarkRunProperties paragraphMarkRunProperties = new ParagraphMarkRunProperties();
                 if (!string.IsNullOrEmpty(paragraphProperties.Size))
                 {
                     paragraphMarkRunProperties.AppendChild(new FontSize
                     {
-                        Val =
-                   paragraphProperties.Size
+                        Val = paragraphProperties.Size
                     });
                 }
                 if (paragraphProperties.Bold)
