@@ -1,5 +1,4 @@
-﻿using AbstractShopBusinessLogic.Interfaces;
-using CarShopBuisnessLogic.BindingModels;
+﻿using CarShopBuisnessLogic.BindingModels;
 using CarShopBuisnessLogic.Interfaces;
 using System;
 using System.Windows.Forms;

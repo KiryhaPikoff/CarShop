@@ -1,5 +1,4 @@
-﻿using AbstractShopBusinessLogic.Interfaces;
-using CarShopBuisnessLogic.Interfaces;
+﻿using CarShopBuisnessLogic.Interfaces;
 using CarShopListImplement.Implements;
 using System;
 using System.Windows.Forms;

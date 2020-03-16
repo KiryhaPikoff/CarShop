@@ -1,5 +1,5 @@
-﻿using AbstractShopBusinessLogic.Interfaces;
-using CarShopBuisnessLogic.BindingModels;
+﻿using CarShopBuisnessLogic.BindingModels;
+using CarShopBuisnessLogic.Interfaces;
 using CarShopBuisnessLogic.ViewModels;
 using CarShopListImplement.Models;
 using System;
