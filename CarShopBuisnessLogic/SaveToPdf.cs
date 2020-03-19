@@ -31,7 +31,7 @@ namespace CarShopBuisnessLogic
             CreateRow(new PdfRowParameters
             {
                 Table = table,
-                Texts = new List<string> { "Дата заказа", "Изделие", "Количество", "Сумма", "Статус" },
+                Texts = new List<string> { "Дата заказа", "Машина", "Количество", "Сумма", "Статус" },
                 Style = "NormalTitle",
                 ParagraphAlignment = ParagraphAlignment.Center
             });
@@ -42,7 +42,7 @@ namespace CarShopBuisnessLogic
                     Table = table,
                     Texts = new List<string> {
                         order.DateCreate.ToShortDateString(),
-                        order.ProductName,
+                        order.CarName,
                         order.Count.ToString(),
                         order.Sum.ToString(),
                         order.Status.ToString()

@@ -61,7 +61,7 @@ namespace CarShopBuisnessLogic
                     CellToName = "C1"
                 });
                 uint rowIndex = 2;
-                foreach (var pc in info.ProductComponents)
+                foreach (var pc in info.CarComponents)
                 {
                     InsertCellInWorksheet(new ExcelCellParameters
                     {
@@ -73,7 +73,7 @@ namespace CarShopBuisnessLogic
                         StyleIndex = 0U
                     });
                     rowIndex++;
-                    foreach (var product in pc.Products)
+                    foreach (var product in pc.Cars)
                     {
                         InsertCellInWorksheet(new ExcelCellParameters
                         {

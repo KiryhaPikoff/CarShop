@@ -1,4 +1,5 @@
-﻿using CarShopBuisnessLogic.BindingModels;
+﻿using CarShopBuisnessLogic;
+using CarShopBuisnessLogic.BindingModels;
 using CarShopBuisnessLogic.Interfaces;
 using System;
 using System.Windows.Forms;
@@ -15,11 +16,14 @@ namespace CarShopView
 
         private readonly IOrderLogic orderLogic;
 
-        public FormMain(IMainLogic mainLogic, IOrderLogic orderLogic)
+        private readonly ReportLogic reportLogic;
+
+        public FormMain(IMainLogic mainLogic, IOrderLogic orderLogic, ReportLogic reportLogic)
         {
             InitializeComponent();
             this.mainLogic = mainLogic;
             this.orderLogic = orderLogic;
+            this.reportLogic = reportLogic;
         }
         private void FormMain_Load(object sender, EventArgs e)
         {
@@ -119,6 +123,34 @@ namespace CarShopView
         private void updateListButton_Click(object sender, EventArgs e)
         {
             LoadData();
+        }
+
+        private void списокКомпонентовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new SaveFileDialog { Filter = "docx|*.docx" })
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    reportLogic.SaveComponentsToWordFile(new ReportBindingModel
+                    {
+                        FileName = dialog.FileName
+                    });
+                    MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
+                   MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void компонентыПоМашинамToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportCarComponents>();
+            form.ShowDialog();
+        }
+
+        private void списокЗаказовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportOrders>();
+            form.ShowDialog();
         }
     }
 }

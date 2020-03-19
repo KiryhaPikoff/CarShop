@@ -7,6 +7,6 @@ namespace CarShopBuisnessLogic.ViewModels
     {
         public string ComponentName { get; set; }
         public int TotalCount { get; set; }
-        public List<Tuple<string, int>> Products { get; set; }
+        public List<Tuple<string, int>> Cars { get; set; }
     }
 }

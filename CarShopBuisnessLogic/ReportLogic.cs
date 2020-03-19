@@ -22,10 +22,10 @@ namespace CarShopBuisnessLogic
             this.orderLogic = orderLLogic;
         }
 
-         /// <summary>
-         /// Получение списка компонент с указанием, в каких изделиях используются
-         /// </summary>
-         /// <returns></returns>
+        /// <summary>
+        /// Получение списка компонент с указанием, в каких изделиях используются
+        /// </summary>
+        /// <returns></returns>
         public List<ReportCarComponentViewModel> GetProductComponent()
         {
             var components = componentLogic.Read(null);
@@ -36,14 +36,14 @@ namespace CarShopBuisnessLogic
                 var record = new ReportCarComponentViewModel
                 {
                     ComponentName = component.ComponentName,
-                    Products = new List<Tuple<string, int>>(),
+                    Cars = new List<Tuple<string, int>>(),
                     TotalCount = 0
                 };
                 foreach (var product in products)
                 {
                     if (product.CarComponents.ContainsKey(component.Id))
                     {
-                        record.Products.Add(new Tuple<string, int>(product.CarName, product.CarComponents[component.Id].Item2));
+                        record.Cars.Add(new Tuple<string, int>(product.CarName, product.CarComponents[component.Id].Item2));
                         record.TotalCount += product.CarComponents[component.Id].Item2;
                     }
                 }
@@ -67,7 +67,7 @@ namespace CarShopBuisnessLogic
             .Select(x => new ReportOrdersViewModel
             {
                 DateCreate = x.DateCreate,
-                ProductName = x.CarName,
+                CarName = x.CarName,
                 Count = x.Count,
                 Sum = x.Sum,
                 Status = x.Status
@@ -99,7 +99,7 @@ namespace CarShopBuisnessLogic
             {
                 FileName = model.FileName,
                 Title = "Список компонент",
-                ProductComponents = GetProductComponent()
+                CarComponents = GetProductComponent()
             });
         }
 
