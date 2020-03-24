@@ -23,7 +23,7 @@ namespace CarShopView
         {
             try
             {
-                var dict = logic.GetProductComponent();
+                var dict = logic.GetCarComponent();
                 if (dict != null)
                 {
                     dataGridView.Rows.Clear();
@@ -54,7 +54,7 @@ namespace CarShopView
                 {
                     try
                     {
-                        logic.SaveProductComponentToExcelFile(new ReportBindingModel
+                        logic.SaveCarComponentToExcelFile(new ReportBindingModel
                         {
                             FileName = dialog.FileName
                         });

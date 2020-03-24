@@ -18,7 +18,7 @@ namespace CarShopView
 
         private readonly ReportLogic reportLogic;
 
-        public FormMain(IMainLogic mainLogic, IOrderLogic orderLogic, ReportLogic reportLogic)
+        public FormMain(MainLogic mainLogic, IOrderLogic orderLogic, ReportLogic reportLogic)
         {
             InitializeComponent();
             this.mainLogic = mainLogic;

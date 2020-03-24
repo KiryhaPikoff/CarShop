@@ -73,7 +73,7 @@ namespace CarShopBuisnessLogic
                         StyleIndex = 0U
                     });
                     rowIndex++;
-                    foreach (var product in pc.Cars)
+                    foreach (var car in pc.Cars)
                     {
                         InsertCellInWorksheet(new ExcelCellParameters
                         {
@@ -81,7 +81,7 @@ namespace CarShopBuisnessLogic
                             ShareStringPart = shareStringPart,
                             ColumnName = "B",
                             RowIndex = rowIndex,
-                            Text = product.Item1,
+                            Text = car.Item1,
                             StyleIndex = 1U
                         });
                         InsertCellInWorksheet(new ExcelCellParameters
@@ -90,7 +90,7 @@ namespace CarShopBuisnessLogic
                             ShareStringPart = shareStringPart,
                             ColumnName = "C",
                             RowIndex = rowIndex,
-                            Text = product.Item2.ToString(),
+                            Text = car.Item2.ToString(),
                             StyleIndex = 1U
                         });
                         rowIndex++;

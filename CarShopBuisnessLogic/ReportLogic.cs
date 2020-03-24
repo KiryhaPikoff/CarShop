@@ -26,10 +26,10 @@ namespace CarShopBuisnessLogic
         /// Получение списка компонент с указанием, в каких изделиях используются
         /// </summary>
         /// <returns></returns>
-        public List<ReportCarComponentViewModel> GetProductComponent()
+        public List<ReportCarComponentViewModel> GetCarComponent()
         {
             var components = componentLogic.Read(null);
-            var products = carLogic.Read(null);
+            var cars = carLogic.Read(null);
             var list = new List<ReportCarComponentViewModel>();
             foreach (var component in components)
             {
@@ -39,12 +39,12 @@ namespace CarShopBuisnessLogic
                     Cars = new List<Tuple<string, int>>(),
                     TotalCount = 0
                 };
-                foreach (var product in products)
+                foreach (var car in cars)
                 {
-                    if (product.CarComponents.ContainsKey(component.Id))
+                    if (car.CarComponents.ContainsKey(component.Id))
                     {
-                        record.Cars.Add(new Tuple<string, int>(product.CarName, product.CarComponents[component.Id].Item2));
-                        record.TotalCount += product.CarComponents[component.Id].Item2;
+                        record.Cars.Add(new Tuple<string, int>(car.CarName, car.CarComponents[component.Id].Item2));
+                        record.TotalCount += car.CarComponents[component.Id].Item2;
                     }
                 }
                 list.Add(record);
@@ -93,13 +93,13 @@ namespace CarShopBuisnessLogic
         /// Сохранение компонент с указаеним продуктов в файл-Excel
         /// </summary>
         /// <param name="model"></param>
-        public void SaveProductComponentToExcelFile(ReportBindingModel model)
+        public void SaveCarComponentToExcelFile(ReportBindingModel model)
         {
             SaveToExcel.CreateDoc(new ExcelInfo
             {
                 FileName = model.FileName,
                 Title = "Список компонент",
-                CarComponents = GetProductComponent()
+                CarComponents = GetCarComponent()
             });
         }
 
