@@ -12,7 +12,7 @@ namespace CarShopView
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        private readonly IMainLogic mainLogic;
+        private readonly MainLogic mainLogic;
 
         private readonly IOrderLogic orderLogic;
 

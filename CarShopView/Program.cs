@@ -1,4 +1,4 @@
-﻿using CarShopBuisnessLogic;
+using CarShopBuisnessLogic;
 using CarShopBuisnessLogic.Interfaces;
 using CarShopDatabaseImplement.Implements;
 using System;
@@ -27,9 +27,8 @@ namespace CarShopView
             currentContainer.RegisterType<IComponentLogic, ComponentLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IOrderLogic, OrderLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ICarLogic, CarLogic>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IMainLogic, MainLogic>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<MainLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ReportLogic>(new HierarchicalLifetimeManager());
-
             return currentContainer;
         }
     }
