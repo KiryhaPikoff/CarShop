@@ -16,9 +16,9 @@ namespace CarShopFileImplement
 
         private readonly string OrderFileName = "Order.xml";
 
-        private readonly string CarFileName = "Product.xml";
+        private readonly string CarFileName = "Car.xml";
 
-        private readonly string CarComponentFileName = "ProductComponent.xml";
+        private readonly string CarComponentFileName = "CarComponent.xml";
 
         public List<Component> Components { get; set; }
 
@@ -91,7 +91,7 @@ namespace CarShopFileImplement
                     list.Add(new Order
                     {
                         Id = Convert.ToInt32(elem.Attribute("Id").Value),
-                        CarId = Convert.ToInt32(elem.Element("ProductId").Value),
+                        CarId = Convert.ToInt32(elem.Element("CarId").Value),
                         Count = Convert.ToInt32(elem.Element("Count").Value),
                         Sum = Convert.ToDecimal(elem.Element("Sum").Value),
                         Status = (OrderStatus)Enum.Parse(typeof(OrderStatus),
@@ -185,7 +185,7 @@ namespace CarShopFileImplement
                     xElement.Add(
                         new XElement("Order",
                         new XAttribute("Id", order.Id),
-                        new XElement("ProductId", order.CarId),
+                        new XElement("CarId", order.CarId),
                         new XElement("Count", order.Count),
                         new XElement("Sum", order.Sum),
                         new XElement("Status", order.Status),
