@@ -5,7 +5,7 @@ using System;
 
 namespace CarShopListImplement.Implements
 {
-    public class MainLogic : IMainLogic
+    public class MainLogic
     {
         private readonly IOrderLogic orderLogic;
         public MainLogic(IOrderLogic orderLogic)

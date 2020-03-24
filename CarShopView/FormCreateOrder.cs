@@ -1,6 +1,7 @@
 ﻿using CarShopBuisnessLogic.BindingModels;
 using CarShopBuisnessLogic.Interfaces;
 using CarShopBuisnessLogic.ViewModels;
+using CarShopListImplement.Implements;
 using System;
 using System.Windows.Forms;
 using Unity;
@@ -14,9 +15,9 @@ namespace CarShopView
 
         private readonly ICarLogic carLogic;
 
-        private readonly IMainLogic mainLogic;
+        private readonly MainLogic mainLogic;
 
-        public FormCreateOrder(ICarLogic carLogic, IMainLogic mainLogic)
+        public FormCreateOrder(ICarLogic carLogic, MainLogic mainLogic)
         {
             InitializeComponent();
             this.carLogic = carLogic;
@@ -40,7 +41,8 @@ namespace CarShopView
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
+        }
+
         private void CalcSum()
         {
             if (carComboBox.SelectedValue != null && !string.IsNullOrEmpty(countTextBox.Text))
