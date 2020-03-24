@@ -21,7 +21,8 @@ namespace CarShopView
         private void FormComponents_Load(object sender, EventArgs e)
         {
             LoadData();
-        }
+        }
+
         private void LoadData()
         {
             try
@@ -79,7 +80,8 @@ namespace CarShopView
                     }
                     LoadData();
                 }
-            }
+            }
+
         }
 
         private void updateList_Click(object sender, EventArgs e)
