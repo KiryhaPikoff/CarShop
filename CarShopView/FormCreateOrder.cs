@@ -1,7 +1,7 @@
-﻿using CarShopBuisnessLogic.BindingModels;
+﻿using CarShopBuisnessLogic;
+using CarShopBuisnessLogic.BindingModels;
 using CarShopBuisnessLogic.Interfaces;
 using CarShopBuisnessLogic.ViewModels;
-using CarShopListImplement.Implements;
 using System;
 using System.Windows.Forms;
 using Unity;
