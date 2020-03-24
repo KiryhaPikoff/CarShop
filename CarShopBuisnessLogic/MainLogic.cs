@@ -3,14 +3,18 @@ using CarShopBuisnessLogic.Enums;
 using CarShopBuisnessLogic.Interfaces;
 using System;
 
-namespace CarShopListImplement.Implements
+namespace CarShopBuisnessLogic
 {
-    public class MainLogic : IMainLogic
+    public class MainLogic
     {
         private readonly IOrderLogic orderLogic;
-        public MainLogic(IOrderLogic orderLogic)
+
+        private readonly IStorageService storageService;
+
+        public MainLogic(IOrderLogic orderLogic, IStorageService storageService)
         {
             this.orderLogic = orderLogic;
+            this.storageService = storageService;
         }
 
         public void CreateOrder(CreateOrderBindingModel model)
@@ -39,6 +43,9 @@ namespace CarShopListImplement.Implements
             {
                 throw new Exception("Заказ не в статусе \"Принят\"");
             }
+
+            storageService.WriteOffComponentsFromStorage(order);
+
             orderLogic.CreateOrUpdate(new OrderBindingModel
             {
                 Id = order.Id,
