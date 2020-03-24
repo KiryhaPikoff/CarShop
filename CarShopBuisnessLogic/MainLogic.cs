@@ -3,9 +3,9 @@ using CarShopBuisnessLogic.Enums;
 using CarShopBuisnessLogic.Interfaces;
 using System;
 
-namespace CarShopListImplement.Implements
+namespace CarShopBuisnessLogic
 {
-    public class MainLogic : IMainLogic
+    public class MainLogic
     {
         private readonly IOrderLogic orderLogic;
         public MainLogic(IOrderLogic orderLogic)
