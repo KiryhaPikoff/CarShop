@@ -2,7 +2,7 @@
 using CarShopBuisnessLogic.ViewModels;
 using System.Collections.Generic;
 
-namespace CarShopBusinessLogic.Interfaces
+namespace CarShopBuisnessLogic.Interfaces
 {
     public interface IOrderLogic
     {
