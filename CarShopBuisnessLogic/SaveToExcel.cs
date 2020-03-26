@@ -5,6 +5,8 @@ using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Office2013.Excel;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CarShopBuisnessLogic
@@ -61,7 +63,9 @@ namespace CarShopBuisnessLogic
                     CellToName = "C1"
                 });
                 uint rowIndex = 2;
-                foreach (var pc in info.CarComponents)
+                var dates = info.Orders.Select(x => x.DateCreate).Distinct();
+                decimal totalSum = 0;
+                foreach (var d in dates)
                 {
                     InsertCellInWorksheet(new ExcelCellParameters
                     {
@@ -69,31 +73,53 @@ namespace CarShopBuisnessLogic
                         ShareStringPart = shareStringPart,
                         ColumnName = "A",
                         RowIndex = rowIndex,
-                        Text = pc.ComponentName,
+                        Text = d.ToString(),
                         StyleIndex = 0U
                     });
                     rowIndex++;
-                    foreach (var car in pc.Cars)
+                    foreach (var order in info.Orders)
                     {
-                        InsertCellInWorksheet(new ExcelCellParameters
+                        if (order.DateCreate.Equals(d))
                         {
-                            Worksheet = worksheetPart.Worksheet,
-                            ShareStringPart = shareStringPart,
-                            ColumnName = "B",
-                            RowIndex = rowIndex,
-                            Text = car.Item1,
-                            StyleIndex = 1U
-                        });
-                        InsertCellInWorksheet(new ExcelCellParameters
-                        {
-                            Worksheet = worksheetPart.Worksheet,
-                            ShareStringPart = shareStringPart,
-                            ColumnName = "C",
-                            RowIndex = rowIndex,
-                            Text = car.Item2.ToString(),
-                            StyleIndex = 1U
-                        });
-                        rowIndex++;
+                            InsertCellInWorksheet(new ExcelCellParameters
+                            {
+                                Worksheet = worksheetPart.Worksheet,
+                                ShareStringPart = shareStringPart,
+                                ColumnName = "B",
+                                RowIndex = rowIndex,
+                                Text = order.CarName,
+                                StyleIndex = 1U
+                            });
+                            InsertCellInWorksheet(new ExcelCellParameters
+                            {
+                                Worksheet = worksheetPart.Worksheet,
+                                ShareStringPart = shareStringPart,
+                                ColumnName = "C",
+                                RowIndex = rowIndex,
+                                Text = order.Count.ToString(),
+                                StyleIndex = 1U
+                            });
+                            InsertCellInWorksheet(new ExcelCellParameters
+                            {
+                                Worksheet = worksheetPart.Worksheet,
+                                ShareStringPart = shareStringPart,
+                                ColumnName = "D",
+                                RowIndex = rowIndex,
+                                Text = order.Sum.ToString(),
+                                StyleIndex = 1U
+                            });
+                            InsertCellInWorksheet(new ExcelCellParameters
+                            {
+                                Worksheet = worksheetPart.Worksheet,
+                                ShareStringPart = shareStringPart,
+                                ColumnName = "E",
+                                RowIndex = rowIndex,
+                                Text = order.Status.ToString(),
+                                StyleIndex = 1U
+                            });
+                            totalSum += order.Sum;
+                            rowIndex++;
+                        }
                     }
                     InsertCellInWorksheet(new ExcelCellParameters
                     {
@@ -101,7 +127,7 @@ namespace CarShopBuisnessLogic
                         ShareStringPart = shareStringPart,
                         ColumnName = "C",
                         RowIndex = rowIndex,
-                        Text = pc.TotalCount.ToString(),
+                        Text = totalSum.ToString(),
                         StyleIndex = 0U
                     });
                     rowIndex++;

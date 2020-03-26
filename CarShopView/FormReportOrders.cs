@@ -70,7 +70,7 @@ namespace CarShopView
                 {
                     try
                     {
-                        reportLogic.SaveOrdersToPdfFile(new ReportBindingModel
+                        reportLogic.SaveOrdersToExcelFile(new ReportBindingModel
                         {
                             FileName = dialog.FileName,
                             DateFrom = dateTimePickerFrom.Value,

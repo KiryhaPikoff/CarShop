@@ -6,14 +6,14 @@ using Unity;
 
 namespace CarShopView
 {
-    public partial class FormReportCarComponents : Form
+    public partial class FormReportCars : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
         private readonly ReportLogic logic;
 
-        public FormReportCarComponents(ReportLogic logic)
+        public FormReportCars(ReportLogic logic)
         {
             InitializeComponent();
             this.logic = logic;
@@ -23,7 +23,7 @@ namespace CarShopView
         {
             try
             {
-                var dict = logic.GetCarComponent();
+           /*     var dict = logic.GetCars();
                 if (dict != null)
                 {
                     dataGridView.Rows.Clear();
@@ -37,7 +37,7 @@ namespace CarShopView
                         dataGridView.Rows.Add(new object[] { "Итого", "", elem.TotalCount });
                         dataGridView.Rows.Add(new object[] { });
                     }
-                }
+                }*/
             }
             catch (Exception ex)
             {
@@ -54,7 +54,7 @@ namespace CarShopView
                 {
                     try
                     {
-                        logic.SaveCarComponentToExcelFile(new ReportBindingModel
+                        logic.SaveOrdersToExcelFile(new ReportBindingModel
                         {
                             FileName = dialog.FileName
                         });

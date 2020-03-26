@@ -29,15 +29,25 @@ namespace CarShopBuisnessLogic
                         JustificationValues = JustificationValues.Center
                     }
                 }));
-                foreach (var component in info.Components)
+                foreach (var car in info.Cars)
                 {
                     docBody.AppendChild(CreateParagraph(new WordParagraph
                     {
-                        Texts = new List<string> { component.ComponentName },
+                        Texts = new List<string> { car.CarName },
+                        TextProperties = new WordParagraphProperties
+                        {
+                            Bold = true,
+                            Size = "24",
+                            JustificationValues = JustificationValues.Both
+                        }
+                    }));
+                    docBody.AppendChild(CreateParagraph(new WordParagraph
+                    {
+                        Texts = new List<string> { car.Price.ToString() },
                         TextProperties = new WordParagraphProperties
                         {
                             Size = "24",
-                            JustificationValues = JustificationValues.Both
+                            JustificationValues = JustificationValues.Center
                         }
                     }));
                 }

@@ -18,12 +18,11 @@ namespace CarShopBuisnessLogic
             paragraph.Format.SpaceAfter = "1cm";
             paragraph.Format.Alignment = ParagraphAlignment.Center;
             paragraph.Style = "NormalTitle";
-            paragraph = section.AddParagraph($"с {info.DateFrom.ToShortDateString()} по { info.DateTo.ToShortDateString()} ");
             paragraph.Format.SpaceAfter = "1cm";
             paragraph.Format.Alignment = ParagraphAlignment.Center;
             paragraph.Style = "Normal";
             var table = document.LastSection.AddTable();
-            List<string> columns = new List<string> { "3cm", "6cm", "3cm", "2cm", "3cm" };
+            List<string> columns = new List<string> { "3cm", "3cm", "2cm" };
             foreach (var elem in columns)
             {
                 table.AddColumn(elem);
@@ -31,25 +30,26 @@ namespace CarShopBuisnessLogic
             CreateRow(new PdfRowParameters
             {
                 Table = table,
-                Texts = new List<string> { "Дата заказа", "Машина", "Количество", "Сумма", "Статус" },
+                Texts = new List<string> { "Машина", "Компонент машины", "Количество" },
                 Style = "NormalTitle",
                 ParagraphAlignment = ParagraphAlignment.Center
             });
-            foreach (var order in info.Orders)
+            foreach (var car in info.Cars)
             {
-                CreateRow(new PdfRowParameters
+                foreach (var carComp in car.CarComponents)
                 {
-                    Table = table,
-                    Texts = new List<string> {
-                        order.DateCreate.ToShortDateString(),
-                        order.CarName,
-                        order.Count.ToString(),
-                        order.Sum.ToString(),
-                        order.Status.ToString()
+                    CreateRow(new PdfRowParameters
+                    {
+                        Table = table,
+                        Texts = new List<string> {
+                        car.CarName,
+                        carComp.Item1,
+                        carComp.Item2.ToString(),
                     },
-                    Style = "Normal",
-                    ParagraphAlignment = ParagraphAlignment.Left
-                });
+                        Style = "Normal",
+                        ParagraphAlignment = ParagraphAlignment.Left
+                    });
+                }
             }
             PdfDocumentRenderer renderer = new PdfDocumentRenderer(true,
             PdfSharp.Pdf.PdfFontEmbedding.Always)
