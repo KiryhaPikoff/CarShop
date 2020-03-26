@@ -1,6 +1,6 @@
 ﻿using CarShopBuisnessLogic;
 using CarShopBuisnessLogic.BindingModels;
-using CarShopBusinessLogic.Interfaces;
+using CarShopBuisnessLogic.Interfaces;
 using System;
 using System.Windows.Forms;
 using Unity;

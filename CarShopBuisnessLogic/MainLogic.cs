@@ -1,6 +1,6 @@
 ﻿using CarShopBuisnessLogic.BindingModels;
 using CarShopBuisnessLogic.Enums;
-using CarShopBusinessLogic.Interfaces;
+using CarShopBuisnessLogic.Interfaces;
 using System;
 
 namespace CarShopBuisnessLogic
