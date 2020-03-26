@@ -1,6 +1,6 @@
-﻿using AbstractShopBusinessLogic.Interfaces;
+﻿using CarShopBuisnessLogic;
 using CarShopBuisnessLogic.BindingModels;
-using CarShopBuisnessLogic.Interfaces;
+using CarShopBusinessLogic.Interfaces;
 using System;
 using System.Windows.Forms;
 using Unity;
@@ -12,11 +12,11 @@ namespace CarShopView
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        private readonly IMainLogic mainLogic;
+        private readonly MainLogic mainLogic;
 
         private readonly IOrderLogic orderLogic;
 
-        public FormMain(IMainLogic mainLogic, IOrderLogic orderLogic)
+        public FormMain(MainLogic mainLogic, IOrderLogic orderLogic)
         {
             InitializeComponent();
             this.mainLogic = mainLogic;

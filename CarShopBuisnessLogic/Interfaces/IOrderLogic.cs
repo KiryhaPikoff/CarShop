@@ -1,7 +1,8 @@
 ﻿using CarShopBuisnessLogic.BindingModels;
 using CarShopBuisnessLogic.ViewModels;
 using System.Collections.Generic;
-namespace AbstractShopBusinessLogic.Interfaces
+
+namespace CarShopBusinessLogic.Interfaces
 {
     public interface IOrderLogic
     {

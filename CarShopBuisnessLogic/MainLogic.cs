@@ -1,12 +1,11 @@
-﻿using AbstractShopBusinessLogic.Interfaces;
-using CarShopBuisnessLogic.BindingModels;
+﻿using CarShopBuisnessLogic.BindingModels;
 using CarShopBuisnessLogic.Enums;
-using CarShopBuisnessLogic.Interfaces;
+using CarShopBusinessLogic.Interfaces;
 using System;
 
-namespace CarShopFileImplement.Implements
+namespace CarShopBuisnessLogic
 {
-    public class MainLogic : IMainLogic
+    public class MainLogic
     {
         private readonly IOrderLogic orderLogic;
         public MainLogic(IOrderLogic orderLogic)
