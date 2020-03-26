@@ -7,14 +7,14 @@ using System.Linq;
 
 namespace CarShopBuisnessLogic
 {
-    public class StorageService
+    public class StorageWriteOffLogic
     {
 
         private readonly ICarLogic carLogic;
 
         private readonly IStorageLogic storageLogic;
 
-        public StorageService(ICarLogic carLogic, IStorageLogic storageLogic)
+        public StorageWriteOffLogic(ICarLogic carLogic, IStorageLogic storageLogic)
         {
             this.carLogic = carLogic;
             this.storageLogic = storageLogic;

@@ -9,9 +9,9 @@ namespace CarShopBuisnessLogic
     {
         private readonly IOrderLogic orderLogic;
 
-        private readonly StorageService storageService;
+        private readonly StorageWriteOffLogic storageService;
 
-        public MainLogic(IOrderLogic orderLogic, StorageService storageService)
+        public MainLogic(IOrderLogic orderLogic, StorageWriteOffLogic storageService)
         {
             this.orderLogic = orderLogic;
             this.storageService = storageService;

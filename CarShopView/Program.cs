@@ -29,7 +29,7 @@ namespace CarShopView
             currentContainer.RegisterType<ICarLogic, CarLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStorageLogic, StorageLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<MainLogic>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<StorageService>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<StorageWriteOffLogic>(new HierarchicalLifetimeManager());
             return currentContainer;
         }
     }
