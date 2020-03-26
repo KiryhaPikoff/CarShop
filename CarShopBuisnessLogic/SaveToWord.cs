@@ -33,21 +33,11 @@ namespace CarShopBuisnessLogic
                 {
                     docBody.AppendChild(CreateParagraph(new WordParagraph
                     {
-                        Texts = new List<string> { car.CarName },
+                        Texts = new List<string> { car.CarName, car.Price.ToString() },
                         TextProperties = new WordParagraphProperties
                         {
-                            Bold = true,
                             Size = "24",
                             JustificationValues = JustificationValues.Both
-                        }
-                    }));
-                    docBody.AppendChild(CreateParagraph(new WordParagraph
-                    {
-                        Texts = new List<string> { car.Price.ToString() },
-                        TextProperties = new WordParagraphProperties
-                        {
-                            Size = "24",
-                            JustificationValues = JustificationValues.Center
                         }
                     }));
                 }
@@ -83,25 +73,37 @@ namespace CarShopBuisnessLogic
                 Paragraph docParagraph = new Paragraph();
 
                 docParagraph.AppendChild(CreateParagraphProperties(paragraph.TextProperties));
-                foreach (var run in paragraph.Texts)
+
+                Run docRun = new Run();
+                RunProperties properties = new RunProperties();
+                properties.AppendChild(new FontSize
                 {
-                    Run docRun = new Run();
-                    RunProperties properties = new RunProperties();
-                    properties.AppendChild(new FontSize
+                    Val = paragraph.TextProperties.Size
+                });
+                properties.AppendChild(new Bold());
+                docRun.AppendChild(properties);
+                docRun.AppendChild(new Text
+                {
+                    Text = paragraph.Texts[0],
+                    Space = SpaceProcessingModeValues.Preserve
+                });
+                docParagraph.AppendChild(docRun);
+
+                if (paragraph.Texts.Count > 1)
+                {
+                    Run secRun = new Run();
+                    RunProperties propertiesSec = new RunProperties();
+                    propertiesSec.AppendChild(new FontSize
                     {
                         Val = paragraph.TextProperties.Size
                     });
-                    if (paragraph.TextProperties.Bold)
+                    secRun.AppendChild(propertiesSec);
+                    secRun.AppendChild(new Text
                     {
-                        properties.AppendChild(new Bold());
-                    }
-                    docRun.AppendChild(properties);
-                    docRun.AppendChild(new Text
-                    {
-                        Text = run,
+                        Text = " " + paragraph.Texts[1],
                         Space = SpaceProcessingModeValues.Preserve
                     });
-                    docParagraph.AppendChild(docRun);
+                    docParagraph.AppendChild(secRun);
                 }
                 return docParagraph;
             }

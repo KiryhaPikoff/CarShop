@@ -63,7 +63,7 @@ namespace CarShopBuisnessLogic
                     CellToName = "C1"
                 });
                 uint rowIndex = 2;
-                var dates = info.Orders.Select(x => x.DateCreate).Distinct();
+                var dates = info.Orders.Select(x => x.DateCreate.Date).Distinct();
                 decimal totalSum = 0;
                 foreach (var d in dates)
                 {
@@ -79,7 +79,7 @@ namespace CarShopBuisnessLogic
                     rowIndex++;
                     foreach (var order in info.Orders)
                     {
-                        if (order.DateCreate.Equals(d))
+                        if (order.DateCreate.Date.Equals(d))
                         {
                             InsertCellInWorksheet(new ExcelCellParameters
                             {
@@ -125,7 +125,7 @@ namespace CarShopBuisnessLogic
                     {
                         Worksheet = worksheetPart.Worksheet,
                         ShareStringPart = shareStringPart,
-                        ColumnName = "C",
+                        ColumnName = "D",
                         RowIndex = rowIndex,
                         Text = totalSum.ToString(),
                         StyleIndex = 0U

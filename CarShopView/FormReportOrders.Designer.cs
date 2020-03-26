@@ -28,116 +28,144 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel = new System.Windows.Forms.Panel();
-            this.labelFrom = new System.Windows.Forms.Label();
-            this.dateTimePickerFrom = new System.Windows.Forms.DateTimePicker();
-            this.labelTo = new System.Windows.Forms.Label();
-            this.dateTimePickerTo = new System.Windows.Forms.DateTimePicker();
+            this.saveToExcelButton = new System.Windows.Forms.Button();
+            this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.car = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.count = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.buttonForm = new System.Windows.Forms.Button();
-            this.buttonToPdf = new System.Windows.Forms.Button();
-            this.reportViewer = new Microsoft.Reporting.WinForms.ReportViewer();
-            this.panel.SuspendLayout();
+            this.dateTimePickerTo = new System.Windows.Forms.DateTimePicker();
+            this.labelTo = new System.Windows.Forms.Label();
+            this.dateTimePickerFrom = new System.Windows.Forms.DateTimePicker();
+            this.labelFrom = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
-            // panel
+            // saveToExcelButton
             // 
-            this.panel.Controls.Add(this.buttonToPdf);
-            this.panel.Controls.Add(this.buttonForm);
-            this.panel.Controls.Add(this.dateTimePickerTo);
-            this.panel.Controls.Add(this.labelTo);
-            this.panel.Controls.Add(this.dateTimePickerFrom);
-            this.panel.Controls.Add(this.labelFrom);
-            this.panel.Location = new System.Drawing.Point(0, 0);
-            this.panel.Name = "panel";
-            this.panel.Size = new System.Drawing.Size(799, 34);
-            this.panel.TabIndex = 0;
+            this.saveToExcelButton.Location = new System.Drawing.Point(9, 11);
+            this.saveToExcelButton.Name = "saveToExcelButton";
+            this.saveToExcelButton.Size = new System.Drawing.Size(123, 25);
+            this.saveToExcelButton.TabIndex = 1;
+            this.saveToExcelButton.Text = "Сохранить в Excel";
+            this.saveToExcelButton.UseVisualStyleBackColor = true;
+            this.saveToExcelButton.Click += new System.EventHandler(this.saveToExcelButton_Click);
             // 
-            // labelFrom
+            // dataGridView
             // 
-            this.labelFrom.AutoSize = true;
-            this.labelFrom.Location = new System.Drawing.Point(13, 9);
-            this.labelFrom.Name = "labelFrom";
-            this.labelFrom.Size = new System.Drawing.Size(14, 13);
-            this.labelFrom.TabIndex = 0;
-            this.labelFrom.Text = "C";
+            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.date,
+            this.car,
+            this.count,
+            this.sum,
+            this.status});
+            this.dataGridView.Location = new System.Drawing.Point(9, 42);
+            this.dataGridView.Name = "dataGridView";
+            this.dataGridView.Size = new System.Drawing.Size(594, 610);
+            this.dataGridView.TabIndex = 2;
             // 
-            // dateTimePickerFrom
+            // date
             // 
-            this.dateTimePickerFrom.Location = new System.Drawing.Point(33, 7);
-            this.dateTimePickerFrom.Name = "dateTimePickerFrom";
-            this.dateTimePickerFrom.Size = new System.Drawing.Size(144, 20);
-            this.dateTimePickerFrom.TabIndex = 1;
+            this.date.HeaderText = "Дата";
+            this.date.Name = "date";
             // 
-            // labelTo
+            // car
             // 
-            this.labelTo.AutoSize = true;
-            this.labelTo.Location = new System.Drawing.Point(183, 9);
-            this.labelTo.Name = "labelTo";
-            this.labelTo.Size = new System.Drawing.Size(19, 13);
-            this.labelTo.TabIndex = 2;
-            this.labelTo.Text = "по";
+            this.car.HeaderText = "Машина";
+            this.car.Name = "car";
             // 
-            // dateTimePickerTo
+            // count
             // 
-            this.dateTimePickerTo.Location = new System.Drawing.Point(208, 7);
-            this.dateTimePickerTo.Name = "dateTimePickerTo";
-            this.dateTimePickerTo.Size = new System.Drawing.Size(148, 20);
-            this.dateTimePickerTo.TabIndex = 3;
+            this.count.HeaderText = "Количество";
+            this.count.Name = "count";
+            // 
+            // sum
+            // 
+            this.sum.HeaderText = "Сумма";
+            this.sum.Name = "sum";
+            // 
+            // status
+            // 
+            this.status.HeaderText = "Статус";
+            this.status.Name = "status";
             // 
             // buttonForm
             // 
-            this.buttonForm.Location = new System.Drawing.Point(362, 3);
+            this.buttonForm.Location = new System.Drawing.Point(487, 11);
             this.buttonForm.Name = "buttonForm";
-            this.buttonForm.Size = new System.Drawing.Size(149, 27);
-            this.buttonForm.TabIndex = 4;
+            this.buttonForm.Size = new System.Drawing.Size(119, 27);
+            this.buttonForm.TabIndex = 9;
             this.buttonForm.Text = "Сформировать";
             this.buttonForm.UseVisualStyleBackColor = true;
             this.buttonForm.Click += new System.EventHandler(this.buttonForm_Click);
             // 
-            // buttonToPdf
+            // dateTimePickerTo
             // 
-            this.buttonToPdf.Location = new System.Drawing.Point(700, 3);
-            this.buttonToPdf.Name = "buttonToPdf";
-            this.buttonToPdf.Size = new System.Drawing.Size(96, 27);
-            this.buttonToPdf.TabIndex = 5;
-            this.buttonToPdf.Text = "в PDF";
-            this.buttonToPdf.UseVisualStyleBackColor = true;
-            this.buttonToPdf.Click += new System.EventHandler(this.buttonToPdf_Click);
+            this.dateTimePickerTo.Location = new System.Drawing.Point(333, 15);
+            this.dateTimePickerTo.Name = "dateTimePickerTo";
+            this.dateTimePickerTo.Size = new System.Drawing.Size(148, 20);
+            this.dateTimePickerTo.TabIndex = 8;
             // 
-            // reportViewer
+            // labelTo
             // 
-            this.reportViewer.LocalReport.ReportEmbeddedResource = "CarShopView.Report.rdlc";
-            this.reportViewer.Location = new System.Drawing.Point(0, 33);
-            this.reportViewer.Name = "reportViewer";
-            this.reportViewer.ServerReport.BearerToken = null;
-            this.reportViewer.Size = new System.Drawing.Size(799, 417);
-            this.reportViewer.TabIndex = 1;
+            this.labelTo.AutoSize = true;
+            this.labelTo.Location = new System.Drawing.Point(308, 17);
+            this.labelTo.Name = "labelTo";
+            this.labelTo.Size = new System.Drawing.Size(19, 13);
+            this.labelTo.TabIndex = 7;
+            this.labelTo.Text = "по";
+            // 
+            // dateTimePickerFrom
+            // 
+            this.dateTimePickerFrom.Location = new System.Drawing.Point(158, 15);
+            this.dateTimePickerFrom.Name = "dateTimePickerFrom";
+            this.dateTimePickerFrom.Size = new System.Drawing.Size(144, 20);
+            this.dateTimePickerFrom.TabIndex = 6;
+            // 
+            // labelFrom
+            // 
+            this.labelFrom.AutoSize = true;
+            this.labelFrom.Location = new System.Drawing.Point(138, 18);
+            this.labelFrom.Name = "labelFrom";
+            this.labelFrom.Size = new System.Drawing.Size(14, 13);
+            this.labelFrom.TabIndex = 5;
+            this.labelFrom.Text = "C";
             // 
             // FormReportOrders
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.reportViewer);
-            this.Controls.Add(this.panel);
+            this.ClientSize = new System.Drawing.Size(610, 659);
+            this.Controls.Add(this.buttonForm);
+            this.Controls.Add(this.dateTimePickerTo);
+            this.Controls.Add(this.labelTo);
+            this.Controls.Add(this.dateTimePickerFrom);
+            this.Controls.Add(this.labelFrom);
+            this.Controls.Add(this.dataGridView);
+            this.Controls.Add(this.saveToExcelButton);
             this.Name = "FormReportOrders";
-            this.Text = "Заказы клиентов";
-            this.Load += new System.EventHandler(this.FormReportOrders_Load);
-            this.panel.ResumeLayout(false);
-            this.panel.PerformLayout();
+            this.Text = "Заказы";
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel panel;
-        private System.Windows.Forms.Button buttonToPdf;
+        private System.Windows.Forms.Button saveToExcelButton;
+        private System.Windows.Forms.DataGridView dataGridView;
+        private System.Windows.Forms.DataGridViewTextBoxColumn date;
+        private System.Windows.Forms.DataGridViewTextBoxColumn car;
+        private System.Windows.Forms.DataGridViewTextBoxColumn count;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sum;
+        private System.Windows.Forms.DataGridViewTextBoxColumn status;
         private System.Windows.Forms.Button buttonForm;
         private System.Windows.Forms.DateTimePicker dateTimePickerTo;
         private System.Windows.Forms.Label labelTo;
         private System.Windows.Forms.DateTimePicker dateTimePickerFrom;
         private System.Windows.Forms.Label labelFrom;
-        private Microsoft.Reporting.WinForms.ReportViewer reportViewer;
     }
 }

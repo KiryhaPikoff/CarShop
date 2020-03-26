@@ -141,32 +141,16 @@ namespace CarShopView
             }
         }
 
-        private void компонентыПоМашинамToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var form = Container.Resolve<FormReportCars>();
-            form.ShowDialog();
-        }
-
-        private void списокЗаказовToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ordersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormReportOrders>();
             form.ShowDialog();
         }
 
-        private void списокМашинToolStripMenuItem_Click(object sender, EventArgs e)
+        private void carsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var dialog = new SaveFileDialog { Filter = "docx|*.docx" })
-            {
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    reportLogic.SaveCarsToWordFile(new ReportBindingModel
-                    {
-                        FileName = dialog.FileName
-                    });
-                    MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
-                   MessageBoxIcon.Information);
-                }
-            }
+            var form = Container.Resolve<FormReportCars>();
+            form.ShowDialog();
         }
     }
 }
