@@ -2,15 +2,19 @@
 using CarShopBuisnessLogic.Enums;
 using CarShopBuisnessLogic.Interfaces;
 using System;
+using System.ComponentModel;
 
 namespace CarShopBuisnessLogic
 {
     public class MainLogic
     {
         private readonly IOrderLogic orderLogic;
-        public MainLogic(IOrderLogic orderLogic)
+        private readonly IComponentLogic componentLogic;
+
+        public MainLogic(IOrderLogic orderLogic, IComponentLogic componentLogic)
         {
             this.orderLogic = orderLogic;
+            this.componentLogic = componentLogic;
         }
 
         public void CreateOrder(CreateOrderBindingModel model)
@@ -101,6 +105,11 @@ namespace CarShopBuisnessLogic
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Оплачен
             });
+        }
+
+        public void addComponentOnStorage(int storageId, int componentId, int count)
+        {
+
         }
     }
 }
