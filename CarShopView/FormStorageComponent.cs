@@ -9,27 +9,17 @@ namespace CarShopView
 {
     public partial class FormStorageComponent : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-
-        public int Id
-        {
-            get { return Convert.ToInt32(componentsComboBox.SelectedValue); }
-            set { componentsComboBox.SelectedValue = value; }
-        }
-        public string ComponentName
-        {
-            get { return componentsComboBox.Text; }
-        }
-        public int Count
-        {
-            get { return Convert.ToInt32(countTextBox.Text); }
-            set { countTextBox.Text = value.ToString(); }
-        }
-
-        public FormStorageComponent(IComponentLogic componentLogic)
+        public FormStorageComponent(IStorageLogic storageLogic, IComponentLogic componentLogic)
         {
             InitializeComponent();
+            List<StorageViewModel> storageList = storageLogic.Read(null);
+            if (storageList != null)
+            {
+                componentsComboBox.DisplayMember = "StorageName";
+                componentsComboBox.ValueMember = "Id";
+                componentsComboBox.DataSource = storageList;
+                componentsComboBox.SelectedItem = null;
+            }
             List<ComponentViewModel> componentList = componentLogic.Read(null);
             if (componentList != null)
             {
@@ -50,6 +40,11 @@ namespace CarShopView
             if (componentsComboBox.SelectedValue == null)
             {
                 MessageBox.Show("Выберите компонент", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (storageComboBox.SelectedValue == null)
+            {
+                MessageBox.Show("Выберите склад", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             DialogResult = DialogResult.OK;

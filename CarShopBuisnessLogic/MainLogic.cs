@@ -112,4 +112,8 @@ namespace CarShopBuisnessLogic
 
         }
     }
+
+    public void addComponentOnStorage(int storageId, int componentId, int count) { 
+        
+    }
 }

@@ -44,11 +44,12 @@ namespace CarShopListImplement.Implements
                 {
                     throw new Exception("Элемент не найден");
                 }
-                CreateModel(model, tempStorage);
+                tempStorage.StorageName = model.StorageName;
             }
             else
             {
-                source.Storages.Add(CreateModel(model, tempStorage));
+                tempStorage.StorageName = model.StorageName;
+                source.Storages.Add(tempStorage);
             }
         }
 

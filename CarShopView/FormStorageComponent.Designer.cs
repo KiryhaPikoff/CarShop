@@ -34,12 +34,14 @@
             this.cancleButton = new System.Windows.Forms.Button();
             this.componentsComboBox = new System.Windows.Forms.ComboBox();
             this.countTextBox = new System.Windows.Forms.TextBox();
+            this.storageLabel = new System.Windows.Forms.Label();
+            this.storageComboBox = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // componentNameLabel
             // 
             this.componentNameLabel.AutoSize = true;
-            this.componentNameLabel.Location = new System.Drawing.Point(12, 9);
+            this.componentNameLabel.Location = new System.Drawing.Point(12, 37);
             this.componentNameLabel.Name = "componentNameLabel";
             this.componentNameLabel.Size = new System.Drawing.Size(66, 13);
             this.componentNameLabel.TabIndex = 0;
@@ -48,7 +50,7 @@
             // countComponentLabel
             // 
             this.countComponentLabel.AutoSize = true;
-            this.countComponentLabel.Location = new System.Drawing.Point(12, 37);
+            this.countComponentLabel.Location = new System.Drawing.Point(12, 65);
             this.countComponentLabel.Name = "countComponentLabel";
             this.countComponentLabel.Size = new System.Drawing.Size(69, 13);
             this.countComponentLabel.TabIndex = 1;
@@ -56,7 +58,7 @@
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(166, 63);
+            this.saveButton.Location = new System.Drawing.Point(167, 91);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 23);
             this.saveButton.TabIndex = 4;
@@ -66,7 +68,7 @@
             // 
             // cancleButton
             // 
-            this.cancleButton.Location = new System.Drawing.Point(247, 63);
+            this.cancleButton.Location = new System.Drawing.Point(247, 91);
             this.cancleButton.Name = "cancleButton";
             this.cancleButton.Size = new System.Drawing.Size(75, 23);
             this.cancleButton.TabIndex = 5;
@@ -77,23 +79,42 @@
             // componentsComboBox
             // 
             this.componentsComboBox.FormattingEnabled = true;
-            this.componentsComboBox.Location = new System.Drawing.Point(81, 7);
+            this.componentsComboBox.Location = new System.Drawing.Point(81, 34);
             this.componentsComboBox.Name = "componentsComboBox";
             this.componentsComboBox.Size = new System.Drawing.Size(241, 21);
             this.componentsComboBox.TabIndex = 6;
             // 
             // countTextBox
             // 
-            this.countTextBox.Location = new System.Drawing.Point(81, 37);
+            this.countTextBox.Location = new System.Drawing.Point(81, 62);
             this.countTextBox.Name = "countTextBox";
             this.countTextBox.Size = new System.Drawing.Size(241, 20);
             this.countTextBox.TabIndex = 7;
+            // 
+            // storageLabel
+            // 
+            this.storageLabel.AutoSize = true;
+            this.storageLabel.Location = new System.Drawing.Point(12, 10);
+            this.storageLabel.Name = "storageLabel";
+            this.storageLabel.Size = new System.Drawing.Size(41, 13);
+            this.storageLabel.TabIndex = 8;
+            this.storageLabel.Text = "Склад:";
+            // 
+            // storageComboBox
+            // 
+            this.storageComboBox.FormattingEnabled = true;
+            this.storageComboBox.Location = new System.Drawing.Point(81, 7);
+            this.storageComboBox.Name = "storageComboBox";
+            this.storageComboBox.Size = new System.Drawing.Size(241, 21);
+            this.storageComboBox.TabIndex = 9;
             // 
             // FormStorageComponent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(332, 91);
+            this.ClientSize = new System.Drawing.Size(332, 116);
+            this.Controls.Add(this.storageComboBox);
+            this.Controls.Add(this.storageLabel);
             this.Controls.Add(this.countTextBox);
             this.Controls.Add(this.componentsComboBox);
             this.Controls.Add(this.cancleButton);
@@ -115,5 +136,7 @@
         private System.Windows.Forms.Button cancleButton;
         private System.Windows.Forms.ComboBox componentsComboBox;
         private System.Windows.Forms.TextBox countTextBox;
+        private System.Windows.Forms.Label storageLabel;
+        private System.Windows.Forms.ComboBox storageComboBox;
     }
 }
