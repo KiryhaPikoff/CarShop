@@ -130,7 +130,10 @@ namespace CarShopView
         private void добавитьКомпонентToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormStorageComponent>();
-            form.ShowDialog();
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                this.mainLogic.addComponentOnStorage(form.StorageId, form.ComponentId, form.Count);
+            }
         }
     }
 }

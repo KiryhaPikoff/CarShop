@@ -1,4 +1,5 @@
-﻿using CarShopBuisnessLogic.Interfaces;
+﻿using CarShopBuisnessLogic;
+using CarShopBuisnessLogic.Interfaces;
 using CarShopBuisnessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -9,16 +10,32 @@ namespace CarShopView
 {
     public partial class FormStorageComponent : Form
     {
+        public int StorageId
+        {
+            get { return Convert.ToInt32(storageComboBox.SelectedValue); }
+            set { storageComboBox.SelectedValue = value; }
+        }
+        public int ComponentId
+        {
+            get { return Convert.ToInt32(componentsComboBox.SelectedValue); }
+            set { componentsComboBox.SelectedValue = value; }
+        }
+        public int Count
+        {
+            get { return Convert.ToInt32(countTextBox.Text); }
+            set { countTextBox.Text = value.ToString(); }
+        }
+
         public FormStorageComponent(IStorageLogic storageLogic, IComponentLogic componentLogic)
         {
             InitializeComponent();
             List<StorageViewModel> storageList = storageLogic.Read(null);
             if (storageList != null)
             {
-                componentsComboBox.DisplayMember = "StorageName";
-                componentsComboBox.ValueMember = "Id";
-                componentsComboBox.DataSource = storageList;
-                componentsComboBox.SelectedItem = null;
+                storageComboBox.DisplayMember = "StorageName";
+                storageComboBox.ValueMember = "Id";
+                storageComboBox.DataSource = storageList;
+                storageComboBox.SelectedItem = null;
             }
             List<ComponentViewModel> componentList = componentLogic.Read(null);
             if (componentList != null)

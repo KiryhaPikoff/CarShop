@@ -2,6 +2,7 @@
 using CarShopBuisnessLogic.Enums;
 using CarShopBuisnessLogic.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace CarShopBuisnessLogic
@@ -9,11 +10,13 @@ namespace CarShopBuisnessLogic
     public class MainLogic
     {
         private readonly IOrderLogic orderLogic;
+        private readonly IStorageLogic storageLogic;
         private readonly IComponentLogic componentLogic;
 
-        public MainLogic(IOrderLogic orderLogic, IComponentLogic componentLogic)
+        public MainLogic(IOrderLogic orderLogic, IStorageLogic storageLogic, IComponentLogic componentLogic)
         {
             this.orderLogic = orderLogic;
+            this.storageLogic = storageLogic;
             this.componentLogic = componentLogic;
         }
 
@@ -107,13 +110,34 @@ namespace CarShopBuisnessLogic
             });
         }
 
+        // В этом методе логика формирования списка компонентов склада, при добавлении на него нового.
         public void addComponentOnStorage(int storageId, int componentId, int count)
         {
+            Dictionary<int, (string, int)> components = this.storageLogic.Read(new StorageBindingModel 
+            { 
+                Id = storageId 
+            })[0].StorageComponents;
 
+            // Если такой компонент уже хранился на складе, то увеличиваем его количество
+            if (components.ContainsKey(componentId))
+            {
+                string name = components[componentId].Item1;
+                int prevCount = components[componentId].Item2;
+                components.Remove(componentId);
+                components.Add(componentId, (name, prevCount + count));
+            }
+            else {
+                // если нет - добавляем его
+                string name = this.componentLogic.Read(new ComponentBindingModel
+                {
+                    Id = componentId
+                })[0].ComponentName;
+
+                components.Add(componentId, (name, count));
+            }
+
+            // сохраняем новое состояние компонентов склада
+            storageLogic.updateComponentsOnStorage(storageId, components);
         }
-    }
-
-    public void addComponentOnStorage(int storageId, int componentId, int count) { 
-        
     }
 }
