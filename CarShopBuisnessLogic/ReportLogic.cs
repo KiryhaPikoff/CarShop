@@ -2,7 +2,6 @@
 using CarShopBuisnessLogic.HelperModels;
 using CarShopBuisnessLogic.Interfaces;
 using CarShopBuisnessLogic.ViewModels;
-using DocumentFormat.OpenXml.Office.CustomUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -85,6 +84,25 @@ namespace CarShopBuisnessLogic
                 CarComponents = x.CarComponents.Select(y => new Tuple<string, int>(y.Value.Item1, y.Value.Item2)).ToList()
             })
            .ToList();
+        }
+
+        public List<ReportCarComponentViewModel> GetCarComponentsWithCar()
+        {
+            var cars = this.GetCars();
+            List<ReportCarComponentViewModel> listCompCar = new List<ReportCarComponentViewModel>();
+            foreach (var car in cars) 
+            {
+                foreach (var comp in car.CarComponents)
+                {
+                    listCompCar.Add(new ReportCarComponentViewModel
+                    {
+                        CarName = car.CarName,
+                        ComponentName = comp.Item1,
+                        Count = comp.Item2
+                    });
+                }
+            }
+            return listCompCar;
         }
 
         /// <summary>
