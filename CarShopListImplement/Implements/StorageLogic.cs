@@ -44,18 +44,22 @@ namespace CarShopListImplement.Implements
                 {
                     throw new Exception("Элемент не найден");
                 }
-                CreateModel(model, tempStorage);
+                tempStorage.StorageName = model.StorageName;
             }
             else
             {
-                source.Storages.Add(CreateModel(model, tempStorage));
+                tempStorage.StorageName = model.StorageName;
+                source.Storages.Add(tempStorage);
             }
         }
 
-        private Storage CreateModel(StorageBindingModel model, Storage storage)
+        /// <summary>
+        /// Метод обновляющий состояние компонентов на конкретном складе.
+        /// </summary>
+        /// <param name="storageId">ID обновляемого склада</param>
+        /// <param name="components">Новое состояние его компонентов</param>
+        public void updateComponentsOnStorage(int storageId, Dictionary<int, (string, int)> components)
         {
-            storage.StorageName = model.StorageName;
-            //обновляем существуюущие компоненты и ищем максимальный идентификатор
             int maxCCId = 0;
             for (int i = 0; i < source.StorageComponents.Count; ++i)
             {
@@ -63,16 +67,16 @@ namespace CarShopListImplement.Implements
                 {
                     maxCCId = source.StorageComponents[i].Id;
                 }
-                if (source.StorageComponents[i].StorageId == storage.Id)
+                if (source.StorageComponents[i].StorageId == storageId)
                 {
                     // если в модели пришла запись компонента с таким id
                     if
-                    (model.StorageComponents.ContainsKey(source.StorageComponents[i].ComponentId))
+                    (components.ContainsKey(source.StorageComponents[i].ComponentId))
                     {
                         // обновляем количество
-                        source.StorageComponents[i].Count = model.StorageComponents[source.StorageComponents[i].ComponentId].Item2;
+                        source.StorageComponents[i].Count = components[source.StorageComponents[i].ComponentId].Item2;
                         // из модели убираем эту запись, чтобы остались только не просмотренные
-                        model.StorageComponents.Remove(source.StorageComponents[i].ComponentId);
+                        components.Remove(source.StorageComponents[i].ComponentId);
                     }
                     else
                     {
@@ -81,17 +85,16 @@ namespace CarShopListImplement.Implements
                 }
             }
             // новые записи
-            foreach (var pc in model.StorageComponents)
+            foreach (var sc in components)
             {
                 source.StorageComponents.Add(new StorageComponent
                 {
                     Id = ++maxCCId,
-                    StorageId = storage.Id,
-                    ComponentId = pc.Key,
-                    Count = pc.Value.Item2
+                    StorageId = storageId,
+                    ComponentId = sc.Key,
+                    Count = sc.Value.Item2
                 });
             }
-            return storage;
         }
 
         public void Delete(StorageBindingModel model)

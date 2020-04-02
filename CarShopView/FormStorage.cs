@@ -64,7 +64,6 @@ namespace CarShopView
         {
             try
             {
-
                 if (storageComponents != null)
                 {
                     dataGridView.Rows.Clear();
@@ -81,75 +80,11 @@ namespace CarShopView
 
         }
 
-        private void addComponentButton_Click(object sender, EventArgs e)
-        {
-            var form = Container.Resolve<FormCarComponent>();
-            if (form.ShowDialog() == DialogResult.OK)
-            {
-                if (storageComponents.ContainsKey(form.Id))
-                {
-                    storageComponents[form.Id] = (form.ComponentName, form.Count);
-                }
-                else
-                {
-                    storageComponents.Add(form.Id, (form.ComponentName, form.Count));
-                }
-                LoadData();
-            }
-        }
-
-        private void updateComponentButton_Click(object sender, EventArgs e)
-        {
-            if (dataGridView.SelectedRows.Count == 1)
-            {
-                var form = Container.Resolve<FormCarComponent>();
-                int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
-                form.Id = id;
-                form.Count = storageComponents[id].Item2;
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    storageComponents[form.Id] = (form.ComponentName, form.Count);
-                    LoadData();
-                }
-            }
-        }
-
-        private void deleteComponentButton_Click(object sender, EventArgs e)
-        {
-            if (dataGridView.SelectedRows.Count == 1)
-            {
-                if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo,
-               MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    try
-                    {
-                        storageComponents.Remove(Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value));
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-                       MessageBoxIcon.Error);
-                    }
-                    LoadData();
-                }
-            }
-        }
-
-        private void refreshComponentsButton_Click(object sender, EventArgs e)
-        {
-            LoadData();
-        }
-
         private void saveButton_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(storageNameTextBox.Text))
             {
                 MessageBox.Show("Заполните название", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            if (storageComponents == null || storageComponents.Count == 0)
-            {
-                MessageBox.Show("Заполните компоненты", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -158,8 +93,7 @@ namespace CarShopView
                 storageLogic.CreateOrUpdate(new StorageBindingModel
                 {
                     Id = id,
-                    StorageName = storageNameTextBox.Text,
-                    StorageComponents = storageComponents
+                    StorageName = storageNameTextBox.Text
                 });
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;

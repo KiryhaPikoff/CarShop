@@ -39,27 +39,6 @@ namespace CarShopFileImplement.Implements
                 source.Storages.Add(storage);
             }
             storage.StorageName = model.StorageName;
-            // удалили те, которых нет в модели
-            source.StorageComponents.RemoveAll(rec => rec.StorageId == model.Id && !model.StorageComponents.ContainsKey(rec.ComponentId));
-            // обновили количество у существующих записей
-            var updateComponents = source.StorageComponents.Where(rec => rec.StorageId == model.Id && model.StorageComponents.ContainsKey(rec.ComponentId));
-            foreach (var updateComponent in updateComponents)
-            {
-                updateComponent.Count = model.StorageComponents[updateComponent.ComponentId].Item2;
-                model.StorageComponents.Remove(updateComponent.ComponentId);
-            }
-            // добавили новые
-            int maxPCId = source.StorageComponents.Count > 0 ? source.StorageComponents.Max(rec => rec.Id) : 0;
-            foreach (var pc in model.StorageComponents)
-            {
-                source.StorageComponents.Add(new StorageComponent
-                {
-                    Id = ++maxPCId,
-                    StorageId = storage.Id,
-                    ComponentId = pc.Key,
-                    Count = pc.Value.Item2
-                });
-            }
         }
 
         public void Delete(StorageBindingModel model)
@@ -91,6 +70,31 @@ namespace CarShopFileImplement.Implements
                    (source.Components.FirstOrDefault(recC => recC.Id == recPC.ComponentId)?.ComponentName, recPC.Count))
                })
                .ToList();
+        }
+
+        public void updateComponentsOnStorage(int storageId, Dictionary<int, (string, int)> components)
+        {
+            // удалили те, которых нет в модели
+            source.StorageComponents.RemoveAll(rec => rec.StorageId == storageId && !components.ContainsKey(rec.ComponentId));
+            // обновили количество у существующих записей
+            var updateComponents = source.StorageComponents.Where(rec => rec.StorageId == storageId && components.ContainsKey(rec.ComponentId));
+            foreach (var updateComponent in updateComponents)
+            {
+                updateComponent.Count = components[updateComponent.ComponentId].Item2;
+                components.Remove(updateComponent.ComponentId);
+            }
+            // добавили новые
+            int maxPCId = source.StorageComponents.Count > 0 ? source.StorageComponents.Max(rec => rec.Id) : 0;
+            foreach (var pc in components)
+            {
+                source.StorageComponents.Add(new StorageComponent
+                {
+                    Id = ++maxPCId,
+                    StorageId = storageId,
+                    ComponentId = pc.Key,
+                    Count = pc.Value.Item2
+                });
+            }
         }
     }
 }

@@ -3,23 +3,20 @@ using CarShopBuisnessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Unity;
 
 namespace CarShopView
 {
     public partial class FormStorageComponent : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-
-        public int Id
+        public int StorageId
+        {
+            get { return Convert.ToInt32(storageComboBox.SelectedValue); }
+            set { storageComboBox.SelectedValue = value; }
+        }
+        public int ComponentId
         {
             get { return Convert.ToInt32(componentsComboBox.SelectedValue); }
             set { componentsComboBox.SelectedValue = value; }
-        }
-        public string ComponentName
-        {
-            get { return componentsComboBox.Text; }
         }
         public int Count
         {
@@ -27,9 +24,17 @@ namespace CarShopView
             set { countTextBox.Text = value.ToString(); }
         }
 
-        public FormStorageComponent(IComponentLogic componentLogic)
+        public FormStorageComponent(IStorageLogic storageLogic, IComponentLogic componentLogic)
         {
             InitializeComponent();
+            List<StorageViewModel> storageList = storageLogic.Read(null);
+            if (storageList != null)
+            {
+                storageComboBox.DisplayMember = "StorageName";
+                storageComboBox.ValueMember = "Id";
+                storageComboBox.DataSource = storageList;
+                storageComboBox.SelectedItem = null;
+            }
             List<ComponentViewModel> componentList = componentLogic.Read(null);
             if (componentList != null)
             {
@@ -50,6 +55,11 @@ namespace CarShopView
             if (componentsComboBox.SelectedValue == null)
             {
                 MessageBox.Show("Выберите компонент", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (storageComboBox.SelectedValue == null)
+            {
+                MessageBox.Show("Выберите склад", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             DialogResult = DialogResult.OK;
