@@ -3,7 +3,6 @@ using CarShopBuisnessLogic.Enums;
 using CarShopBuisnessLogic.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace CarShopBuisnessLogic
 {
@@ -113,9 +112,9 @@ namespace CarShopBuisnessLogic
         // В этом методе логика формирования списка компонентов склада, при добавлении на него нового.
         public void addComponentOnStorage(int storageId, int componentId, int count)
         {
-            Dictionary<int, (string, int)> components = this.storageLogic.Read(new StorageBindingModel 
-            { 
-                Id = storageId 
+            Dictionary<int, (string, int)> components = this.storageLogic.Read(new StorageBindingModel
+            {
+                Id = storageId
             })[0].StorageComponents;
 
             // Если такой компонент уже хранился на складе, то увеличиваем его количество
@@ -126,7 +125,8 @@ namespace CarShopBuisnessLogic
                 components.Remove(componentId);
                 components.Add(componentId, (name, prevCount + count));
             }
-            else {
+            else
+            {
                 // если нет - добавляем его
                 string name = this.componentLogic.Read(new ComponentBindingModel
                 {

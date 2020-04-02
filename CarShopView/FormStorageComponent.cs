@@ -1,10 +1,8 @@
-﻿using CarShopBuisnessLogic;
-using CarShopBuisnessLogic.Interfaces;
+﻿using CarShopBuisnessLogic.Interfaces;
 using CarShopBuisnessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Unity;
 
 namespace CarShopView
 {

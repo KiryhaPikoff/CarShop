@@ -58,7 +58,7 @@ namespace CarShopListImplement.Implements
         /// </summary>
         /// <param name="storageId">ID обновляемого склада</param>
         /// <param name="components">Новое состояние его компонентов</param>
-        public void updateComponentsOnStorage(int storageId, Dictionary<int, (string, int)> components) 
+        public void updateComponentsOnStorage(int storageId, Dictionary<int, (string, int)> components)
         {
             int maxCCId = 0;
             for (int i = 0; i < source.StorageComponents.Count; ++i)
