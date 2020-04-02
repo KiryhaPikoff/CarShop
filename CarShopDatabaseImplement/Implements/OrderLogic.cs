@@ -3,6 +3,7 @@ using CarShopBuisnessLogic.Enums;
 using CarShopBuisnessLogic.Interfaces;
 using CarShopBuisnessLogic.ViewModels;
 using CarShopDatabaseImplement.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,18 +72,14 @@ namespace CarShopDatabaseImplement.Implements
         {
             using (var context = new CarShopDatabase())
             {
-                var orders = context.Orders
-                .Where(rec => model == null || rec.Id == model.Id);
-                if (model != null && model.DateFrom != null && model.DateTo != null)
-                {
-                    orders.Where(rec => rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo);
-                }
                 return context.Orders
+                .Where(rec => model == null || rec.Id == model.Id)
+                .Include(car => car.Car)
                 .Select(rec => new OrderViewModel
                 {
                     Id = rec.Id,
                     CarId = rec.CarId,
-                    CarName = context.Cars.FirstOrDefault(car => car.Id == rec.CarId).CarName,
+                    CarName = rec.Car.CarName,
                     Count = rec.Count,
                     DateCreate = rec.DateCreate,
                     DateImplement = rec.DateImplement,
