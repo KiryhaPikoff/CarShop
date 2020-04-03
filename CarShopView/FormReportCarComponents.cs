@@ -1,20 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CarShopBuisnessLogic;
+using Microsoft.Reporting.WinForms;
+using System;
 using System.Windows.Forms;
+using Unity;
 
 namespace CarShopView
 {
     public partial class FormReportCarComponents : Form
     {
-        public FormReportCarComponents()
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+        private readonly ReportLogic reportLogic;
+
+        public FormReportCarComponents(ReportLogic logic)
         {
             InitializeComponent();
+            this.reportLogic = logic;
+        }
+
+
+        private void FormReportCarComponents_Load(object sender, System.EventArgs e)
+        {
+            try
+            {
+                var dataSource = reportLogic.GetCarComponentsWithCar();
+                ReportDataSource source = new ReportDataSource("DataSetCarComp", dataSource);
+                reportViewer.LocalReport.DataSources.Clear();
+                reportViewer.LocalReport.DataSources.Add(source);
+                reportViewer.RefreshReport();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void toPdfButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

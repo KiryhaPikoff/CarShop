@@ -90,7 +90,7 @@ namespace CarShopBuisnessLogic
         {
             var cars = this.GetCars();
             List<ReportCarComponentViewModel> listCompCar = new List<ReportCarComponentViewModel>();
-            foreach (var car in cars) 
+            foreach (var car in cars)
             {
                 foreach (var comp in car.CarComponents)
                 {
