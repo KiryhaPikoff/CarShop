@@ -111,18 +111,18 @@ namespace CarShopListImplement.Implements
         public List<CarViewModel> Read(CarBindingModel model)
         {
             List<CarViewModel> result = new List<CarViewModel>();
-            foreach (var component in source.Cars)
+            foreach (var car in source.Cars)
             {
                 if (model != null)
                 {
-                    if (component.Id == model.Id)
+                    if (car.Id == model.Id)
                     {
-                        result.Add(CreateViewModel(component));
+                        result.Add(CreateViewModel(car));
                         break;
                     }
                     continue;
                 }
-                result.Add(CreateViewModel(component));
+                result.Add(CreateViewModel(car));
             }
             return result;
         }

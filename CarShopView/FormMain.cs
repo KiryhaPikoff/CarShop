@@ -58,6 +58,11 @@ namespace CarShopView
             var form = Container.Resolve<FormCars>();
             form.ShowDialog();
         }
+        private void складыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormStorages>();
+            form.ShowDialog();
+        }
 
         private void createOrderButton_Click(object sender, EventArgs e)
         {
@@ -120,6 +125,15 @@ namespace CarShopView
         private void updateListButton_Click(object sender, EventArgs e)
         {
             LoadData();
+        }
+
+        private void добавитьКомпонентToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormStorageComponent>();
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                this.mainLogic.addComponentOnStorage(form.StorageId, form.ComponentId, form.Count);
+            }
         }
     }
 }
