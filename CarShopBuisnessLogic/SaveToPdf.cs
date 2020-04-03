@@ -22,7 +22,7 @@ namespace CarShopBuisnessLogic
             paragraph.Format.Alignment = ParagraphAlignment.Center;
             paragraph.Style = "Normal";
             var table = document.LastSection.AddTable();
-            List<string> columns = new List<string> { "3cm", "3cm", "2cm" };
+            List<string> columns = new List<string> { "4cm", "4cm", "4cm" };
             foreach (var elem in columns)
             {
                 table.AddColumn(elem);
@@ -36,20 +36,17 @@ namespace CarShopBuisnessLogic
             });
             foreach (var car in info.Cars)
             {
-                foreach (var carComp in car.CarComponents)
+                CreateRow(new PdfRowParameters
                 {
-                    CreateRow(new PdfRowParameters
-                    {
-                        Table = table,
-                        Texts = new List<string> {
-                        car.CarName,
-                        carComp.Item1,
-                        carComp.Item2.ToString(),
-                    },
-                        Style = "Normal",
-                        ParagraphAlignment = ParagraphAlignment.Left
-                    });
-                }
+                    Table = table,
+                    Texts = new List<string> {
+                    car.CarName,
+                    car.ComponentName,
+                    car.Count.ToString(),
+                },
+                    Style = "Normal",
+                    ParagraphAlignment = ParagraphAlignment.Left
+                });
             }
             PdfDocumentRenderer renderer = new PdfDocumentRenderer(true,
             PdfSharp.Pdf.PdfFontEmbedding.Always)

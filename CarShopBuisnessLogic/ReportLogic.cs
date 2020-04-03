@@ -23,35 +23,6 @@ namespace CarShopBuisnessLogic
         }
 
         /// <summary>
-        /// Получение списка компонент с указанием, в каких изделиях используются
-        /// </summary>
-        /// <returns></returns>
-   /*     public List<ReportCarViewModel> GetCars()
-        {
-            var components = componentLogic.Read(null);
-            var cars = carLogic.Read(null);
-            var list = new List<ReportCarViewModel>();
-            foreach (var car in cars)
-            {
-                var record = new ReportCarViewModel
-                {
-                    CarName = car.CarName,
-                    CarComponents = new List<Tuple<string, int>>(),
-                    Price = car.Price
-                };
-                foreach (var component in components)
-                {
-                    if (car.CarComponents.ContainsKey(component.Id))
-                    {
-                        record.CarComponents.Add(new Tuple<string, int>(component.ComponentName, car.CarComponents[component.Id].Item2));
-                    }
-                }
-                list.Add(record);
-            }
-            return list;
-        }*/
-
-        /// <summary>
         /// Получение списка заказов за определенный период
         /// </summary>
         /// <param name="model"></param>
@@ -138,13 +109,13 @@ namespace CarShopBuisnessLogic
         /// </summary>
         /// <param name="model"></param>
         [Obsolete]
-        public void SaveCarsToPdfFile(ReportBindingModel model)
+        public void SaveCarsWithComponentsToPdfFile(ReportBindingModel model)
         {
             SaveToPdf.CreateDoc(new PdfInfo
             {
                 FileName = model.FileName,
                 Title = "Список машин с компонентами",
-                Cars = GetCars()
+                Cars = GetCarComponentsWithCar()
             });
         }
     }

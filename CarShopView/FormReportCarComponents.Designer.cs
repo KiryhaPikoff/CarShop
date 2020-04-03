@@ -30,11 +30,15 @@
         {
             this.components = new System.ComponentModel.Container();
             Microsoft.Reporting.WinForms.ReportDataSource reportDataSource1 = new Microsoft.Reporting.WinForms.ReportDataSource();
-            this.reportViewer = new Microsoft.Reporting.WinForms.ReportViewer();
             this.ReportCarComponentViewModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.reportViewer = new Microsoft.Reporting.WinForms.ReportViewer();
             this.toPdfButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ReportCarComponentViewModelBindingSource)).BeginInit();
             this.SuspendLayout();
+            // 
+            // ReportCarComponentViewModelBindingSource
+            // 
+            this.ReportCarComponentViewModelBindingSource.DataSource = typeof(CarShopBuisnessLogic.ViewModels.ReportCarComponentViewModel);
             // 
             // reportViewer
             // 
@@ -42,21 +46,17 @@
             reportDataSource1.Value = this.ReportCarComponentViewModelBindingSource;
             this.reportViewer.LocalReport.DataSources.Add(reportDataSource1);
             this.reportViewer.LocalReport.ReportEmbeddedResource = "CarShopView.ReportCarComponents.rdlc";
-            this.reportViewer.Location = new System.Drawing.Point(2, 27);
+            this.reportViewer.Location = new System.Drawing.Point(2, 42);
             this.reportViewer.Name = "reportViewer";
             this.reportViewer.ServerReport.BearerToken = null;
-            this.reportViewer.Size = new System.Drawing.Size(636, 422);
+            this.reportViewer.Size = new System.Drawing.Size(636, 407);
             this.reportViewer.TabIndex = 0;
-            // 
-            // ReportCarComponentViewModelBindingSource
-            // 
-            this.ReportCarComponentViewModelBindingSource.DataSource = typeof(CarShopBuisnessLogic.ViewModels.ReportCarComponentViewModel);
             // 
             // toPdfButton
             // 
-            this.toPdfButton.Location = new System.Drawing.Point(535, -2);
+            this.toPdfButton.Location = new System.Drawing.Point(514, 4);
             this.toPdfButton.Name = "toPdfButton";
-            this.toPdfButton.Size = new System.Drawing.Size(103, 30);
+            this.toPdfButton.Size = new System.Drawing.Size(112, 32);
             this.toPdfButton.TabIndex = 1;
             this.toPdfButton.Text = "В Pdf";
             this.toPdfButton.UseVisualStyleBackColor = true;

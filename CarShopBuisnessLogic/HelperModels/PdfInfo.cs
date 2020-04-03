@@ -7,6 +7,6 @@ namespace CarShopBuisnessLogic.HelperModels
     {
         public string FileName { get; set; }
         public string Title { get; set; }
-        public List<ReportCarViewModel> Cars { get; set; }
+        public List<ReportCarComponentViewModel> Cars { get; set; }
     }
 }
