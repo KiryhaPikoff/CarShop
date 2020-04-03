@@ -1,21 +1,32 @@
 ﻿using CarShopBuisnessLogic.Enums;
 using System;
+using System.ComponentModel.DataAnnotations;
 
-namespace CarShopBuisnessLogic.BindingModels
+namespace CarShopDatabaseImplement.Models
 {
     /// <summary>
     /// Заказ
     /// </summary>
-    public class OrderBindingModel
+    public class Order
     {
-        public int? Id { get; set; }
+        public int Id { get; set; }
+
         public int CarId { get; set; }
+
+        [Required]
         public int Count { get; set; }
+
+        [Required]
         public decimal Sum { get; set; }
+
+        [Required]
         public OrderStatus Status { get; set; }
+
+        [Required]
         public DateTime DateCreate { get; set; }
+
         public DateTime? DateImplement { get; set; }
-        public DateTime? DateFrom { get; set; }
-        public DateTime? DateTo { get; set; }
+
+        public virtual Car Car { get; set; }
     }
 }

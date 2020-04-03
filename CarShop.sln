@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarShopListImplement", "Car
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarShopFileImplement", "CarShopFileImplement\CarShopFileImplement.csproj", "{B9C2FB9E-0BF6-42D1-A752-D14C6D8D4999}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarShopDatabaseImplement", "CarShopDatabaseImplement\CarShopDatabaseImplement.csproj", "{496B13E7-97D5-43B2-B399-7F0922831B68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{B9C2FB9E-0BF6-42D1-A752-D14C6D8D4999}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9C2FB9E-0BF6-42D1-A752-D14C6D8D4999}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9C2FB9E-0BF6-42D1-A752-D14C6D8D4999}.Release|Any CPU.Build.0 = Release|Any CPU
+		{496B13E7-97D5-43B2-B399-7F0922831B68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{496B13E7-97D5-43B2-B399-7F0922831B68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{496B13E7-97D5-43B2-B399-7F0922831B68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{496B13E7-97D5-43B2-B399-7F0922831B68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

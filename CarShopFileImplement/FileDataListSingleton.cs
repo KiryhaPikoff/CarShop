@@ -300,7 +300,7 @@ namespace CarShopFileImplement
                 xDocument.Save(CarComponentFileName);
             }
         }
-
+      
         private void SaveStorages()
         {
             if (Storages != null)
