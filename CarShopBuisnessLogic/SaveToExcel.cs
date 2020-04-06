@@ -65,6 +65,7 @@ namespace CarShopBuisnessLogic
                 decimal totalSum = 0;
                 foreach (var d in dates)
                 {
+                    decimal promSum = 0;
                     InsertCellInWorksheet(new ExcelCellParameters
                     {
                         Worksheet = worksheetPart.Worksheet,
@@ -116,6 +117,7 @@ namespace CarShopBuisnessLogic
                                 StyleIndex = 1U
                             });
                             totalSum += order.Sum;
+                            promSum += order.Sum;
                             rowIndex++;
                         }
                     }
@@ -125,11 +127,30 @@ namespace CarShopBuisnessLogic
                         ShareStringPart = shareStringPart,
                         ColumnName = "D",
                         RowIndex = rowIndex,
-                        Text = totalSum.ToString(),
+                        Text = promSum.ToString(),
                         StyleIndex = 0U
                     });
                     rowIndex++;
                 }
+                rowIndex++;
+                InsertCellInWorksheet(new ExcelCellParameters
+                {
+                    Worksheet = worksheetPart.Worksheet,
+                    ShareStringPart = shareStringPart,
+                    ColumnName = "C",
+                    RowIndex = rowIndex,
+                    Text = "Итог: ",
+                    StyleIndex = 0U
+                });
+                InsertCellInWorksheet(new ExcelCellParameters
+                {
+                    Worksheet = worksheetPart.Worksheet,
+                    ShareStringPart = shareStringPart,
+                    ColumnName = "D",
+                    RowIndex = rowIndex,
+                    Text = totalSum.ToString(),
+                    StyleIndex = 0U
+                });
                 workbookpart.Workbook.Save();
             }
         }
