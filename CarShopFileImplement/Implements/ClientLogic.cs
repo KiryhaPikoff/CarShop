@@ -63,7 +63,9 @@ namespace CarShopFileImplement.Implements
             .Select(rec => new ClientViewModel
             {
                 Id = rec.Id,
-                ClientFio = rec.Fio
+                ClientFio = rec.Fio,
+                Login = rec.Login,
+                Password = rec.Password
             })
             .ToList();
         }

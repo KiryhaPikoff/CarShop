@@ -96,7 +96,9 @@ namespace CarShopListImplement.Implements
             return new ClientViewModel
             {
                 Id = client.Id,
-                ClientFio = client.Fio
+                ClientFio = client.Fio,
+                Login = client.Login,
+                Password = client.Password
             };
         }
     }

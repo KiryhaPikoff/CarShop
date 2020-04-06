@@ -12,5 +12,13 @@ namespace CarShopBuisnessLogic.ViewModels
         [DataMember]
         [DisplayName("ФИО")]
         public string ClientFio { get; set; }
+
+        [DataMember]
+        [DisplayName("ФИО")]
+        public string Login { get; set; }
+
+        [DataMember]
+        [DisplayName("ФИО")]
+        public string Password { get; set; }
     }
 }
