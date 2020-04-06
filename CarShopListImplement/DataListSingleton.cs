@@ -10,12 +10,15 @@ namespace CarShopListImplement
         public List<Order> Orders { get; set; }
         public List<Car> Cars { get; set; }
         public List<CarComponent> CarComponents { get; set; }
+        public List<Client> Clients { get; set; }
+
         private DataListSingleton()
         {
             Components = new List<Component>();
             Orders = new List<Order>();
             Cars = new List<Car>();
             CarComponents = new List<CarComponent>();
+            Clients = new List<Client>();
         }
         public static DataListSingleton GetInstance()
         {

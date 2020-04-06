@@ -30,6 +30,7 @@ namespace CarShopDatabaseImplement.Implements
                     order = new Order
                     {
                         CarId = model.CarId,
+                        ClientId = model.ClientId,
                         Count = model.Count,
                         DateCreate = model.DateCreate,
                         DateImplement = model.DateImplement,
@@ -41,6 +42,7 @@ namespace CarShopDatabaseImplement.Implements
                     return;
                 }
                 order.CarId = model.CarId;
+                order.ClientId = model.ClientId;
                 order.Count = model.Count;
                 order.DateCreate = model.DateCreate;
                 order.DateImplement = model.DateImplement;
@@ -77,10 +79,13 @@ namespace CarShopDatabaseImplement.Implements
                 (model.Id != null && rec.Id == model.Id) ||
                 (model.DateFrom != null && model.DateTo != null && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo))
                 .Include(rec => rec.Car)
+                .Include(rec => rec.Client)
                 .Select(rec => new OrderViewModel
                 {
                     Id = rec.Id,
                     CarId = rec.CarId,
+                    ClientId = rec.ClientId,
+                    ClientFIO = rec.Client.Fio,
                     CarName = rec.Car.CarName,
                     Count = rec.Count,
                     DateCreate = rec.DateCreate,

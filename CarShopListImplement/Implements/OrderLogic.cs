@@ -90,6 +90,7 @@ namespace CarShopListImplement.Implements
         private Order CreateModel(OrderBindingModel model, Order order)
         {
             order.CarId = model.CarId;
+            order.ClientId = model.ClientId;
             order.Count = model.Count;
             order.DateCreate = model.DateCreate;
             order.DateImplement = model.DateImplement;
@@ -110,10 +111,23 @@ namespace CarShopListImplement.Implements
                 }
             }
 
+            string clientFio = "";
+
+            for (int i = 0; i < source.Clients.Count; i++)
+            {
+                if (source.Clients[i].Id == order.ClientId)
+                {
+                    clientFio = source.Clients[i].Fio;
+                    break;
+                }
+            }
+
             return new OrderViewModel
             {
                 Id = order.Id,
                 CarId = order.CarId,
+                ClientId = order.ClientId,
+                ClientFIO = clientFio,
                 CarName = carName,
                 Count = order.Count,
                 DateCreate = order.DateCreate,

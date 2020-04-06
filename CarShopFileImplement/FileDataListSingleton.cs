@@ -20,6 +20,8 @@ namespace CarShopFileImplement
 
         private readonly string CarComponentFileName = "CarComponent.xml";
 
+        private readonly string ClientFileName = "Client.xml";
+
         public List<Component> Components { get; set; }
 
         public List<Order> Orders { get; set; }
@@ -28,12 +30,15 @@ namespace CarShopFileImplement
 
         public List<CarComponent> CarComponents { get; set; }
 
+        public List<Client> Clients { get; set; }
+
         private FileDataListSingleton()
         {
             Components = LoadComponents();
             Orders = LoadOrders();
             Cars = LoadCars();
             CarComponents = LoadCarComponents();
+            Clients = LoadClients();
         }
 
         public static FileDataListSingleton GetInstance()
@@ -51,6 +56,7 @@ namespace CarShopFileImplement
             SaveOrders();
             SaveCars();
             SaveCarComponents();
+            SaveClients();
         }
 
         private List<Component> LoadComponents()
@@ -92,6 +98,7 @@ namespace CarShopFileImplement
                     {
                         Id = Convert.ToInt32(elem.Attribute("Id").Value),
                         CarId = Convert.ToInt32(elem.Element("CarId").Value),
+                        ClientId = Convert.ToInt32(elem.Element("ClientId").Value),
                         Count = Convert.ToInt32(elem.Element("Count").Value),
                         Sum = Convert.ToDecimal(elem.Element("Sum").Value),
                         Status = (OrderStatus)Enum.Parse(typeof(OrderStatus),
@@ -154,6 +161,31 @@ namespace CarShopFileImplement
             return list;
         }
 
+        private List<Client> LoadClients()
+        {
+            var list = new List<Client>();
+
+            if (File.Exists(ClientFileName))
+            {
+                XDocument xDocument = XDocument.Load(ClientFileName);
+
+                var xElements = xDocument.Root.Elements("Client").ToList();
+
+                foreach (var elem in xElements)
+                {
+                    list.Add(new Client
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        Fio = elem.Element("Fio").Value,
+                        Login = elem.Element("Login").Value,
+                        Password = elem.Element("Password").Value
+                    });
+                }
+            }
+
+            return list;
+        }
+
         private void SaveComponents()
         {
             if (Components != null)
@@ -185,6 +217,8 @@ namespace CarShopFileImplement
                     xElement.Add(
                         new XElement("Order",
                         new XAttribute("Id", order.Id),
+                        new XElement("CarId", order.CarId),
+                        new XElement("ClientId", order.ClientId),
                         new XElement("CarId", order.CarId),
                         new XElement("Count", order.Count),
                         new XElement("Sum", order.Sum),
@@ -238,6 +272,27 @@ namespace CarShopFileImplement
 
                 XDocument xDocument = new XDocument(xElement);
                 xDocument.Save(CarComponentFileName);
+            }
+        }
+        private void SaveClients()
+        {
+            if (Clients != null)
+            {
+                var xElement = new XElement("Clients");
+
+                foreach (var client in Clients)
+                {
+                    xElement.Add(
+                        new XElement("Client",
+                        new XAttribute("Id", client.Id),
+                        new XElement("Fio", client.Fio),
+                        new XElement("Login", client.Login),
+                        new XElement("Password", client.Password)
+                        ));
+                }
+
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(ClientFileName);
             }
         }
     }

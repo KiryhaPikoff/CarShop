@@ -46,6 +46,7 @@ namespace CarShopFileImplement.Implements
                 return;
             }
             order.CarId = model.CarId;
+            order.ClientId = model.ClientId;
             order.Count = model.Count;
             order.DateCreate = model.DateCreate;
             order.DateImplement = model.DateImplement;
@@ -71,12 +72,14 @@ namespace CarShopFileImplement.Implements
             return source.Orders
             .Where(rec => model == null ||
                 (model.Id != null && rec.Id == model.Id) ||
-                (model.DateFrom != null && model.DateTo != null && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo))
+                (model.DateFrom != null && model.DateTo != null && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)) 
+              //  (model.ClientId.HasValue && rec.ClientId == model.ClientId))
             .Select(rec => new OrderViewModel
             {
                 Id = rec.Id,
                 CarId = rec.CarId,
                 CarName = source.Cars.FirstOrDefault(car => car.Id == rec.CarId).CarName,
+                ClientFIO = source.Clients.FirstOrDefault((cl) => cl.Id == rec.ClientId).Fio,
                 Count = rec.Count,
                 DateCreate = rec.DateCreate,
                 DateImplement = rec.DateImplement,
