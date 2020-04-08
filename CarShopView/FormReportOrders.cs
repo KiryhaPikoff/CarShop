@@ -63,19 +63,16 @@ namespace CarShopView
                     DateFrom = dateTimePickerFrom.Value,
                     DateTo = dateTimePickerTo.Value
                 });
-                var dates = orders.Select(x => x.DateCreate.Date).Distinct();
-                if (orders != null && dates != null)
+                var groupsByDate = orders.GroupBy(x => x.DateCreate.Date);
+                if (orders != null)
                 {
                     dataGridView.Rows.Clear();
-                    foreach (var date in dates)
+                    foreach (var group in groupsByDate)
                     {
-                        dataGridView.Rows.Add(new object[] { date.ToString(), "", "", "", "" });
-                        foreach (var order in orders)
+                        dataGridView.Rows.Add(new object[] { group.Key.ToString(), "", "", "", "" });
+                        foreach (var order in group)
                         {
-                            if (order.DateCreate.Date.Equals(date))
-                            {
-                                dataGridView.Rows.Add(new object[] { "", order.CarName, order.Count, order.Sum, order.Status });
-                            }
+                            dataGridView.Rows.Add(new object[] { "", order.CarName, order.Count, order.Sum, order.Status });
                         }
                     }
                 }

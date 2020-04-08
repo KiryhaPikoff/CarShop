@@ -45,21 +45,9 @@ namespace CarShopBuisnessLogic
            .ToList();
         }
 
-        public List<ReportCarViewModel> GetCars()
-        {
-            return carLogic.Read(null)
-            .Select(x => new ReportCarViewModel
-            {
-                CarName = x.CarName,
-                Price = x.Price,
-                CarComponents = x.CarComponents.Select(y => new Tuple<string, int>(y.Value.Item1, y.Value.Item2)).ToList()
-            })
-           .ToList();
-        }
-
         public List<ReportCarComponentViewModel> GetCarComponentsWithCar()
         {
-            var cars = this.GetCars();
+            var cars = carLogic.Read(null);
             List<ReportCarComponentViewModel> listCompCar = new List<ReportCarComponentViewModel>();
             foreach (var car in cars)
             {
@@ -68,8 +56,8 @@ namespace CarShopBuisnessLogic
                     listCompCar.Add(new ReportCarComponentViewModel
                     {
                         CarName = car.CarName,
-                        ComponentName = comp.Item1,
-                        Count = comp.Item2
+                        ComponentName = comp.Value.Item1,
+                        Count = comp.Value.Item2
                     });
                 }
             }
