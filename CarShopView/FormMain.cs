@@ -132,7 +132,12 @@ namespace CarShopView
             var form = Container.Resolve<FormStorageComponent>();
             if (form.ShowDialog() == DialogResult.OK)
             {
-                this.mainLogic.addComponentOnStorage(form.StorageId, form.ComponentId, form.Count);
+                this.mainLogic.addComponentOnStorage(new AddComponentBindingModel
+                {
+                    StorageId = form.StorageId,
+                    ComponentId = form.ComponentId,
+                    Count = form.Count
+                });
             }
         }
     }

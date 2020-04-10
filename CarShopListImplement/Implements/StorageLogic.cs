@@ -58,7 +58,7 @@ namespace CarShopListImplement.Implements
         /// </summary>
         /// <param name="storageId">ID обновляемого склада</param>
         /// <param name="components">Новое состояние его компонентов</param>
-        public void updateComponentsOnStorage(int storageId, Dictionary<int, (string, int)> components)
+        public void updateComponentOnStorage(int storageId, Dictionary<int, (string, int)> components)
         {
             int maxCCId = 0;
             for (int i = 0; i < source.StorageComponents.Count; ++i)
@@ -135,6 +135,47 @@ namespace CarShopListImplement.Implements
                 result.Add(CreateViewModel(storage));
             }
             return result;
+        }
+
+        public void AddComponent(AddComponentBindingModel model)
+        {
+            StorageComponent addedComponent = new StorageComponent
+            {
+                Id = -1, // такова логика!
+                StorageId = model.StorageId,
+                ComponentId = model.ComponentId,
+                Count = model.Count
+            };
+
+            foreach (StorageComponent storageComponent in source.StorageComponents)
+            {
+                if (addedComponent.StorageId == storageComponent.StorageId &&
+                    addedComponent.ComponentId == storageComponent.ComponentId)
+                {
+                    addedComponent.Id = storageComponent.Id;
+                    int prevCount = storageComponent.Count;
+                    addedComponent.Count += prevCount;
+                }
+            }
+
+            this.saveOrUpdateStorageComponent(addedComponent);
+        }
+
+        private void saveOrUpdateStorageComponent(StorageComponent storageComponent)
+        {
+            if (storageComponent.Id == -1)
+            {
+                int maxId = 0;
+                foreach (StorageComponent sc in source.StorageComponents)
+                {
+                    if (sc.Id > maxId)
+                    {
+                        maxId = sc.Id;
+                    }
+                }
+                storageComponent.Id = maxId + 1;
+            }
+            source.StorageComponents.Add(storageComponent);
         }
 
         private StorageViewModel CreateViewModel(Storage storage)
