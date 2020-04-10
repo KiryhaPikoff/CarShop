@@ -139,6 +139,13 @@ namespace CarShopListImplement.Implements
 
         public void AddComponent(AddComponentBindingModel model)
         {
+            if (!isStorageExist(model.StorageId) ||
+                !isComponentExist(model.ComponentId) ||
+                model.Count <= 0) 
+            {
+                throw new Exception("Ошибка добавления компонента на склад");
+            }
+
             StorageComponent addedComponent = new StorageComponent
             {
                 Id = -1, // такова логика!
@@ -151,14 +158,40 @@ namespace CarShopListImplement.Implements
             {
                 if (addedComponent.StorageId == storageComponent.StorageId &&
                     addedComponent.ComponentId == storageComponent.ComponentId)
+                    {
+                        addedComponent.Id = storageComponent.Id;
+                        int prevCount = storageComponent.Count;
+                        addedComponent.Count += prevCount;
+                    }
+            }
+            this.saveOrUpdateStorageComponent(addedComponent);
+        }
+
+        private bool isComponentExist(int componentId)
+        {
+            bool isComponentExist = false;
+            foreach (Component component in source.Components)
+            {
+                if (componentId == component.Id)
                 {
-                    addedComponent.Id = storageComponent.Id;
-                    int prevCount = storageComponent.Count;
-                    addedComponent.Count += prevCount;
+                    isComponentExist = true;
+                    break;
                 }
             }
+            return isComponentExist;
+        }
 
-            this.saveOrUpdateStorageComponent(addedComponent);
+        private bool isStorageExist(int storageId) 
+        {
+            bool isStorageExist = false;
+            foreach (Storage storage in source.Storages)
+            {
+                if (storageId == storage.Id) {
+                    isStorageExist = true;
+                    break;
+                }
+            }
+            return isStorageExist;
         }
 
         private void saveOrUpdateStorageComponent(StorageComponent storageComponent)
