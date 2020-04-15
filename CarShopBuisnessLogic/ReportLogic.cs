@@ -27,7 +27,7 @@ namespace CarShopBuisnessLogic
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public List<ReportOrdersViewModel> GetOrders(ReportBindingModel model)
+        public IEnumerable<IGrouping<DateTime, ReportOrdersViewModel>> GetOrders(ReportBindingModel model)
         {
             return orderLogic.Read(new OrderBindingModel
             {
@@ -42,7 +42,7 @@ namespace CarShopBuisnessLogic
                 Sum = x.Sum,
                 Status = x.Status
             })
-           .ToList();
+            .GroupBy(x => x.DateCreate.Date);
         }
 
         public List<ReportCarComponentViewModel> GetCarComponentsWithCar()

@@ -63,11 +63,10 @@ namespace CarShopView
                     DateFrom = dateTimePickerFrom.Value,
                     DateTo = dateTimePickerTo.Value
                 });
-                var groupsByDate = orders.GroupBy(x => x.DateCreate.Date);
                 if (orders != null)
                 {
                     dataGridView.Rows.Clear();
-                    foreach (var group in groupsByDate)
+                    foreach (var group in orders)
                     {
                         dataGridView.Rows.Add(new object[] { group.Key.ToString(), "", "", "", "" });
                         foreach (var order in group)

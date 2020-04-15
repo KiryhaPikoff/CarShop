@@ -42,9 +42,6 @@
             this.orderReadyButton = new System.Windows.Forms.Button();
             this.payOrderButton = new System.Windows.Forms.Button();
             this.updateListButton = new System.Windows.Forms.Button();
-            this.действияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.складыToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.добавитьКомпонентToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
@@ -64,8 +61,7 @@
             // 
             this.справочникToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.компонентыToolStripMenuItem,
-            this.машиныToolStripMenuItem,
-            this.складыToolStripMenuItem});
+            this.машиныToolStripMenuItem});
             this.справочникToolStripMenuItem.Name = "справочникToolStripMenuItem";
             this.справочникToolStripMenuItem.Size = new System.Drawing.Size(87, 20);
             this.справочникToolStripMenuItem.Text = "Справочник";
@@ -172,30 +168,7 @@
             this.updateListButton.Text = "Обновить список";
             this.updateListButton.UseVisualStyleBackColor = true;
             this.updateListButton.Click += new System.EventHandler(this.updateListButton_Click);
-            // 
-            // действияToolStripMenuItem
-            // 
-            this.действияToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.складыToolStripMenuItem1});
-            this.действияToolStripMenuItem.Name = "действияToolStripMenuItem";
-            this.действияToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
-            this.действияToolStripMenuItem.Text = "Действия";
-            // 
-            // складыToolStripMenuItem1
-            // 
-            this.складыToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.добавитьКомпонентToolStripMenuItem});
-            this.складыToolStripMenuItem1.Name = "складыToolStripMenuItem1";
-            this.складыToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.складыToolStripMenuItem1.Text = "Склады";
-            // 
-            // добавитьКомпонентToolStripMenuItem
-            // 
-            this.добавитьКомпонентToolStripMenuItem.Name = "добавитьКомпонентToolStripMenuItem";
-            this.добавитьКомпонентToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-            this.добавитьКомпонентToolStripMenuItem.Text = "Добавить компонент";
-            this.добавитьКомпонентToolStripMenuItem.Click += new System.EventHandler(this.добавитьКомпонентToolStripMenuItem_Click);
-            // 
+            //
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);

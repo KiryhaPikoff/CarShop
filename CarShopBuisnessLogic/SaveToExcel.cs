@@ -61,9 +61,8 @@ namespace CarShopBuisnessLogic
                     CellToName = "C1"
                 });
                 uint rowIndex = 2;
-                var groupsByDate = info.Orders.GroupBy(x => x.DateCreate.Date);
                 decimal totalSum = 0;
-                foreach (var group in groupsByDate)
+                foreach (var group in info.Orders)
                 {
                     decimal promSum = 0;
                     InsertCellInWorksheet(new ExcelCellParameters
