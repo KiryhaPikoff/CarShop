@@ -53,50 +53,6 @@ namespace CarShopListImplement.Implements
             }
         }
 
-        /// <summary>
-        /// Метод обновляющий состояние компонентов на конкретном складе.
-        /// </summary>
-        /// <param name="storageId">ID обновляемого склада</param>
-        /// <param name="components">Новое состояние его компонентов</param>
-        public void updateComponentOnStorage(int storageId, Dictionary<int, (string, int)> components)
-        {
-            int maxCCId = 0;
-            for (int i = 0; i < source.StorageComponents.Count; ++i)
-            {
-                if (source.StorageComponents[i].Id > maxCCId)
-                {
-                    maxCCId = source.StorageComponents[i].Id;
-                }
-                if (source.StorageComponents[i].StorageId == storageId)
-                {
-                    // если в модели пришла запись компонента с таким id
-                    if
-                    (components.ContainsKey(source.StorageComponents[i].ComponentId))
-                    {
-                        // обновляем количество
-                        source.StorageComponents[i].Count = components[source.StorageComponents[i].ComponentId].Item2;
-                        // из модели убираем эту запись, чтобы остались только не просмотренные
-                        components.Remove(source.StorageComponents[i].ComponentId);
-                    }
-                    else
-                    {
-                        source.StorageComponents.RemoveAt(i--);
-                    }
-                }
-            }
-            // новые записи
-            foreach (var sc in components)
-            {
-                source.StorageComponents.Add(new StorageComponent
-                {
-                    Id = ++maxCCId,
-                    StorageId = storageId,
-                    ComponentId = sc.Key,
-                    Count = sc.Value.Item2
-                });
-            }
-        }
-
         public void Delete(StorageBindingModel model)
         {
             // удаляем записи по компонентам при удалении склада
@@ -164,39 +120,8 @@ namespace CarShopListImplement.Implements
                         addedComponent.Count += prevCount;
                     }
             }
-            this.saveOrUpdateStorageComponent(addedComponent);
-        }
 
-        private bool isComponentExist(int componentId)
-        {
-            bool isComponentExist = false;
-            foreach (Component component in source.Components)
-            {
-                if (componentId == component.Id)
-                {
-                    isComponentExist = true;
-                    break;
-                }
-            }
-            return isComponentExist;
-        }
-
-        private bool isStorageExist(int storageId) 
-        {
-            bool isStorageExist = false;
-            foreach (Storage storage in source.Storages)
-            {
-                if (storageId == storage.Id) {
-                    isStorageExist = true;
-                    break;
-                }
-            }
-            return isStorageExist;
-        }
-
-        private void saveOrUpdateStorageComponent(StorageComponent storageComponent)
-        {
-            if (storageComponent.Id == -1)
+            if (addedComponent.Id == -1)
             {
                 int maxId = 0;
                 foreach (StorageComponent sc in source.StorageComponents)
@@ -206,9 +131,37 @@ namespace CarShopListImplement.Implements
                         maxId = sc.Id;
                     }
                 }
-                storageComponent.Id = maxId + 1;
+                addedComponent.Id = maxId + 1;
             }
-            source.StorageComponents.Add(storageComponent);
+            else
+            {
+                // id отличается на 1 от индекса в коллекции
+                source.StorageComponents.RemoveAt(addedComponent.Id - 1); 
+            }
+            source.StorageComponents.Add(addedComponent);
+        }
+
+        private bool isComponentExist(int componentId)
+        { 
+            foreach (Component component in source.Components)
+            {
+                if (componentId == component.Id)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool isStorageExist(int storageId) 
+        {
+            foreach (Storage storage in source.Storages)
+            {
+                if (storageId == storage.Id) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private StorageViewModel CreateViewModel(Storage storage)
