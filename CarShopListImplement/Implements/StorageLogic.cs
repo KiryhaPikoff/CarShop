@@ -104,7 +104,6 @@ namespace CarShopListImplement.Implements
 
             StorageComponent addedComponent = new StorageComponent
             {
-                Id = -1, // такова логика!
                 StorageId = model.StorageId,
                 ComponentId = model.ComponentId,
                 Count = model.Count
@@ -115,30 +114,21 @@ namespace CarShopListImplement.Implements
                 if (addedComponent.StorageId == storageComponent.StorageId &&
                     addedComponent.ComponentId == storageComponent.ComponentId)
                     {
-                        addedComponent.Id = storageComponent.Id;
-                        int prevCount = storageComponent.Count;
-                        addedComponent.Count += prevCount;
+                        storageComponent.Count += addedComponent.Count;
+                        return;
                     }
             }
 
-            if (addedComponent.Id == -1)
+            int maxId = 0;
+            foreach (StorageComponent sc in source.StorageComponents)
             {
-                int maxId = 0;
-                foreach (StorageComponent sc in source.StorageComponents)
+                if (sc.Id > maxId)
                 {
-                    if (sc.Id > maxId)
-                    {
-                        maxId = sc.Id;
-                    }
+                    maxId = sc.Id;
                 }
-                addedComponent.Id = maxId + 1;
             }
-            else
-            {
-                // id отличается на 1 от индекса в коллекции
-                source.StorageComponents.RemoveAt(addedComponent.Id - 1); 
-            }
-            source.StorageComponents.Add(addedComponent);
+            addedComponent.Id = maxId + 1;
+            source.StorageComponents.Add(addedComponent);      
         }
 
         private bool isComponentExist(int componentId)
