@@ -53,50 +53,6 @@ namespace CarShopListImplement.Implements
             }
         }
 
-        /// <summary>
-        /// Метод обновляющий состояние компонентов на конкретном складе.
-        /// </summary>
-        /// <param name="storageId">ID обновляемого склада</param>
-        /// <param name="components">Новое состояние его компонентов</param>
-        public void updateComponentsOnStorage(int storageId, Dictionary<int, (string, int)> components)
-        {
-            int maxCCId = 0;
-            for (int i = 0; i < source.StorageComponents.Count; ++i)
-            {
-                if (source.StorageComponents[i].Id > maxCCId)
-                {
-                    maxCCId = source.StorageComponents[i].Id;
-                }
-                if (source.StorageComponents[i].StorageId == storageId)
-                {
-                    // если в модели пришла запись компонента с таким id
-                    if
-                    (components.ContainsKey(source.StorageComponents[i].ComponentId))
-                    {
-                        // обновляем количество
-                        source.StorageComponents[i].Count = components[source.StorageComponents[i].ComponentId].Item2;
-                        // из модели убираем эту запись, чтобы остались только не просмотренные
-                        components.Remove(source.StorageComponents[i].ComponentId);
-                    }
-                    else
-                    {
-                        source.StorageComponents.RemoveAt(i--);
-                    }
-                }
-            }
-            // новые записи
-            foreach (var sc in components)
-            {
-                source.StorageComponents.Add(new StorageComponent
-                {
-                    Id = ++maxCCId,
-                    StorageId = storageId,
-                    ComponentId = sc.Key,
-                    Count = sc.Value.Item2
-                });
-            }
-        }
-
         public void Delete(StorageBindingModel model)
         {
             // удаляем записи по компонентам при удалении склада
@@ -135,6 +91,124 @@ namespace CarShopListImplement.Implements
                 result.Add(CreateViewModel(storage));
             }
             return result;
+        }
+
+        public void AddComponent(AddComponentBindingModel model)
+        {
+            if (!isStorageExist(model.StorageId) ||
+                !isComponentExist(model.ComponentId) ||
+                model.Count <= 0)
+            {
+                throw new Exception("Ошибка добавления компонента на склад");
+            }
+
+            StorageComponent addedComponent = new StorageComponent
+            {
+                StorageId = model.StorageId,
+                ComponentId = model.ComponentId,
+                Count = model.Count
+            };
+
+            foreach (StorageComponent storageComponent in source.StorageComponents)
+            {
+                if (addedComponent.StorageId == storageComponent.StorageId &&
+                    addedComponent.ComponentId == storageComponent.ComponentId)
+                {
+                    storageComponent.Count += addedComponent.Count;
+                    return;
+                }
+            }
+
+            int maxId = 0;
+            foreach (StorageComponent sc in source.StorageComponents)
+            {
+                if (sc.Id > maxId)
+                {
+                    maxId = sc.Id;
+                }
+            }
+            addedComponent.Id = maxId + 1;
+            source.StorageComponents.Add(addedComponent);
+        }
+
+        public void DiscountComponents(List<ComponentCountBindingModel> models)
+        {
+            foreach (var componentCount in models)
+            {
+                foreach (var storageComponent in source.StorageComponents)
+                {
+                    if (storageComponent.ComponentId == componentCount.ComponentId)
+                    {
+                        // Количества компонента на складе
+                        int storageCount = storageComponent.Count;
+                        // Сколько необходимо списать
+                        int needCount = componentCount.Count;
+                        // Сколько можем списать
+                        int canDiscount = storageCount >= needCount ? needCount : storageCount;
+                        storageComponent.Count -= canDiscount;
+                        componentCount.Count -= canDiscount;
+                        // Если списали, сколько хотели, то переходим к следующему компоненту
+                        if (componentCount.Count == 0)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        public bool IsComponentsInStock(List<ComponentCountBindingModel> models)
+        {
+            foreach (var model in models)
+            {
+                if (!isComponentInStock(model))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Провека на наличие компонента на складе в нужном количестве.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        private bool isComponentInStock(ComponentCountBindingModel model)
+        {
+            int totalStorageCount = 0;
+            foreach (var storageComponent in source.StorageComponents)
+            {
+                if (storageComponent.ComponentId == model.ComponentId)
+                {
+                    totalStorageCount += storageComponent.Count;
+                }
+            }
+            return totalStorageCount >= model.Count;
+        }
+
+        private bool isComponentExist(int componentId)
+        {
+            foreach (Component component in source.Components)
+            {
+                if (componentId == component.Id)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool isStorageExist(int storageId)
+        {
+            foreach (Storage storage in source.Storages)
+            {
+                if (storageId == storage.Id)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private StorageViewModel CreateViewModel(Storage storage)
