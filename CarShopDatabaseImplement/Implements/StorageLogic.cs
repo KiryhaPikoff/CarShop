@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace CarShopDatabaseImplement.Implements
 {
@@ -82,6 +83,126 @@ namespace CarShopDatabaseImplement.Implements
             }
         }
 
+        public void AddComponent(AddComponentBindingModel model)
+        {
+            using (var context = new CarShopDatabase())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        if (context.Components.Count(x => x.Id == model.ComponentId) == 0)
+                        {
+                            throw new Exception("Добавляемый компонент не существует.");
+                        }
+                        if (context.Storages.Count(x => x.Id == model.StorageId) == 0)
+                        {
+                            throw new Exception("Склад на который хотите добавить компонент не существует.");
+                        }
+                        if (model.Count <= 0)
+                        {
+                            throw new Exception("Нельзя добавить компонент с количество меньше или равному нуля.");
+                        }
+
+                        StorageComponent storageComponent = context.StorageComponents
+                        .FirstOrDefault(x => x.ComponentId == model.ComponentId && x.StorageId == model.StorageId);
+                        if (storageComponent == null)
+                        {
+                            storageComponent = new StorageComponent
+                            {
+                                StorageId = model.StorageId,
+                                ComponentId = model.ComponentId,
+                                Count = model.Count
+                            };
+                            context.StorageComponents.Add(storageComponent);
+                        }
+                        else
+                        {
+                            storageComponent.Count += model.Count;
+                        }
+
+                        context.SaveChanges();
+                        transaction.Commit();
+                    }
+                    catch (DbUpdateException e)
+                    {
+                        transaction.Rollback();
+                        throw e.InnerException;
+                    }
+                }
+            }
+        }
+
+        public void DiscountComponents(List<ComponentCountBindingModel> models)
+        {
+            using (var context = new CarShopDatabase())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        foreach (var componentCount in models)
+                        {
+                            bool discounted = false;
+                            foreach (var storageComponent in context.StorageComponents
+                                .Where(x => componentCount.ComponentId == x.ComponentId))
+                            {
+                                // Количество компонента на складе
+                                int storageCount = storageComponent.Count;
+                                // Сколько необходимо списать
+                                int needCount = componentCount.Count;
+                                // Сколько можем списать
+                                int canDiscount = storageCount >= needCount ? needCount : storageCount;
+                                storageComponent.Count -= canDiscount;
+                                componentCount.Count -= canDiscount;
+                                // Если списали, сколько хотели, то переходим к следующему компоненту
+                                discounted = componentCount.Count == 0;
+                            }
+                            if (!discounted)
+                            {
+                                throw new Exception("Не получилось списать компонент по причине его нехватки.");
+                            }
+                        }
+                        context.SaveChanges();
+                        transaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Провека на наличие компонента на складе в нужном количестве.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public bool IsComponentsInStock(List<ComponentCountBindingModel> models)
+        {
+            using (var context = new CarShopDatabase())
+            {
+                foreach (var model in models)
+                {
+                    int totalStorageCount = 0;
+                    foreach (var storageComponent in context.StorageComponents)
+                    {
+                        if (storageComponent.ComponentId == model.ComponentId)
+                        {
+                            totalStorageCount += storageComponent.Count;
+                        }
+                    }
+                    if (totalStorageCount < model.Count)
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+
         public List<StorageViewModel> Read(StorageBindingModel model)
         {
             using (var context = new CarShopDatabase())
@@ -99,39 +220,6 @@ namespace CarShopDatabaseImplement.Implements
                 (recPC.Component?.ComponentName, recPC.Count))
                })
                .ToList();
-            }
-        }
-
-        public void updateComponentsOnStorage(int storageId, Dictionary<int, (string, int)> components)
-        {
-            using (var context = new CarShopDatabase())
-            {
-                using (var transaction = context.Database.BeginTransaction())
-                {
-                    var StorageComponents = context.StorageComponents.Where(rec => rec.StorageId == storageId).ToList();
-                    // удалили те, которых нет в модели
-                    context.StorageComponents.RemoveRange(StorageComponents.Where(rec => !components.ContainsKey(rec.ComponentId)).ToList());
-                    context.SaveChanges();
-                    // обновили количество у существующих записей
-                    foreach (var updateComponent in StorageComponents)
-                    {
-                        updateComponent.Count = components[updateComponent.ComponentId].Item2;
-                        components.Remove(updateComponent.ComponentId);
-                    }
-                    context.SaveChanges();
-                    // добавили новые
-                    foreach (var sc in components)
-                    {
-                        context.StorageComponents.Add(new StorageComponent
-                        {
-                            StorageId = storageId,
-                            ComponentId = sc.Key,
-                            Count = sc.Value.Item2
-                        });
-                        context.SaveChanges();
-                    }
-                    transaction.Commit();
-                }
             }
         }
     }

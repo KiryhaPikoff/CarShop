@@ -15,6 +15,6 @@ namespace CarShopDatabaseImplement.Models
 
         public virtual Component Component { get; set; }
 
-        public virtual Car Car { get; set; }
+        public virtual Storage Storage { get; set; }
     }
 }

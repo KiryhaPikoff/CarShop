@@ -9,6 +9,8 @@ namespace CarShopBuisnessLogic.Interfaces
         List<StorageViewModel> Read(StorageBindingModel model);
         void CreateOrUpdate(StorageBindingModel model);
         void Delete(StorageBindingModel model);
-        void updateComponentsOnStorage(int storageId, Dictionary<int, (string, int)> components);
+        void AddComponent(AddComponentBindingModel model);
+        bool IsComponentsInStock(List<ComponentCountBindingModel> models);
+        void DiscountComponents(List<ComponentCountBindingModel> models);
     }
 }

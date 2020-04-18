@@ -55,6 +55,104 @@ namespace CarShopFileImplement.Implements
                 throw new Exception("Элемент не найден");
             }
         }
+        public void AddComponent(AddComponentBindingModel model)
+        {
+            if (!isStorageExist(model.StorageId) ||
+                 !isComponentExist(model.ComponentId) ||
+                 model.Count <= 0)
+            {
+                throw new Exception("Ошибка добавления компонента на склад");
+            }
+
+            StorageComponent storageComponent = source.StorageComponents
+                .FirstOrDefault(x => x.ComponentId == model.ComponentId &&
+                                 x.StorageId == model.StorageId);
+
+            if (storageComponent != null)
+            {
+                storageComponent.Count += model.Count;
+                source.StorageComponents.RemoveAll(x => x.Id == storageComponent.Id);
+            }
+            else
+            {
+                storageComponent = new StorageComponent
+                {
+                    Id = source.StorageComponents.Max(x => x.Id) + 1,
+                    ComponentId = model.ComponentId,
+                    StorageId = model.StorageId,
+                    Count = model.Count
+                };
+            }
+            source.StorageComponents.Add(storageComponent);
+        }
+
+        public void DiscountComponents(List<ComponentCountBindingModel> models)
+        {
+            if (!IsComponentsInStock(models))
+            {
+                throw new Exception("Недостаточно компонентов на складах.");
+            }
+
+            foreach (var componentCount in models)
+            {
+                foreach (var storageComponent in source.StorageComponents
+                    .Where(x => componentCount.ComponentId == x.ComponentId))
+                {
+                    // Количества компонента на складе
+                    int storageCount = storageComponent.Count;
+                    // Сколько необходимо списать
+                    int needCount = componentCount.Count;
+                    // Сколько можем списать
+                    int canDiscount = storageCount >= needCount ? needCount : storageCount;
+                    storageComponent.Count -= canDiscount;
+                    componentCount.Count -= canDiscount;
+                    // Если списали, сколько хотели, то переходим к следующему компоненту
+                    if (componentCount.Count == 0)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Провека на наличие компонентов на складе в нужном количестве.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public bool IsComponentsInStock(List<ComponentCountBindingModel> models)
+        {
+            foreach (var model in models)
+            {
+                if (!isComponentInStock(model))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Провека на наличие компонента на складе в нужном количестве.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        private bool isComponentInStock(ComponentCountBindingModel model)
+        {
+            return source.StorageComponents
+                .Where(x => x.ComponentId == model.ComponentId)
+                .Sum(x => x.Count) >= model.Count;
+        }
+
+        private bool isComponentExist(int componentId)
+        {
+            return source.Components.Count(x => x.Id == componentId) > 0;
+        }
+
+        private bool isStorageExist(int storageId)
+        {
+            return source.Storages.Count(x => x.Id == storageId) > 0;
+        }
 
         public List<StorageViewModel> Read(StorageBindingModel model)
         {
@@ -70,31 +168,6 @@ namespace CarShopFileImplement.Implements
                    (source.Components.FirstOrDefault(recC => recC.Id == recPC.ComponentId)?.ComponentName, recPC.Count))
                })
                .ToList();
-        }
-
-        public void updateComponentsOnStorage(int storageId, Dictionary<int, (string, int)> components)
-        {
-            // удалили те, которых нет в модели
-            source.StorageComponents.RemoveAll(rec => rec.StorageId == storageId && !components.ContainsKey(rec.ComponentId));
-            // обновили количество у существующих записей
-            var updateComponents = source.StorageComponents.Where(rec => rec.StorageId == storageId && components.ContainsKey(rec.ComponentId));
-            foreach (var updateComponent in updateComponents)
-            {
-                updateComponent.Count = components[updateComponent.ComponentId].Item2;
-                components.Remove(updateComponent.ComponentId);
-            }
-            // добавили новые
-            int maxPCId = source.StorageComponents.Count > 0 ? source.StorageComponents.Max(rec => rec.Id) : 0;
-            foreach (var pc in components)
-            {
-                source.StorageComponents.Add(new StorageComponent
-                {
-                    Id = ++maxPCId,
-                    StorageId = storageId,
-                    ComponentId = pc.Key,
-                    Count = pc.Value.Item2
-                });
-            }
         }
     }
 }
