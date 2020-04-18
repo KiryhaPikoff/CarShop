@@ -132,12 +132,19 @@ namespace CarShopView
             var form = Container.Resolve<FormStorageComponent>();
             if (form.ShowDialog() == DialogResult.OK)
             {
-                this.mainLogic.addComponentOnStorage(new AddComponentBindingModel
+                try
                 {
-                    StorageId = form.StorageId,
-                    ComponentId = form.ComponentId,
-                    Count = form.Count
-                });
+                    this.mainLogic.addComponentOnStorage(new AddComponentBindingModel
+                    {
+                        StorageId = form.StorageId,
+                        ComponentId = form.ComponentId,
+                        Count = form.Count
+                    });
+                }
+                catch (Exception ex) 
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }
