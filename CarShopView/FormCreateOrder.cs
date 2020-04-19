@@ -15,12 +15,15 @@ namespace CarShopView
 
         private readonly ICarLogic carLogic;
 
+        private readonly IClientLogic clientLogic;
+
         private readonly MainLogic mainLogic;
 
-        public FormCreateOrder(ICarLogic carLogic, MainLogic mainLogic)
+        public FormCreateOrder(ICarLogic carLogic, IClientLogic clientLogic, MainLogic mainLogic)
         {
             InitializeComponent();
             this.carLogic = carLogic;
+            this.clientLogic = clientLogic;
             this.mainLogic = mainLogic;
         }
 
@@ -35,6 +38,15 @@ namespace CarShopView
                     carComboBox.ValueMember = "Id";
                     carComboBox.DataSource = carList;
                     carComboBox.SelectedItem = null;
+                }
+
+                var clientList = clientLogic.Read(null);
+                if (clientList != null)
+                {
+                    clientComboBox.DisplayMember = "ClientFio";
+                    clientComboBox.ValueMember = "Id";
+                    clientComboBox.DataSource = clientList;
+                    clientComboBox.SelectedItem = null;
                 }
             }
             catch (Exception ex)
@@ -86,10 +98,16 @@ namespace CarShopView
                 MessageBox.Show("Выберите изделие", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            if (clientComboBox.SelectedValue == null)
+            {
+                MessageBox.Show("Выберите клиента", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             try
             {
                 mainLogic.CreateOrder(new CreateOrderBindingModel
                 {
+                    ClientId = Convert.ToInt32(clientComboBox.SelectedValue),
                     CarId = Convert.ToInt32(carComboBox.SelectedValue),
                     Count = Convert.ToInt32(countTextBox.Text),
                     Sum = Convert.ToDecimal(sumTextBox.Text)

@@ -59,7 +59,9 @@ namespace CarShopFileImplement.Implements
         public List<ClientViewModel> Read(ClientBindingModel model)
         {
             return source.Clients
-            .Where(rec => model == null || rec.Id == model.Id)
+             .Where(rec => model == null ||
+                (model.Id != null && rec.Id == model.Id) ||
+                (model.Login == rec.Login && model.Password == rec.Password))
             .Select(rec => new ClientViewModel
             {
                 Id = rec.Id,

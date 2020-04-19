@@ -14,11 +14,11 @@ namespace CarShopBuisnessLogic.ViewModels
         public string ClientFio { get; set; }
 
         [DataMember]
-        [DisplayName("ФИО")]
+        [DisplayName("Логин")]
         public string Login { get; set; }
 
         [DataMember]
-        [DisplayName("ФИО")]
+        [DisplayName("Пароль")]
         public string Password { get; set; }
     }
 }

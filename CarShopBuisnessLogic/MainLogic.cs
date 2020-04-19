@@ -17,6 +17,7 @@ namespace CarShopBuisnessLogic
         {
             orderLogic.CreateOrUpdate(new OrderBindingModel
             {
+                ClientId = model.ClientId,
                 CarId = model.CarId,
                 Count = model.Count,
                 Sum = model.Sum,

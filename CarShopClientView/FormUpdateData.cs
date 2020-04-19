@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CarShopBuisnessLogic.ViewModels;
+using System;
 using System.Windows.Forms;
 
 namespace CarShopClientView
@@ -20,7 +21,13 @@ namespace CarShopClientView
             {
                 try
                 {
-                    //прописать запрос;
+                    APIClient.PostRequest($"api/client/updatedata", new ClientViewModel
+                    {
+                        Id = Program.Client.Id,
+                        ClientFio = textBoxClientFIO.Text,
+                        Login = textBoxEmail.Text,
+                        Password = textBoxPassword.Text
+                    });
                     MessageBox.Show("Обновление прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Program.Client.ClientFio = textBoxClientFIO.Text;
                     Program.Client.Login = textBoxEmail.Text;

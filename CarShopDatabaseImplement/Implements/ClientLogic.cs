@@ -14,7 +14,7 @@ namespace CarShopDatabaseImplement.Implements
         {
             using (var context = new CarShopDatabase())
             {
-                Client element = context.Clients.FirstOrDefault(rec => rec.Fio == model.ClientFio && rec.Id != model.Id);
+                Client element = context.Clients.FirstOrDefault(rec => rec.Login == model.Login && rec.Id != model.Id);
                 if (element != null)
                 {
                     throw new Exception("Уже есть пользователь с таким логином");
@@ -61,7 +61,8 @@ namespace CarShopDatabaseImplement.Implements
             using (var context = new CarShopDatabase())
             {
                 return context.Clients
-                .Where(rec => (model == null || rec.Id == model.Id) ||
+                .Where(rec => model == null ||
+                (model.Id.HasValue && rec.Id == model.Id) ||
                 (model.Login == rec.Login && model.Password == rec.Password))
                 .Select(rec => new ClientViewModel
                 {

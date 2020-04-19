@@ -46,7 +46,6 @@ namespace CarShopFileImplement.Implements
                 return;
             }
             order.CarId = model.CarId;
-            order.ClientId = model.ClientId;
             order.Count = model.Count;
             order.DateCreate = model.DateCreate;
             order.DateImplement = model.DateImplement;

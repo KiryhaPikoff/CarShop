@@ -40,7 +40,7 @@ namespace CarShopView
                     dataGridView.DataSource = orderList;
                     dataGridView.Columns[0].Visible = false;
                     dataGridView.Columns[1].Visible = false;
-                    dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Columns[2].Visible = false;
                     dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 }
             }
@@ -150,6 +150,12 @@ namespace CarShopView
         private void carsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormReportCarComponents>();
+            form.ShowDialog();
+        }
+
+        private void клиентыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormClients>();
             form.ShowDialog();
         }
     }

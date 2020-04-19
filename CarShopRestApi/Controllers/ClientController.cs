@@ -2,6 +2,7 @@
 using CarShopBuisnessLogic.Interfaces;
 using CarShopBuisnessLogic.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace CarShopRestApi.Controllers
 {
@@ -20,7 +21,7 @@ namespace CarShopRestApi.Controllers
         {
             Login = login,
             Password = password
-        })?[0];
+        })?.FirstOrDefault();
 
         [HttpPost]
         public void Register(ClientBindingModel model) => _logic.CreateOrUpdate(model);

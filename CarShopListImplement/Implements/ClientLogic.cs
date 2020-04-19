@@ -71,7 +71,7 @@ namespace CarShopListImplement.Implements
             {
                 if (model != null)
                 {
-                    if (client.Id == model.Id)
+                    if (client.Id == model.Id || (client.Login == model.Login && client.Password == model.Password))
                     {
                         result.Add(CreateViewModel(client));
                         break;

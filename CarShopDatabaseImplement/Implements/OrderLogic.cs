@@ -42,7 +42,6 @@ namespace CarShopDatabaseImplement.Implements
                     return;
                 }
                 order.CarId = model.CarId;
-                order.ClientId = model.ClientId;
                 order.Count = model.Count;
                 order.DateCreate = model.DateCreate;
                 order.DateImplement = model.DateImplement;
@@ -77,6 +76,7 @@ namespace CarShopDatabaseImplement.Implements
                 return context.Orders
                 .Where(rec => model == null ||
                 (model.Id != null && rec.Id == model.Id) ||
+                (model.ClientId == rec.ClientId) ||
                 (model.DateFrom != null && model.DateTo != null && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo))
                 .Include(rec => rec.Car)
                 .Include(rec => rec.Client)
