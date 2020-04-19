@@ -1,4 +1,5 @@
-﻿using CarShopBuisnessLogic.ViewModels;
+﻿using CarShopBuisnessLogic.BindingModels;
+using CarShopBuisnessLogic.ViewModels;
 using System;
 using System.Windows.Forms;
 
@@ -21,7 +22,7 @@ namespace CarShopClientView
             {
                 try
                 {
-                    APIClient.PostRequest($"api/client/updatedata", new ClientViewModel
+                    APIClient.PostRequest($"api/client/updatedata", new ClientBindingModel
                     {
                         Id = Program.Client.Id,
                         ClientFio = textBoxClientFIO.Text,

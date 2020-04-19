@@ -77,6 +77,11 @@ namespace CarShopListImplement.Implements
                             }
                             continue;
                         }
+                        if (model.ClientId == order.ClientId)
+                        {
+                            result.Add(CreateViewModel(order));
+                            continue;
+                        }
                         result.Add(CreateViewModel(order));
                         break;
                     }
