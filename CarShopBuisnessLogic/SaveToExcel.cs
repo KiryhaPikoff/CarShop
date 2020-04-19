@@ -61,9 +61,8 @@ namespace CarShopBuisnessLogic
                     CellToName = "C1"
                 });
                 uint rowIndex = 2;
-                var dates = info.Orders.Select(x => x.DateCreate.Date).Distinct();
                 decimal totalSum = 0;
-                foreach (var d in dates)
+                foreach (var group in info.Orders)
                 {
                     decimal promSum = 0;
                     InsertCellInWorksheet(new ExcelCellParameters
@@ -72,54 +71,51 @@ namespace CarShopBuisnessLogic
                         ShareStringPart = shareStringPart,
                         ColumnName = "A",
                         RowIndex = rowIndex,
-                        Text = d.ToString(),
+                        Text = group.Key.ToString(),
                         StyleIndex = 0U
                     });
                     rowIndex++;
-                    foreach (var order in info.Orders)
+                    foreach (var order in group)
                     {
-                        if (order.DateCreate.Date.Equals(d))
+                        InsertCellInWorksheet(new ExcelCellParameters
                         {
-                            InsertCellInWorksheet(new ExcelCellParameters
-                            {
-                                Worksheet = worksheetPart.Worksheet,
-                                ShareStringPart = shareStringPart,
-                                ColumnName = "B",
-                                RowIndex = rowIndex,
-                                Text = order.CarName,
-                                StyleIndex = 1U
-                            });
-                            InsertCellInWorksheet(new ExcelCellParameters
-                            {
-                                Worksheet = worksheetPart.Worksheet,
-                                ShareStringPart = shareStringPart,
-                                ColumnName = "C",
-                                RowIndex = rowIndex,
-                                Text = order.Count.ToString(),
-                                StyleIndex = 1U
-                            });
-                            InsertCellInWorksheet(new ExcelCellParameters
-                            {
-                                Worksheet = worksheetPart.Worksheet,
-                                ShareStringPart = shareStringPart,
-                                ColumnName = "D",
-                                RowIndex = rowIndex,
-                                Text = order.Sum.ToString(),
-                                StyleIndex = 1U
-                            });
-                            InsertCellInWorksheet(new ExcelCellParameters
-                            {
-                                Worksheet = worksheetPart.Worksheet,
-                                ShareStringPart = shareStringPart,
-                                ColumnName = "E",
-                                RowIndex = rowIndex,
-                                Text = order.Status.ToString(),
-                                StyleIndex = 1U
-                            });
-                            totalSum += order.Sum;
-                            promSum += order.Sum;
-                            rowIndex++;
-                        }
+                            Worksheet = worksheetPart.Worksheet,
+                            ShareStringPart = shareStringPart,
+                            ColumnName = "B",
+                            RowIndex = rowIndex,
+                            Text = order.CarName,
+                            StyleIndex = 1U
+                        });
+                        InsertCellInWorksheet(new ExcelCellParameters
+                        {
+                            Worksheet = worksheetPart.Worksheet,
+                            ShareStringPart = shareStringPart,
+                            ColumnName = "C",
+                            RowIndex = rowIndex,
+                            Text = order.Count.ToString(),
+                            StyleIndex = 1U
+                        });
+                        InsertCellInWorksheet(new ExcelCellParameters
+                        {
+                            Worksheet = worksheetPart.Worksheet,
+                            ShareStringPart = shareStringPart,
+                            ColumnName = "D",
+                            RowIndex = rowIndex,
+                            Text = order.Sum.ToString(),
+                            StyleIndex = 1U
+                        });
+                        InsertCellInWorksheet(new ExcelCellParameters
+                        {
+                            Worksheet = worksheetPart.Worksheet,
+                            ShareStringPart = shareStringPart,
+                            ColumnName = "E",
+                            RowIndex = rowIndex,
+                            Text = order.Status.ToString(),
+                            StyleIndex = 1U
+                        });
+                        totalSum += order.Sum;
+                        promSum += order.Sum;
+                        rowIndex++;
                     }
                     InsertCellInWorksheet(new ExcelCellParameters
                     {
