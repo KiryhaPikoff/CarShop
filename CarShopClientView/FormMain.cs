@@ -1,5 +1,4 @@
 ﻿using CarShopBuisnessLogic.ViewModels;
-using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -22,7 +21,7 @@ namespace CarShopClientView
                 dataGridView.Columns[1].Visible = false;
                 dataGridView.Columns[2].Visible = false;
                 dataGridView.Columns[3].Visible = false;
-                dataGridView.Columns[4].AutoSizeMode =DataGridViewAutoSizeColumnMode.Fill;
+                dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
             catch (Exception ex)
             {

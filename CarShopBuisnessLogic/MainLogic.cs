@@ -1,24 +1,17 @@
 ﻿using CarShopBuisnessLogic.BindingModels;
 using CarShopBuisnessLogic.Enums;
 using CarShopBuisnessLogic.Interfaces;
-using CarShopBuisnessLogic.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace CarShopBuisnessLogic
 {
     public class MainLogic
     {
         private readonly IOrderLogic orderLogic;
-        private readonly IComponentLogic componentLogic;
-        private readonly ICarLogic carLogic;
 
-        public MainLogic(IOrderLogic orderLogic, IComponentLogic componentLogic, ICarLogic carLogic)
+        public MainLogic(IOrderLogic orderLogic)
         {
             this.orderLogic = orderLogic;
-            this.componentLogic = componentLogic;
-            this.carLogic = carLogic;
         }
 
         public void CreateOrder(CreateOrderBindingModel model)
