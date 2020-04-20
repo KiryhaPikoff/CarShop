@@ -1,4 +1,5 @@
 ﻿using CarShopBuisnessLogic.BindingModels;
+using CarShopBuisnessLogic.Enums;
 using CarShopBuisnessLogic.Interfaces;
 using CarShopBuisnessLogic.ViewModels;
 using CarShopListImplement.Models;
@@ -69,15 +70,22 @@ namespace CarShopListImplement.Implements
                 {
                     if (order.Id == model.Id)
                     {
-                        if (model.DateFrom != null && model.DateTo != null)
+                        if (model.DateFrom.HasValue && model.DateTo.HasValue && order.DateCreate >= model.DateFrom && order.DateCreate <= model.DateTo)
                         {
-                            if (order.DateCreate >= model.DateFrom && order.DateCreate <= model.DateTo)
-                            {
-                                result.Add(CreateViewModel(order));
-                            }
+                            result.Add(CreateViewModel(order));
                             continue;
                         }
                         if (model.ClientId == order.ClientId)
+                        {
+                            result.Add(CreateViewModel(order));
+                            continue;
+                        }
+                        if (model.ImplementerId.HasValue && order.ImplementerId == model.ImplementerId && order.Status == OrderStatus.Выполняется)
+                        {
+                            result.Add(CreateViewModel(order));
+                            continue;
+                        }
+                        if (model.FreeOrders.HasValue && model.FreeOrders.Value && !order.ImplementerId.HasValue)
                         {
                             result.Add(CreateViewModel(order));
                             continue;
@@ -95,6 +103,7 @@ namespace CarShopListImplement.Implements
         private Order CreateModel(OrderBindingModel model, Order order)
         {
             order.CarId = model.CarId;
+            order.ImplementerId = model.ImplementerId;
             order.ClientId = model.ClientId;
             order.Count = model.Count;
             order.DateCreate = model.DateCreate;
@@ -127,12 +136,27 @@ namespace CarShopListImplement.Implements
                 }
             }
 
+            string implementerFio = "";
+            if (order.ImplementerId.HasValue)
+            {
+                for (int i = 0; i < source.Implementers.Count; i++)
+                {
+                    if (source.Implementers[i].Id == order.ImplementerId)
+                    {
+                        clientFio = source.Implementers[i].ImplementerFIO;
+                        break;
+                    }
+                }
+            }
+
             return new OrderViewModel
             {
                 Id = order.Id,
                 CarId = order.CarId,
                 ClientId = order.ClientId,
                 ClientFIO = clientFio,
+                ImplementerId = order.ImplementerId,
+                ImplementerFIO = implementerFio,
                 CarName = carName,
                 Count = order.Count,
                 DateCreate = order.DateCreate,

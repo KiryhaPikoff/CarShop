@@ -22,6 +22,8 @@ namespace CarShopFileImplement
 
         private readonly string ClientFileName = "Client.xml";
 
+        private readonly string ImplementerFileName = "Implementer.xml";
+
         public List<Component> Components { get; set; }
 
         public List<Order> Orders { get; set; }
@@ -32,6 +34,8 @@ namespace CarShopFileImplement
 
         public List<Client> Clients { get; set; }
 
+        public List<Implementer> Implementers { get; set; }
+
         private FileDataListSingleton()
         {
             Components = LoadComponents();
@@ -39,6 +43,7 @@ namespace CarShopFileImplement
             Cars = LoadCars();
             CarComponents = LoadCarComponents();
             Clients = LoadClients();
+            Implementers = LoadImplementers();
         }
 
         public static FileDataListSingleton GetInstance()
@@ -57,6 +62,7 @@ namespace CarShopFileImplement
             SaveCars();
             SaveCarComponents();
             SaveClients();
+            SaveImplementers();
         }
 
         private List<Component> LoadComponents()
@@ -186,6 +192,27 @@ namespace CarShopFileImplement
             return list;
         }
 
+        private List<Implementer> LoadImplementers()
+        {
+            var list = new List<Implementer>();
+            if (File.Exists(ImplementerFileName))
+            {
+                XDocument xDocument = XDocument.Load(ImplementerFileName);
+                var xElements = xDocument.Root.Elements("Implementer").ToList();
+                foreach (var elem in xElements)
+                {
+                    list.Add(new Implementer
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        ImplementerFIO = elem.Element("ImplementerFIO").Value,
+                        PauseTime = Convert.ToInt32(elem.Element("PauseTime").Value),
+                        WorkingTime = Convert.ToInt32(elem.Element("WorkingTime").Value),
+                    });
+                }
+            }
+            return list;
+        }
+
         private void SaveComponents()
         {
             if (Components != null)
@@ -293,6 +320,28 @@ namespace CarShopFileImplement
 
                 XDocument xDocument = new XDocument(xElement);
                 xDocument.Save(ClientFileName);
+            }
+        }
+
+        private void SaveImplementers()
+        {
+            if (Implementers != null)
+            {
+                var xElement = new XElement("Implementers");
+
+                foreach (var implementer in Implementers)
+                {
+                    xElement.Add(
+                        new XElement("Implementer",
+                        new XAttribute("Id", implementer.Id),
+                        new XElement("ImplementerFIO", implementer.ImplementerFIO),
+                        new XElement("PauseTime", implementer.PauseTime),
+                        new XElement("WorkingTime", implementer.WorkingTime)
+                        ));
+                }
+
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(ImplementerFileName);
             }
         }
     }

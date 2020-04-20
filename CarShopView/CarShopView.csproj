@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\Microsoft.EntityFrameworkCore.Design.3.1.2\build\net461\Microsoft.EntityFrameworkCore.Design.props" Condition="Exists('..\packages\Microsoft.EntityFrameworkCore.Design.3.1.2\build\net461\Microsoft.EntityFrameworkCore.Design.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -239,6 +239,18 @@
     <Compile Include="FormCreateOrder.Designer.cs">
       <DependentUpon>FormCreateOrder.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormImplementer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormImplementer.Designer.cs">
+      <DependentUpon>FormImplementer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormImplementerts.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormImplementerts.Designer.cs">
+      <DependentUpon>FormImplementerts.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -280,6 +292,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormCreateOrder.resx">
       <DependentUpon>FormCreateOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormImplementer.resx">
+      <DependentUpon>FormImplementer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormImplementerts.resx">
+      <DependentUpon>FormImplementerts.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>

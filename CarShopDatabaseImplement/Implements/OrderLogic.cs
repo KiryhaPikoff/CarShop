@@ -31,6 +31,7 @@ namespace CarShopDatabaseImplement.Implements
                     {
                         CarId = model.CarId,
                         ClientId = model.ClientId,
+                        ImplementerId = model.ImplementerId,
                         Count = model.Count,
                         DateCreate = model.DateCreate,
                         DateImplement = model.DateImplement,
@@ -41,6 +42,7 @@ namespace CarShopDatabaseImplement.Implements
                     context.SaveChanges();
                     return;
                 }
+                order.ImplementerId = model.ImplementerId;
                 order.CarId = model.CarId;
                 order.Count = model.Count;
                 order.DateCreate = model.DateCreate;
@@ -77,16 +79,21 @@ namespace CarShopDatabaseImplement.Implements
                 .Where(rec => model == null ||
                 (model.Id != null && rec.Id == model.Id) ||
                 (model.ClientId == rec.ClientId) ||
-                (model.DateFrom != null && model.DateTo != null && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo))
+                (model.DateFrom != null && model.DateTo != null && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo) ||
+                (model.FreeOrders.HasValue && model.FreeOrders.Value && !rec.ImplementerId.HasValue) ||
+                (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && rec.Status == OrderStatus.Выполняется))
                 .Include(rec => rec.Car)
                 .Include(rec => rec.Client)
+                .Include(rec => rec.Implementer)
                 .Select(rec => new OrderViewModel
                 {
                     Id = rec.Id,
                     CarId = rec.CarId,
+                    CarName = rec.Car.CarName,
                     ClientId = rec.ClientId,
                     ClientFIO = rec.Client.Fio,
-                    CarName = rec.Car.CarName,
+                    ImplementerId = rec.ImplementerId,
+                    ImplementerFIO = rec.Implementer.ImplementerFIO,
                     Count = rec.Count,
                     DateCreate = rec.DateCreate,
                     DateImplement = rec.DateImplement,

@@ -37,6 +37,7 @@ namespace CarShopFileImplement.Implements
                     Id = maxId + 1,
                     CarId = model.CarId,
                     Count = model.Count,
+                    ImplementerId = model.ImplementerId,
                     DateCreate = model.DateCreate,
                     DateImplement = model.DateImplement,
                     Status = OrderStatus.Принят,
@@ -45,6 +46,7 @@ namespace CarShopFileImplement.Implements
                 source.Orders.Add(order);
                 return;
             }
+            order.ImplementerId = model.ImplementerId;
             order.CarId = model.CarId;
             order.Count = model.Count;
             order.DateCreate = model.DateCreate;
@@ -72,13 +74,19 @@ namespace CarShopFileImplement.Implements
             .Where(rec => model == null ||
                 (model.Id != null && rec.Id == model.Id) ||
                 (model.DateFrom != null && model.DateTo != null && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo) ||
-                (rec.ClientId == model.ClientId))
+                (rec.ClientId == model.ClientId) ||
+                (model.FreeOrders.HasValue && model.FreeOrders.Value && !rec.ImplementerId.HasValue) ||
+                (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && rec.Status == OrderStatus.Выполняется))
             .Select(rec => new OrderViewModel
             {
                 Id = rec.Id,
                 CarId = rec.CarId,
                 CarName = source.Cars.FirstOrDefault(car => car.Id == rec.CarId).CarName,
                 ClientFIO = source.Clients.FirstOrDefault((cl) => cl.Id == rec.ClientId).Fio,
+                ImplementerId = rec.ImplementerId,
+                ImplementerFIO = rec.ImplementerId.HasValue ?
+                                    source.Implementers.FirstOrDefault((i) => i.Id == rec.ImplementerId).ImplementerFIO
+                                    : string.Empty,
                 Count = rec.Count,
                 DateCreate = rec.DateCreate,
                 DateImplement = rec.DateImplement,
