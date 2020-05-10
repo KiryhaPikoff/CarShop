@@ -16,11 +16,14 @@ namespace CarShopView
 
         private readonly IOrderLogic orderLogic;
 
-        public FormMain(MainLogic mainLogic, IOrderLogic orderLogic)
+        private readonly ReportLogic reportLogic;
+
+        public FormMain(MainLogic mainLogic, IOrderLogic orderLogic, ReportLogic reportLogic)
         {
             InitializeComponent();
             this.mainLogic = mainLogic;
             this.orderLogic = orderLogic;
+            this.reportLogic = reportLogic;
         }
         private void FormMain_Load(object sender, EventArgs e)
         {
@@ -56,11 +59,6 @@ namespace CarShopView
         private void машиныToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormCars>();
-            form.ShowDialog();
-        }
-        private void складыToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var form = Container.Resolve<FormStorages>();
             form.ShowDialog();
         }
 
@@ -127,25 +125,32 @@ namespace CarShopView
             LoadData();
         }
 
-        private void добавитьКомпонентToolStripMenuItem_Click(object sender, EventArgs e)
+        private void списокКомпонентовToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormStorageComponent>();
-            if (form.ShowDialog() == DialogResult.OK)
+            using (var dialog = new SaveFileDialog { Filter = "docx|*.docx" })
             {
-                try
+                if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    this.mainLogic.addComponentOnStorage(new AddComponentBindingModel
+                    reportLogic.SaveCarsToWordFile(new ReportBindingModel
                     {
-                        StorageId = form.StorageId,
-                        ComponentId = form.ComponentId,
-                        Count = form.Count
+                        FileName = dialog.FileName
                     });
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
+                   MessageBoxIcon.Information);
                 }
             }
+        }
+
+        private void ordersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportOrders>();
+            form.ShowDialog();
+        }
+
+        private void carsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportCarComponents>();
+            form.ShowDialog();
         }
     }
 }
