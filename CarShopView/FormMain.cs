@@ -141,6 +141,33 @@ namespace CarShopView
             }
         }
 
+        private void складыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormStorages>();
+            form.ShowDialog();
+        }
+
+        private void добавитьКомпонентToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormStorageComponent>();
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    this.mainLogic.addComponentOnStorage(new AddComponentBindingModel
+                    {
+                        StorageId = form.StorageId,
+                        ComponentId = form.ComponentId,
+                        Count = form.Count
+                    });
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
         private void ordersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormReportOrders>();
