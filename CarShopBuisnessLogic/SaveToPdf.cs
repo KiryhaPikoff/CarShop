@@ -9,7 +9,7 @@ namespace CarShopBuisnessLogic
     class SaveToPdf
     {
         [System.Obsolete]
-        public static void CreateDoc(PdfInfo info)
+        public static void CreateDocCars(PdfInfoCarComponents info)
         {
             Document document = new Document();
             DefineStyles(document);
@@ -43,6 +43,54 @@ namespace CarShopBuisnessLogic
                     car.CarName,
                     car.ComponentName,
                     car.Count.ToString(),
+                },
+                    Style = "Normal",
+                    ParagraphAlignment = ParagraphAlignment.Left
+                });
+            }
+            PdfDocumentRenderer renderer = new PdfDocumentRenderer(true,
+            PdfSharp.Pdf.PdfFontEmbedding.Always)
+            {
+                Document = document
+            };
+            renderer.RenderDocument();
+            renderer.PdfDocument.Save(info.FileName);
+        }
+
+        public static void CreateDocStorageComponents(PdfInfoStorageComponents info)
+        {
+            Document document = new Document();
+            DefineStyles(document);
+            Section section = document.AddSection();
+            Paragraph paragraph = section.AddParagraph(info.Title);
+            paragraph.Format.SpaceAfter = "1cm";
+            paragraph.Format.Alignment = ParagraphAlignment.Center;
+            paragraph.Style = "NormalTitle";
+            paragraph.Format.SpaceAfter = "1cm";
+            paragraph.Format.Alignment = ParagraphAlignment.Center;
+            paragraph.Style = "Normal";
+            var table = document.LastSection.AddTable();
+            List<string> columns = new List<string> { "4cm", "4cm", "4cm" };
+            foreach (var elem in columns)
+            {
+                table.AddColumn(elem);
+            }
+            CreateRow(new PdfRowParameters
+            {
+                Table = table,
+                Texts = new List<string> { "Склад", "Компонент", "Количество" },
+                Style = "NormalTitle",
+                ParagraphAlignment = ParagraphAlignment.Center
+            });
+            foreach (var storageComponent in info.StorageComponents)
+            {
+                CreateRow(new PdfRowParameters
+                {
+                    Table = table,
+                    Texts = new List<string> {
+                    storageComponent.StorageName,
+                    storageComponent.ComponentName,
+                    storageComponent.Count.ToString(),
                 },
                     Style = "Normal",
                     ParagraphAlignment = ParagraphAlignment.Left

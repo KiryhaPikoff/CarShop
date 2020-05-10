@@ -14,12 +14,14 @@ namespace CarShopBuisnessLogic
         private readonly IComponentLogic componentLogic;
         private readonly ICarLogic carLogic;
         private readonly IOrderLogic orderLogic;
+        private readonly IStorageLogic storageLogic;
 
-        public ReportLogic(ICarLogic carLogic, IComponentLogic componentLogic, IOrderLogic orderLLogic)
+        public ReportLogic(ICarLogic carLogic, IComponentLogic componentLogic, IOrderLogic orderLogic, IStorageLogic storageLogic)
         {
             this.carLogic = carLogic;
             this.componentLogic = componentLogic;
-            this.orderLogic = orderLLogic;
+            this.orderLogic = orderLogic;
+            this.storageLogic = storageLogic;
         }
 
         /// <summary>
@@ -45,6 +47,35 @@ namespace CarShopBuisnessLogic
             .GroupBy(x => x.DateCreate.Date);
         }
 
+        public List<ReportStorageComponentViewModel> GetStorageComponents() 
+        {
+            return storageLogic.Read(null)
+                .Select(x => x.StorageComponents
+                        .Select(sc => new ReportStorageComponentViewModel
+                        {
+                            StorageName = x.StorageName,
+                            ComponentName = sc.Value.Item1,
+                            Count = sc.Value.Item2
+                        }))
+                .SelectMany(scl => scl)
+                .ToList();
+        }
+
+        public List<ReportStorageViewModel> GetStorageWithComponents() 
+        {
+            return storageLogic.Read(null)
+                .Select(x => new ReportStorageViewModel
+                {
+                    StorageName = x.StorageName,
+                    Components = x.StorageComponents
+                        .Select(
+                            sc => new Tuple<string, int>(sc.Value.Item1, sc.Value.Item2)
+                        ).ToList(),
+                    TotalCount = x.StorageComponents.Sum(sc => sc.Value.Item2)
+                })
+                .ToList();
+        }
+
         public List<ReportCarComponentViewModel> GetCarComponentsWithCar()
         {
             var cars = carLogic.Read(null);
@@ -64,13 +95,43 @@ namespace CarShopBuisnessLogic
             return listCompCar;
         }
 
+        public void SaveStoragesToWordFile(ReportBindingModel model)
+        {
+            SaveToWord.CreateDocStorages(new WordInfoStorages
+            { 
+                FileName = model.FileName,
+                Title = "Список складов",
+                Storages = storageLogic.Read(null)
+            });
+        }
+
+        public void SaveStoragesToExcelFile(ReportBindingModel model)
+        {
+            SaveToExcel.CreateDocStorages(new ExcelInfoStorages
+            {
+                FileName = model.FileName,
+                Title = "Список складов с компонентами",
+                Storages = GetStorageWithComponents()
+            });
+        }
+
+        public void SaveStorageComponentsToPdfFile(ReportBindingModel model)
+        {
+            SaveToPdf.CreateDocStorageComponents(new PdfInfoStorageComponents
+            {
+                FileName = model.FileName,
+                Title = "Список компонентов на складах",
+                StorageComponents = GetStorageComponents()
+            });
+        }
+
         /// <summary>
         /// Сохранение компонент в файл-Word
         /// </summary>
         /// <param name="model"></param>
         public void SaveCarsToWordFile(ReportBindingModel model)
         {
-            SaveToWord.CreateDoc(new WordInfo
+            SaveToWord.CreateDocCars(new WordInfoCars
             {
                 FileName = model.FileName,
                 Title = "Список машин",
@@ -84,7 +145,7 @@ namespace CarShopBuisnessLogic
         /// <param name="model"></param>
         public void SaveOrdersToExcelFile(ReportBindingModel model)
         {
-            SaveToExcel.CreateDoc(new ExcelInfo
+            SaveToExcel.CreateDocOrders(new ExcelInfoOrders
             {
                 FileName = model.FileName,
                 Title = "Список заказов",
@@ -99,7 +160,7 @@ namespace CarShopBuisnessLogic
         [Obsolete]
         public void SaveCarsWithComponentsToPdfFile(ReportBindingModel model)
         {
-            SaveToPdf.CreateDoc(new PdfInfo
+            SaveToPdf.CreateDocCars(new PdfInfoCarComponents
             {
                 FileName = model.FileName,
                 Title = "Список машин с компонентами",

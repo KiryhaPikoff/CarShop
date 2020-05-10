@@ -1,13 +1,12 @@
 ﻿using CarShopBuisnessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Text;
 
 namespace CarShopBuisnessLogic.HelperModels
 {
-    abstract class ExcelInfo
+    class PdfInfoCarComponents : PdfInfo
     {
-        public string FileName { get; set; }
-        public string Title { get; set; }
+        public List<ReportCarComponentViewModel> Cars { get; set; }
     }
 }

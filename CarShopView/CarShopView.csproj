@@ -266,6 +266,18 @@
     <Compile Include="FormReportOrders.Designer.cs">
       <DependentUpon>FormReportOrders.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormReportStorageComponents.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormReportStorageComponents.Designer.cs">
+      <DependentUpon>FormReportStorageComponents.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormReportStorages.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormReportStorages.Designer.cs">
+      <DependentUpon>FormReportStorages.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormStorage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -314,6 +326,12 @@
     <EmbeddedResource Include="FormReportOrders.resx">
       <DependentUpon>FormReportOrders.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormReportStorageComponents.resx">
+      <DependentUpon>FormReportStorageComponents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormReportStorages.resx">
+      <DependentUpon>FormReportStorages.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormStorage.resx">
       <DependentUpon>FormStorage.cs</DependentUpon>
     </EmbeddedResource>
@@ -333,10 +351,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <EmbeddedResource Include="ReportCarComponents.rdlc" />
+    <EmbeddedResource Include="ReportStorageComponents.rdlc" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\CarShopBuisnessLogic.ViewModels.ReportCarComponentViewModel.datasource" />
     <None Include="Properties\DataSources\CarShopBuisnessLogic.ViewModels.ReportCarViewModel.datasource" />
     <None Include="Properties\DataSources\CarShopBuisnessLogic.ViewModels.ReportOrdersViewModel.datasource" />
+    <None Include="Properties\DataSources\CarShopBuisnessLogic.ViewModels.ReportStorageComponentViewModel.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
