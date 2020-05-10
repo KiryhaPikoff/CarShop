@@ -69,6 +69,14 @@ namespace CarShopListImplement.Implements
                 {
                     if (order.Id == model.Id)
                     {
+                        if (model.DateFrom != null && model.DateTo != null)
+                        {
+                            if (order.DateCreate >= model.DateFrom && order.DateCreate <= model.DateTo)
+                            {
+                                result.Add(CreateViewModel(order));
+                            }
+                            continue;
+                        }
                         result.Add(CreateViewModel(order));
                         break;
                     }

@@ -73,8 +73,10 @@ namespace CarShopDatabaseImplement.Implements
             using (var context = new CarShopDatabase())
             {
                 return context.Orders
-                .Where(rec => model == null || rec.Id == model.Id)
-                .Include(car => car.Car)
+                .Where(rec => model == null ||
+                (model.Id != null && rec.Id == model.Id) ||
+                (model.DateFrom != null && model.DateTo != null && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo))
+                .Include(rec => rec.Car)
                 .Select(rec => new OrderViewModel
                 {
                     Id = rec.Id,

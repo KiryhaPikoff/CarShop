@@ -69,7 +69,9 @@ namespace CarShopFileImplement.Implements
         public List<OrderViewModel> Read(OrderBindingModel model)
         {
             return source.Orders
-            .Where(rec => model == null || rec.Id == model.Id)
+            .Where(rec => model == null ||
+                (model.Id != null && rec.Id == model.Id) ||
+                (model.DateFrom != null && model.DateTo != null && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo))
             .Select(rec => new OrderViewModel
             {
                 Id = rec.Id,

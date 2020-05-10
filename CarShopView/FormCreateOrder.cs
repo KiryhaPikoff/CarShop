@@ -50,12 +50,12 @@ namespace CarShopView
                 try
                 {
                     int id = Convert.ToInt32(carComboBox.SelectedValue);
-                    CarViewModel product = carLogic.Read(new CarBindingModel
+                    CarViewModel car = carLogic.Read(new CarBindingModel
                     {
                         Id = id
                     })?[0];
                     int count = Convert.ToInt32(countTextBox.Text);
-                    sumTextBox.Text = (count * product?.Price ?? 0).ToString();
+                    sumTextBox.Text = (count * car?.Price ?? 0).ToString();
                 }
                 catch (Exception ex)
                 {
