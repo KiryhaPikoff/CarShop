@@ -9,7 +9,7 @@ namespace CarShopDatabaseImplement
         {
             if (optionsBuilder.IsConfigured == false)
             {
-                optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-3FLK5BJ\SQLEXPRESS;Initial Catalog=CarShopDatabase;Integrated Security=True;MultipleActiveResultSets=True;");
+                optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-3FLK5BJ\SQLEXPRESS;Initial Catalog=CarShopDatabaseHard;Integrated Security=True;MultipleActiveResultSets=True;");
             }
             base.OnConfiguring(optionsBuilder);
         }
@@ -18,5 +18,7 @@ namespace CarShopDatabaseImplement
         public virtual DbSet<CarComponent> CarComponents { set; get; }
         public virtual DbSet<Order> Orders { set; get; }
         public virtual DbSet<Client> Clients { set; get; }
+        public virtual DbSet<Storage> Storages { set; get; }
+        public virtual DbSet<StorageComponent> StorageComponents { set; get; }
     }
 }

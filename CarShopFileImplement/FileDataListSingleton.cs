@@ -22,6 +22,10 @@ namespace CarShopFileImplement
 
         private readonly string ClientFileName = "Client.xml";
 
+        private readonly string StorageFileName = "Storage.xml";
+
+        private readonly string StorageComponentFileName = "StorageComponent.xml";
+
         public List<Component> Components { get; set; }
 
         public List<Order> Orders { get; set; }
@@ -32,6 +36,10 @@ namespace CarShopFileImplement
 
         public List<Client> Clients { get; set; }
 
+        public List<Storage> Storages { get; set; }
+
+        public List<StorageComponent> StorageComponents { get; set; }
+
         private FileDataListSingleton()
         {
             Components = LoadComponents();
@@ -39,6 +47,8 @@ namespace CarShopFileImplement
             Cars = LoadCars();
             CarComponents = LoadCarComponents();
             Clients = LoadClients();
+            Storages = LoadStorages();
+            StorageComponents = LoadStorageComponents();
         }
 
         public static FileDataListSingleton GetInstance()
@@ -56,7 +66,9 @@ namespace CarShopFileImplement
             SaveOrders();
             SaveCars();
             SaveCarComponents();
-            SaveClients();
+			SaveClients();
+            SaveStorages();
+            SaveStorageComponents();
         }
 
         private List<Component> LoadComponents()
@@ -274,25 +286,45 @@ namespace CarShopFileImplement
                 xDocument.Save(CarComponentFileName);
             }
         }
-        private void SaveClients()
-        {
-            if (Clients != null)
-            {
-                var xElement = new XElement("Clients");
 
-                foreach (var client in Clients)
+        private void SaveStorages()
+        {
+            if (Storages != null)
+            {
+                var xElement = new XElement("Storages");
+
+                foreach (var storage in Storages)
                 {
                     xElement.Add(
-                        new XElement("Client",
-                        new XAttribute("Id", client.Id),
-                        new XElement("Fio", client.Fio),
-                        new XElement("Login", client.Login),
-                        new XElement("Password", client.Password)
+                        new XElement("Storage",
+                        new XAttribute("Id", storage.Id),
+                        new XElement("StorageName", storage.StorageName)
                         ));
                 }
 
                 XDocument xDocument = new XDocument(xElement);
-                xDocument.Save(ClientFileName);
+                xDocument.Save(StorageFileName);
+            }
+        }
+
+        private void SaveStorageComponents()
+        {
+            if (StorageComponents != null)
+            {
+                var xElement = new XElement("StorageComponents");
+
+                foreach (var storageComponent in StorageComponents)
+                {
+                    xElement.Add(new XElement("StorageComponent",
+                        new XAttribute("Id", storageComponent.Id),
+                        new XElement("StorageId", storageComponent.StorageId),
+                        new XElement("ComponentId", storageComponent.ComponentId),
+                        new XElement("Count", storageComponent.Count)
+                        ));
+                }
+
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(StorageComponentFileName);
             }
         }
     }

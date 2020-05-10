@@ -8,10 +8,14 @@ namespace CarShopBuisnessLogic
     public class MainLogic
     {
         private readonly IOrderLogic orderLogic;
+        private readonly IStorageLogic storageLogic;
+        private readonly ICarLogic carLogic;
 
-        public MainLogic(IOrderLogic orderLogic)
+        public MainLogic(IOrderLogic orderLogic, IStorageLogic storageLogic, ICarLogic carLogic)
         {
             this.orderLogic = orderLogic;
+            this.storageLogic = storageLogic;
+            this.carLogic = carLogic;
         }
 
         public void CreateOrder(CreateOrderBindingModel model)
@@ -42,6 +46,27 @@ namespace CarShopBuisnessLogic
                 throw new Exception("Заказ не в статусе \"Принят\"");
             }
 
+            List<ComponentCountBindingModel> components = carLogic.Read(new CarBindingModel
+            {
+                Id = order.CarId
+            })[0].CarComponents
+                .Select(x => new ComponentCountBindingModel
+                {
+                    ComponentId = x.Key,
+                    // Кол-во компонентов умножается на кол-во машин.
+                    Count = x.Value.Item2 * order.Count
+                })
+                .ToList();
+
+            try
+            {
+                storageLogic.DiscountComponents(components);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Не удалось перевести заказ в работу по причине: " + e.Message);
+            } 
+            
             orderLogic.CreateOrUpdate(new OrderBindingModel
             {
                 Id = order.Id,
@@ -104,6 +129,11 @@ namespace CarShopBuisnessLogic
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Оплачен
             });
+        }
+
+        public void addComponentOnStorage(AddComponentBindingModel addComponentBindingModel)
+        {
+            this.storageLogic.AddComponent(addComponentBindingModel);
         }
     }
 }

@@ -2,29 +2,35 @@
 using CarShopBuisnessLogic.BindingModels;
 using Microsoft.Reporting.WinForms;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
 
 namespace CarShopView
 {
-    public partial class FormReportCarComponents : Form
+    public partial class FormReportStorageComponents : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
         private readonly ReportLogic reportLogic;
 
-        public FormReportCarComponents(ReportLogic logic)
+        public FormReportStorageComponents(ReportLogic logic)
         {
             InitializeComponent();
             this.reportLogic = logic;
         }
-
-        private void FormReportCarComponents_Load(object sender, System.EventArgs e)
+        private void FormReportStorageComponents_Load(object sender, EventArgs e)
         {
             try
             {
-                var dataSource = reportLogic.GetCarComponentsWithCar();
-                ReportDataSource source = new ReportDataSource("DataSetCarComp", dataSource);
+                var dataSource = reportLogic.GetStorageComponents();
+                ReportDataSource source = new ReportDataSource("DataSetStorageComponents", dataSource);
                 reportViewer.LocalReport.DataSources.Clear();
                 reportViewer.LocalReport.DataSources.Add(source);
                 reportViewer.RefreshReport();
@@ -35,7 +41,6 @@ namespace CarShopView
             }
         }
 
-        [Obsolete]
         private void toPdfButton_Click(object sender, EventArgs e)
         {
             using (var dialog = new SaveFileDialog { Filter = "pdf|*.pdf" })
@@ -44,7 +49,7 @@ namespace CarShopView
                 {
                     try
                     {
-                        reportLogic.SaveCarsWithComponentsToPdfFile(new ReportBindingModel
+                        reportLogic.SaveStorageComponentsToPdfFile(new ReportBindingModel
                         {
                             FileName = dialog.FileName,
                         });

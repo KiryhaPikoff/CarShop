@@ -2,12 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace CarShopBuisnessLogic.HelperModels
 {
-    abstract class ExcelInfo
+    class ExcelInfoOrders : ExcelInfo
     {
-        public string FileName { get; set; }
-        public string Title { get; set; }
+        public IEnumerable<IGrouping<DateTime, ReportOrdersViewModel>> Orders { get; set; }
     }
 }

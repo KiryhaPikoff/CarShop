@@ -12,7 +12,7 @@ namespace CarShopBuisnessLogic
         /// Создание документа
         /// </summary>
         /// <param name="info"></param>
-        public static void CreateDoc(WordInfo info)
+        public static void CreateDocCars(WordInfoCars info)
         {
             using (WordprocessingDocument wordDocument = WordprocessingDocument.Create(info.FileName, WordprocessingDocumentType.Document))
             {
@@ -41,6 +41,59 @@ namespace CarShopBuisnessLogic
                         }
                     }));
                 }
+                docBody.AppendChild(CreateSectionProperties());
+                wordDocument.MainDocumentPart.Document.Save();
+            }
+        }
+
+        public static void CreateDocStorages(WordInfoStorages info)
+        {
+            using (WordprocessingDocument wordDocument = WordprocessingDocument.Create(info.FileName, WordprocessingDocumentType.Document))
+            {
+                MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
+                mainPart.Document = new Document();
+                Body docBody = mainPart.Document.AppendChild(new Body());
+
+                docBody.AppendChild(CreateParagraph(new WordParagraph
+                {
+                    Texts = new List<string> { info.Title },
+                    TextProperties = new WordParagraphProperties
+                    {
+                        Bold = true,
+                        Size = "24",
+                        JustificationValues = JustificationValues.Center
+                    }
+                }));
+
+                Table table = new Table();
+                TableProperties props = new TableProperties(
+                    new TableBorders(
+                        new TopBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 5 },
+                        new BottomBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 5 },
+                        new LeftBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 5 },
+                        new RightBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 5 },
+                        new InsideHorizontalBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 5 },
+                        new InsideVerticalBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 5 }
+                ));
+                table.AppendChild(props);
+
+                foreach (var storage in info.Storages)
+                {
+                    var row = new TableRow();
+                    var cell = new TableCell();
+                    cell.Append(CreateParagraph(new WordParagraph
+                    {
+                        Texts = new List<string> { storage.StorageName },
+                        TextProperties = new WordParagraphProperties
+                        {
+                            Size = "24",
+                            JustificationValues = JustificationValues.Both
+                        }
+                    }));
+                    row.AppendChild(cell);
+                    table.AppendChild(row);
+                }
+                docBody.AppendChild(table);
                 docBody.AppendChild(CreateSectionProperties());
                 wordDocument.MainDocumentPart.Document.Save();
             }
