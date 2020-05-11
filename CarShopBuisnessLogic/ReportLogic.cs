@@ -47,7 +47,7 @@ namespace CarShopBuisnessLogic
             .GroupBy(x => x.DateCreate.Date);
         }
 
-        public List<ReportStorageComponentViewModel> GetStorageComponents() 
+        public List<ReportStorageComponentViewModel> GetStorageComponents()
         {
             return storageLogic.Read(null)
                 .Select(x => x.StorageComponents
@@ -61,7 +61,7 @@ namespace CarShopBuisnessLogic
                 .ToList();
         }
 
-        public List<ReportStorageViewModel> GetStorageWithComponents() 
+        public List<ReportStorageViewModel> GetStorageWithComponents()
         {
             return storageLogic.Read(null)
                 .Select(x => new ReportStorageViewModel
@@ -98,7 +98,7 @@ namespace CarShopBuisnessLogic
         public void SaveStoragesToWordFile(ReportBindingModel model)
         {
             SaveToWord.CreateDocStorages(new WordInfoStorages
-            { 
+            {
                 FileName = model.FileName,
                 Title = "Список складов",
                 Storages = storageLogic.Read(null)

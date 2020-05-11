@@ -183,8 +183,8 @@ namespace CarShopView
         private void клиентыToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormClients>();
-			form.ShowDialog();
-		}
+            form.ShowDialog();
+        }
 
         private void складыToolStripMenuItem2_Click(object sender, EventArgs e)
         {

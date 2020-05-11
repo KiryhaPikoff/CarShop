@@ -2,6 +2,8 @@
 using CarShopBuisnessLogic.Enums;
 using CarShopBuisnessLogic.Interfaces;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CarShopBuisnessLogic
 {
@@ -65,8 +67,8 @@ namespace CarShopBuisnessLogic
             catch (Exception e)
             {
                 throw new Exception("Не удалось перевести заказ в работу по причине: " + e.Message);
-            } 
-            
+            }
+
             orderLogic.CreateOrUpdate(new OrderBindingModel
             {
                 Id = order.Id,

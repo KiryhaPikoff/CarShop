@@ -1,7 +1,4 @@
-﻿using CarShopBuisnessLogic.ViewModels;
-using System.Collections.Generic;
-
-namespace CarShopBuisnessLogic.HelperModels
+﻿namespace CarShopBuisnessLogic.HelperModels
 {
     abstract class WordInfo
     {

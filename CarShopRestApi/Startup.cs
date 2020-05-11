@@ -24,6 +24,8 @@ namespace CarShopRestApi
             services.AddTransient<IClientLogic, ClientLogic>();
             services.AddTransient<IOrderLogic, OrderLogic>();
             services.AddTransient<ICarLogic, CarLogic>();
+            services.AddTransient<IComponentLogic, ComponentLogic>();
+            services.AddTransient<IStorageLogic, StorageLogic>();
             services.AddTransient<MainLogic>();
             services.AddControllers().AddNewtonsoftJson();
         }

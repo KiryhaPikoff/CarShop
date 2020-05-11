@@ -66,7 +66,7 @@ namespace CarShopFileImplement
             SaveOrders();
             SaveCars();
             SaveCarComponents();
-			SaveClients();
+            SaveClients();
             SaveStorages();
             SaveStorageComponents();
         }
@@ -173,6 +173,52 @@ namespace CarShopFileImplement
             return list;
         }
 
+        private List<Storage> LoadStorages()
+        {
+            var list = new List<Storage>();
+
+            if (File.Exists(StorageFileName))
+            {
+                XDocument xDocument = XDocument.Load(StorageFileName);
+
+                var xElements = xDocument.Root.Elements("Storage").ToList();
+
+                foreach (var elem in xElements)
+                {
+                    list.Add(new Storage
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        StorageName = elem.Element("StorageName").Value
+                    });
+                }
+            }
+
+            return list;
+        }
+        private List<StorageComponent> LoadStorageComponents()
+        {
+            var list = new List<StorageComponent>();
+
+            if (File.Exists(StorageComponentFileName))
+            {
+                XDocument xDocument = XDocument.Load(StorageComponentFileName);
+
+                var xElements = xDocument.Root.Elements("StorageComponent").ToList();
+
+                foreach (var elem in xElements)
+                {
+                    list.Add(new StorageComponent
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        StorageId = Convert.ToInt32(elem.Element("StorageId").Value),
+                        ComponentId = Convert.ToInt32(elem.Element("ComponentId").Value),
+                        Count = Convert.ToInt32(elem.Element("Count").Value)
+                    });
+                }
+            }
+
+            return list;
+        }
         private List<Client> LoadClients()
         {
             var list = new List<Client>();
@@ -325,6 +371,28 @@ namespace CarShopFileImplement
 
                 XDocument xDocument = new XDocument(xElement);
                 xDocument.Save(StorageComponentFileName);
+            }
+        }
+
+        private void SaveClients()
+        {
+            if (Clients != null)
+            {
+                var xElement = new XElement("Clients");
+
+                foreach (var client in Clients)
+                {
+                    xElement.Add(
+                        new XElement("Client",
+                        new XAttribute("Id", client.Id),
+                        new XElement("Fio", client.Fio),
+                        new XElement("Login", client.Login),
+                        new XElement("Password", client.Password)
+                        ));
+                }
+
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(ClientFileName);
             }
         }
     }
