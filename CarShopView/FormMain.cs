@@ -207,5 +207,11 @@ namespace CarShopView
             var form = Container.Resolve<FormReportStorageComponents>();
             form.ShowDialog();
         }
+
+        private void складыToolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormStorages>();
+            form.ShowDialog();
+        }
     }
 }
