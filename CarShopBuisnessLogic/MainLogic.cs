@@ -66,8 +66,8 @@ namespace CarShopBuisnessLogic
             catch (Exception e)
             {
                 throw new Exception("Не удалось перевести заказ в работу по причине: " + e.Message);
-            } 
-            
+            }
+
             orderLogic.CreateOrUpdate(new OrderBindingModel
             {
                 Id = order.Id,

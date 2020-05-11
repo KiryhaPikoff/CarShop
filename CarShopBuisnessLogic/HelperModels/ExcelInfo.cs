@@ -1,9 +1,4 @@
-﻿using CarShopBuisnessLogic.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace CarShopBuisnessLogic.HelperModels
+﻿namespace CarShopBuisnessLogic.HelperModels
 {
     abstract class ExcelInfo
     {

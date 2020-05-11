@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CarShopBuisnessLogic.ViewModels
+﻿namespace CarShopBuisnessLogic.ViewModels
 {
     public class ReportStorageComponentViewModel
     {
