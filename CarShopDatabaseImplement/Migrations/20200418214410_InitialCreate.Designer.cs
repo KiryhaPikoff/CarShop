@@ -4,14 +4,16 @@ using CarShopDatabaseImplement;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarShopDatabaseImplement.Migrations
 {
     [DbContext(typeof(CarShopDatabase))]
-    partial class CarShopDatabaseModelSnapshot : ModelSnapshot
+    [Migration("20200418214410_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,30 +65,6 @@ namespace CarShopDatabaseImplement.Migrations
                     b.ToTable("CarComponents");
                 });
 
-            modelBuilder.Entity("CarShopDatabaseImplement.Models.Client", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Fio")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Login")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Clients");
-                });
-
             modelBuilder.Entity("CarShopDatabaseImplement.Models.Component", b =>
                 {
                     b.Property<int>("Id")
@@ -113,9 +91,6 @@ namespace CarShopDatabaseImplement.Migrations
                     b.Property<int>("CarId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
@@ -134,8 +109,6 @@ namespace CarShopDatabaseImplement.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CarId");
-
-                    b.HasIndex("ClientId");
 
                     b.ToTable("Orders");
                 });
@@ -201,27 +174,6 @@ namespace CarShopDatabaseImplement.Migrations
                     b.HasOne("CarShopDatabaseImplement.Models.Car", "Car")
                         .WithMany("Orders")
                         .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CarShopDatabaseImplement.Models.Client", "Client")
-                        .WithMany("Orders")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("CarShopDatabaseImplement.Models.StorageComponent", b =>
-                {
-                    b.HasOne("CarShopDatabaseImplement.Models.Component", "Component")
-                        .WithMany()
-                        .HasForeignKey("ComponentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CarShopDatabaseImplement.Models.Storage", "Storage")
-                        .WithMany("StorageComponents")
-                        .HasForeignKey("StorageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

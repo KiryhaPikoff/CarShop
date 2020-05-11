@@ -195,6 +195,7 @@ namespace CarShopFileImplement
 
             return list;
         }
+
         private List<StorageComponent> LoadStorageComponents()
         {
             var list = new List<StorageComponent>();
@@ -219,6 +220,7 @@ namespace CarShopFileImplement
 
             return list;
         }
+      
         private List<Client> LoadClients()
         {
             var list = new List<Client>();
