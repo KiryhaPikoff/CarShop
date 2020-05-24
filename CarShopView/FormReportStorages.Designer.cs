@@ -81,7 +81,7 @@
             this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.saveToExcelButton);
             this.Name = "FormReportStorages";
-            this.Text = "FormReportStorages";
+            this.Text = "Склады и компоненты";
             this.Load += new System.EventHandler(this.FormReportStorages_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);
