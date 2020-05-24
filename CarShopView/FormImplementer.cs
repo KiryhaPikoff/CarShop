@@ -66,7 +66,7 @@ namespace CarShopView
             try
             {
                 implementerLogic.CreateOrUpdate(new ImplementerBindingModel
-                { 
+                {
                     Id = id,
                     ImplementerFIO = fioTextBox.Text,
                     WorkingTime = Convert.ToInt32(workingTimeTextBox.Text),

@@ -4,14 +4,16 @@ using CarShopDatabaseImplement;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarShopDatabaseImplement.Migrations
 {
     [DbContext(typeof(CarShopDatabase))]
-    partial class CarShopDatabaseModelSnapshot : ModelSnapshot
+    [Migration("20200511093745_Lab7")]
+    partial class Lab7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

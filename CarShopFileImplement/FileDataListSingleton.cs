@@ -24,6 +24,8 @@ namespace CarShopFileImplement
 
         private readonly string ImplementerFileName = "Implementer.xml";
 
+        private readonly string MessageInfoFileName = "MessageInfo.xml";
+
         public List<Component> Components { get; set; }
 
         public List<Order> Orders { get; set; }
@@ -36,6 +38,8 @@ namespace CarShopFileImplement
 
         public List<Implementer> Implementers { get; set; }
 
+        public List<MessageInfo> MessageInfoes { get; set; }
+
         private FileDataListSingleton()
         {
             Components = LoadComponents();
@@ -44,6 +48,7 @@ namespace CarShopFileImplement
             CarComponents = LoadCarComponents();
             Clients = LoadClients();
             Implementers = LoadImplementers();
+            MessageInfoes = LoadMessageInfoes();
         }
 
         public static FileDataListSingleton GetInstance()
@@ -63,6 +68,7 @@ namespace CarShopFileImplement
             SaveCarComponents();
             SaveClients();
             SaveImplementers();
+            SaveMessageInfoes();
         }
 
         private List<Component> LoadComponents()
@@ -213,6 +219,29 @@ namespace CarShopFileImplement
             return list;
         }
 
+        private List<MessageInfo> LoadMessageInfoes()
+        {
+            var list = new List<MessageInfo>();
+            if (File.Exists(MessageInfoFileName))
+            {
+                XDocument xDocument = XDocument.Load(MessageInfoFileName);
+                var xElements = xDocument.Root.Elements("MessageInfo").ToList();
+                foreach (var elem in xElements)
+                {
+                    list.Add(new MessageInfo
+                    {
+                        MessageId = elem.Attribute("MessageId").Value,
+                        Body = elem.Element("Body").Value,
+                        ClientId = Convert.ToInt32(elem.Element("ClientId").Value),
+                        DateDelivery = Convert.ToDateTime(elem.Element("DateDelivery").Value),
+                        SenderName = elem.Element("SenderName").Value,
+                        Subject = elem.Element("Subject").Value
+                    });
+                }
+            }
+            return list;
+        }
+
         private void SaveComponents()
         {
             if (Components != null)
@@ -342,6 +371,30 @@ namespace CarShopFileImplement
 
                 XDocument xDocument = new XDocument(xElement);
                 xDocument.Save(ImplementerFileName);
+            }
+        }
+
+        private void SaveMessageInfoes()
+        {
+            if (MessageInfoes != null)
+            {
+                var xElement = new XElement("MessageInfoes");
+
+                foreach (var messageInfo in MessageInfoes)
+                {
+                    xElement.Add(
+                        new XElement("MessageInfoe",
+                              new XAttribute("MessageId", messageInfo.MessageId),
+                              new XElement("Body", messageInfo.Body),
+                              new XElement("ClientId", messageInfo.ClientId),
+                              new XElement("DateDelivery", messageInfo.DateDelivery),
+                              new XElement("SenderName", messageInfo.SenderName),
+                              new XElement("Subject", messageInfo.Subject)
+                        ));
+                }
+
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(MessageInfoFileName);
             }
         }
     }

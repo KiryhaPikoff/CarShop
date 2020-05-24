@@ -15,5 +15,7 @@ namespace CarShopDatabaseImplement.Models
         public string Password { get; set; }
         [ForeignKey("ClientId")]
         public virtual List<Order> Orders { get; set; }
+        [ForeignKey("ClientId")]
+        public virtual List<MessageInfo> MessageInfoes { get; set; }
     }
 }
