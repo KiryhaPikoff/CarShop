@@ -70,7 +70,7 @@
             this.Controls.Add(this.toPdfButton);
             this.Controls.Add(this.reportViewer);
             this.Name = "FormReportStorageComponents";
-            this.Text = "FormReportStorageComponents";
+            this.Text = "Компоненты на складах";
             this.Load += new System.EventHandler(this.FormReportStorageComponents_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ReportStorageComponentViewModelBindingSource)).EndInit();
             this.ResumeLayout(false);
