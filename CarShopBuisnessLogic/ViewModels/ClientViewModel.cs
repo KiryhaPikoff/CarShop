@@ -1,24 +1,25 @@
-﻿using System.ComponentModel;
+﻿using CarShopBuisnessLogic.Attributes;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.Serialization;
 
 namespace CarShopBuisnessLogic.ViewModels
 {
     [DataContract]
-    public class ClientViewModel
+    public class ClientViewModel : BaseViewModel
     {
         [DataMember]
-        public int Id { get; set; }
-
-        [DataMember]
-        [DisplayName("ФИО")]
+        [Column(title: "ФИО", width: 100)]
         public string ClientFio { get; set; }
 
         [DataMember]
-        [DisplayName("Логин")]
+        [Column(title: "Логин", width: 100)]
         public string Login { get; set; }
 
         [DataMember]
-        [DisplayName("Пароль")]
+        [Column(title: "Пароль", width: 100)]
         public string Password { get; set; }
+
+        public override List<string> Properties() => new List<string> { "Id", "ClientFio", "Login", "Password" };
     }
 }

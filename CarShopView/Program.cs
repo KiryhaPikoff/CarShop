@@ -1,8 +1,11 @@
 using CarShopBuisnessLogic;
+using CarShopBuisnessLogic.Attributes;
 using CarShopBuisnessLogic.HelperModels;
 using CarShopBuisnessLogic.Interfaces;
+using CarShopBuisnessLogic.ViewModels;
 using CarShopDatabaseImplement.Implements;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Threading;
 using System.Windows.Forms;
@@ -51,6 +54,7 @@ namespace CarShopView
             currentContainer.RegisterType<IClientLogic, ClientLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IImplementerLogic, ImplementerLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IMessageInfoLogic, MessageInfoLogic>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<BackUpAbstractLogic, BackUpLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<MainLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ReportLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<WorkModeling>(new HierarchicalLifetimeManager());
@@ -60,6 +64,68 @@ namespace CarShopView
         private static void MailCheck(object obj)
         {
             MailLogic.MailCheck((MailCheckInfo)obj);
+        }
+
+        public static void ConfigGrid<T>(List<T> data, DataGridView grid)
+        {
+            var type = typeof(T);
+            if (type.BaseType == typeof(BaseViewModel))
+            {
+                // создаем объект от типа
+                object obj = Activator.CreateInstance(type);
+                // вытаскиваем метод получения списка заголовков
+                var method = type.GetMethod("Properties");
+                // вызываем метод
+                var config = (List<string>)method.Invoke(obj, null);
+                grid.Columns.Clear();
+                foreach (var conf in config)
+                {
+                    // вытаскиваем нужное свойство из класса
+                    var prop = type.GetProperty(conf);
+                    if (prop != null)
+                    {
+                        // получаем список атрибутов
+                        var attributes = prop.GetCustomAttributes(typeof(ColumnAttribute), true);
+                        if (attributes != null && attributes.Length > 0)
+                        {
+                            foreach (var attr in attributes)
+                            {
+                                // ищем нужный нам атрибут
+                                if (attr is ColumnAttribute columnAttr)
+                                {
+                                    var column = new DataGridViewTextBoxColumn
+                                    {
+                                        Name = conf,
+                                        ReadOnly = true,
+                                        HeaderText = columnAttr.Title,
+                                        Visible = columnAttr.Visible,
+                                        Width = columnAttr.Width
+                                    };
+                                    if (columnAttr.GridViewAutoSize !=
+                                    GridViewAutoSize.None)
+                                    {
+                                        column.AutoSizeMode =
+                                       (DataGridViewAutoSizeColumnMode)Enum.Parse(typeof(DataGridViewAutoSizeColumnMode),
+                                       columnAttr.GridViewAutoSize.ToString());
+                                    }
+                                    grid.Columns.Add(column);
+                                }
+                            }
+                        }
+                    }
+                }
+                // добавляем строки
+                foreach (var elem in data)
+                {
+                    List<object> objs = new List<object>();
+                    foreach (var conf in config)
+                    {
+                        var value = elem.GetType().GetProperty(conf).GetValue(elem);
+                        objs.Add(value);
+                    }
+                    grid.Rows.Add(objs.ToArray());
+                }
+            }
         }
     }
 }

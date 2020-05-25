@@ -19,16 +19,14 @@ namespace CarShopView
 
         private void FormMessage_Load(object sender, EventArgs e)
         {
+            LoadData();
+        }
+
+        private void LoadData()
+        {
             try
             {
-                var list = messageLogic.Read(null);
-
-                if (list != null)
-                {
-                    dataGridView.DataSource = list;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                }
+                Program.ConfigGrid(messageLogic.Read(null), dataGridView);
             }
             catch (Exception ex)
             {

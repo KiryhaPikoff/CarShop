@@ -80,6 +80,18 @@ namespace CarShopView
 
         }
 
+     /*   private void LoadData()
+        {
+            try
+            {
+                Program.ConfigGrid(logic.Read(null), dataGridView);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }*/
+
         private void CreateCarButton_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormCarComponent>();

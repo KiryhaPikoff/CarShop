@@ -27,13 +27,7 @@ namespace CarShopView
         {
             try
             {
-                var componentList = componentLogic.Read(null);
-                if (componentList != null)
-                {
-                    dataGridView.DataSource = componentList;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                }
+                Program.ConfigGrid(componentLogic.Read(null), dataGridView);
             }
             catch (Exception ex)
             {
