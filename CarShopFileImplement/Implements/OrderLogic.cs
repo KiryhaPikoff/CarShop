@@ -76,7 +76,8 @@ namespace CarShopFileImplement.Implements
                 (model.DateFrom != null && model.DateTo != null && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo) ||
                 (rec.ClientId == model.ClientId) ||
                 (model.FreeOrders.HasValue && model.FreeOrders.Value && !rec.ImplementerId.HasValue) ||
-                (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && rec.Status == OrderStatus.Выполняется))
+                (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && rec.Status == OrderStatus.Выполняется) ||
+                (model.Status == rec.Status))
             .Select(rec => new OrderViewModel
             {
                 Id = rec.Id,

@@ -13,16 +13,22 @@ namespace CarShopRestApi.Controllers
     {
         private readonly IOrderLogic _order;
         private readonly ICarLogic _Car;
+        private readonly IComponentLogic _componentLogic;
         private readonly MainLogic _main;
-        public MainController(IOrderLogic order, ICarLogic Car, MainLogic main)
+
+        public MainController(IOrderLogic order, ICarLogic Car, MainLogic main, IComponentLogic componentLogic)
         {
             _order = order;
             _Car = Car;
             _main = main;
+            _componentLogic = componentLogic;
         }
 
         [HttpGet]
         public List<CarViewModel> GetCarList() => _Car.Read(null);
+
+        [HttpGet]
+        public List<ComponentViewModel> GetComponentList() => _componentLogic.Read(null);
 
         [HttpGet]
         public CarViewModel GetCar(int CarId) => _Car.Read(new CarBindingModel

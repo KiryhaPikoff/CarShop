@@ -19,7 +19,6 @@ namespace CarShopView
             this.reportLogic = logic;
         }
 
-
         private void FormReportCarComponents_Load(object sender, System.EventArgs e)
         {
             try

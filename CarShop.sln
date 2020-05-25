@@ -13,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarShopFileImplement", "Car
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarShopDatabaseImplement", "CarShopDatabaseImplement\CarShopDatabaseImplement.csproj", "{B65C6A1A-44D9-415E-84B9-208A0A65CF38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarShopRestApi", "CarShopRestApi\CarShopRestApi.csproj", "{39AD2E59-D7E3-48BD-AD66-ADACE447098A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarShopRestApi", "CarShopRestApi\CarShopRestApi.csproj", "{39AD2E59-D7E3-48BD-AD66-ADACE447098A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarShopClientView", "CarShopClientView\CarShopClientView.csproj", "{DEBBFD49-665C-487C-8C07-75F91B69AF59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarShopClientView", "CarShopClientView\CarShopClientView.csproj", "{DEBBFD49-665C-487C-8C07-75F91B69AF59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarShopStorageView", "CarShopStorageView\CarShopStorageView.csproj", "{2035EDD4-840D-4612-AF03-D8765471AA42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{DEBBFD49-665C-487C-8C07-75F91B69AF59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEBBFD49-665C-487C-8C07-75F91B69AF59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEBBFD49-665C-487C-8C07-75F91B69AF59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2035EDD4-840D-4612-AF03-D8765471AA42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2035EDD4-840D-4612-AF03-D8765471AA42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2035EDD4-840D-4612-AF03-D8765471AA42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2035EDD4-840D-4612-AF03-D8765471AA42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

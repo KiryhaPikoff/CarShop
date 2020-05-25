@@ -81,7 +81,8 @@ namespace CarShopDatabaseImplement.Implements
                 (model.ClientId == rec.ClientId) ||
                 (model.DateFrom != null && model.DateTo != null && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo) ||
                 (model.FreeOrders.HasValue && model.FreeOrders.Value && !rec.ImplementerId.HasValue) ||
-                (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && rec.Status == OrderStatus.Выполняется))
+                (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && rec.Status == OrderStatus.Выполняется) ||
+                (model.NotEnoughMaterialsOrders.HasValue && model.NotEnoughMaterialsOrders.Value && rec.Status == OrderStatus.Треубются_материалы))
                 .Include(rec => rec.Car)
                 .Include(rec => rec.Client)
                 .Include(rec => rec.Implementer)

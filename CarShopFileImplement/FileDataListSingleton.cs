@@ -24,6 +24,10 @@ namespace CarShopFileImplement
 
         private readonly string ImplementerFileName = "Implementer.xml";
 
+        private readonly string StorageFileName = "Storage.xml";
+
+        private readonly string StorageComponentFileName = "StorageComponent.xml";
+
         public List<Component> Components { get; set; }
 
         public List<Order> Orders { get; set; }
@@ -36,6 +40,10 @@ namespace CarShopFileImplement
 
         public List<Implementer> Implementers { get; set; }
 
+        public List<Storage> Storages { get; set; }
+
+        public List<StorageComponent> StorageComponents { get; set; }
+
         private FileDataListSingleton()
         {
             Components = LoadComponents();
@@ -44,6 +52,8 @@ namespace CarShopFileImplement
             CarComponents = LoadCarComponents();
             Clients = LoadClients();
             Implementers = LoadImplementers();
+            Storages = LoadStorages();
+            StorageComponents = LoadStorageComponents();
         }
 
         public static FileDataListSingleton GetInstance()
@@ -63,6 +73,8 @@ namespace CarShopFileImplement
             SaveCarComponents();
             SaveClients();
             SaveImplementers();
+            SaveStorages();
+            SaveStorageComponents();
         }
 
         private List<Component> LoadComponents()
@@ -167,6 +179,54 @@ namespace CarShopFileImplement
             return list;
         }
 
+        private List<Storage> LoadStorages()
+        {
+            var list = new List<Storage>();
+
+            if (File.Exists(StorageFileName))
+            {
+                XDocument xDocument = XDocument.Load(StorageFileName);
+
+                var xElements = xDocument.Root.Elements("Storage").ToList();
+
+                foreach (var elem in xElements)
+                {
+                    list.Add(new Storage
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        StorageName = elem.Element("StorageName").Value
+                    });
+                }
+            }
+
+            return list;
+        }
+
+        private List<StorageComponent> LoadStorageComponents()
+        {
+            var list = new List<StorageComponent>();
+
+            if (File.Exists(StorageComponentFileName))
+            {
+                XDocument xDocument = XDocument.Load(StorageComponentFileName);
+
+                var xElements = xDocument.Root.Elements("StorageComponent").ToList();
+
+                foreach (var elem in xElements)
+                {
+                    list.Add(new StorageComponent
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        StorageId = Convert.ToInt32(elem.Element("StorageId").Value),
+                        ComponentId = Convert.ToInt32(elem.Element("ComponentId").Value),
+                        Count = Convert.ToInt32(elem.Element("Count").Value)
+                    });
+                }
+            }
+
+            return list;
+        }
+      
         private List<Client> LoadClients()
         {
             var list = new List<Client>();
@@ -301,6 +361,48 @@ namespace CarShopFileImplement
                 xDocument.Save(CarComponentFileName);
             }
         }
+
+        private void SaveStorages()
+        {
+            if (Storages != null)
+            {
+                var xElement = new XElement("Storages");
+
+                foreach (var storage in Storages)
+                {
+                    xElement.Add(
+                        new XElement("Storage",
+                        new XAttribute("Id", storage.Id),
+                        new XElement("StorageName", storage.StorageName)
+                        ));
+                }
+
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(StorageFileName);
+            }
+        }
+
+        private void SaveStorageComponents()
+        {
+            if (StorageComponents != null)
+            {
+                var xElement = new XElement("StorageComponents");
+
+                foreach (var storageComponent in StorageComponents)
+                {
+                    xElement.Add(new XElement("StorageComponent",
+                        new XAttribute("Id", storageComponent.Id),
+                        new XElement("StorageId", storageComponent.StorageId),
+                        new XElement("ComponentId", storageComponent.ComponentId),
+                        new XElement("Count", storageComponent.Count)
+                        ));
+                }
+
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(StorageComponentFileName);
+            }
+        }
+
         private void SaveClients()
         {
             if (Clients != null)

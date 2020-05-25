@@ -13,6 +13,8 @@ namespace CarShopListImplement
         public List<CarComponent> CarComponents { get; set; }
         public List<Client> Clients { get; set; }
         public List<Implementer> Implementers { get; set; }
+        public List<Storage> Storages { get; set; }
+        public List<StorageComponent> StorageComponents { get; set; }
 
         private DataListSingleton()
         {
@@ -22,6 +24,8 @@ namespace CarShopListImplement
             CarComponents = new List<CarComponent>();
             Clients = new List<Client>();
             Implementers = new List<Implementer>();
+            Storages = new List<Storage>();
+            StorageComponents = new List<StorageComponent>();
         }
         public static DataListSingleton GetInstance()
         {

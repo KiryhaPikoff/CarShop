@@ -111,6 +111,33 @@ namespace CarShopView
             }
         }
 
+        private void складыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormStorages>();
+            form.ShowDialog();
+        }
+
+        private void добавитьКомпонентToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormStorageComponent>();
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    this.mainLogic.addComponentOnStorage(new AddComponentBindingModel
+                    {
+                        StorageId = form.StorageId,
+                        ComponentId = form.ComponentId,
+                        Count = form.Count
+                    });
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
         private void ordersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormReportOrders>();
@@ -137,6 +164,40 @@ namespace CarShopView
         private void исполнителиToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormImplementers>();
+            form.ShowDialog();
+        }
+
+        private void складыToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new SaveFileDialog { Filter = "docx|*.docx" })
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    reportLogic.SaveStoragesToWordFile(new ReportBindingModel
+                    {
+                        FileName = dialog.FileName
+                    });
+                    MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
+                   MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void складыИКомпонентыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportStorages>();
+            form.ShowDialog();
+        }
+
+        private void компонентыНаСкладахToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormReportStorageComponents>();
+            form.ShowDialog();
+        }
+
+        private void складыToolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormStorages>();
             form.ShowDialog();
         }
     }

@@ -90,6 +90,11 @@ namespace CarShopListImplement.Implements
                             result.Add(CreateViewModel(order));
                             continue;
                         }
+                        if (model.Status == order.Status)
+                        {
+                            result.Add(CreateViewModel(order));
+                            continue;
+                        }
                         result.Add(CreateViewModel(order));
                         break;
                     }

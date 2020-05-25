@@ -2,6 +2,8 @@
 using CarShopBuisnessLogic.Enums;
 using CarShopBuisnessLogic.Interfaces;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CarShopBuisnessLogic
 {
@@ -9,10 +11,14 @@ namespace CarShopBuisnessLogic
     {
         private readonly IOrderLogic orderLogic;
         private readonly object locker = new object();
+        private readonly IStorageLogic storageLogic;
+        private readonly ICarLogic carLogic;
 
-        public MainLogic(IOrderLogic orderLogic)
+        public MainLogic(IOrderLogic orderLogic, IStorageLogic storageLogic, ICarLogic carLogic)
         {
             this.orderLogic = orderLogic;
+            this.storageLogic = storageLogic;
+            this.carLogic = carLogic;
         }
         public void CreateOrder(CreateOrderBindingModel model)
         {
@@ -39,26 +45,50 @@ namespace CarShopBuisnessLogic
                 {
                     throw new Exception("Не найден заказ");
                 }
-                if (order.Status != OrderStatus.Принят)
+                if (order.Status != OrderStatus.Принят && order.Status != OrderStatus.Треубются_материалы)
                 {
-                    throw new Exception("Заказ не в статусе \"Принят\"");
+                    throw new Exception("Заказ не в статусе \"Принят\" или \"Требуются материалы\"");
                 }
                 if (order.ImplementerId.HasValue)
                 {
                     throw new Exception("У заказа уже есть исполнитель");
                 }
-                orderLogic.CreateOrUpdate(new OrderBindingModel
+
+                List<ComponentCountBindingModel> components = carLogic.Read(new CarBindingModel
+                {
+                    Id = order.CarId
+                })[0].CarComponents
+                    .Select(x => new ComponentCountBindingModel
+                    {
+                        ComponentId = x.Key,
+                    // Кол-во компонентов умножается на кол-во машин.
+                    Count = x.Value.Item2 * order.Count
+                    })
+                    .ToList();
+
+                var orderModel = new OrderBindingModel
                 {
                     Id = order.Id,
                     ClientId = order.ClientId,
-                    ImplementerId = model.ImplementerId,
                     CarId = order.CarId,
                     Count = order.Count,
                     Sum = order.Sum,
-                    DateCreate = order.DateCreate,
-                    DateImplement = DateTime.Now,
-                    Status = OrderStatus.Выполняется
-                });
+                    DateCreate = order.DateCreate
+                };
+
+                try
+                {
+                    storageLogic.DiscountComponents(components);
+                    orderModel.DateImplement = DateTime.Now;
+                    orderModel.Status = OrderStatus.Выполняется;
+                    orderModel.ImplementerId = model.ImplementerId;
+                }
+                catch
+                {
+                    orderModel.Status = OrderStatus.Треубются_материалы;
+                }
+
+                orderLogic.CreateOrUpdate(orderModel);
             }
         }
 
@@ -114,6 +144,11 @@ namespace CarShopBuisnessLogic
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Оплачен
             });
+        }
+
+        public void addComponentOnStorage(AddComponentBindingModel addComponentBindingModel)
+        {
+            this.storageLogic.AddComponent(addComponentBindingModel);
         }
     }
 }
