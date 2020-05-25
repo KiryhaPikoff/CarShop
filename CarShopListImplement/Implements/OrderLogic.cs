@@ -90,7 +90,9 @@ namespace CarShopListImplement.Implements
                             result.Add(CreateViewModel(order));
                             continue;
                         }
-                        if (model.Status == order.Status)
+                        if (model.NotEnoughMaterialsOrders.HasValue &&
+                            model.NotEnoughMaterialsOrders.Value &&
+                            order.Status == OrderStatus.Треубются_материалы)
                         {
                             result.Add(CreateViewModel(order));
                             continue;
