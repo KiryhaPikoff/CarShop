@@ -19,7 +19,11 @@ namespace CarShopFileImplement.Implements
 
         public void CreateOrUpdate(ImplementerBindingModel model)
         {
-            Implementer implementer;
+            Implementer implementer = source.Implementers.FirstOrDefault(rec => rec.ImplementerFIO == model.ImplementerFIO && rec.Id != model.Id);
+            if (implementer != null)
+            {
+                throw new Exception("Уже есть исполнитель с таким ФИО");
+            }
             if (model.Id.HasValue)
             {
                 implementer = source.Implementers.FirstOrDefault(rec => rec.Id == model.Id);
