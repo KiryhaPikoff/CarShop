@@ -43,6 +43,7 @@ namespace CarShopBuisnessLogic
         /// <param name="orders"></param>
         private async void WorkerWorkAsync(ImplementerViewModel implementer, List<OrderViewModel> orders)
         {
+            //сперва отрабатываются заказы со статусом «Выполняются»
             // ищем заказы, которые уже в работе (вдруг исполнителя прервали)
             var runOrders = await Task.Run(() => orderLogic.Read(new OrderBindingModel
             {
@@ -60,13 +61,14 @@ namespace CarShopBuisnessLogic
                 Thread.Sleep(implementer.PauseTime);
             }
 
-            var notEnoughMaterialsOrders = orders
-                .Where(x => x.Status == OrderStatus.Треубются_материалы)
-                .Select(x => x)
-                .ToList();
+            // потом заказы со статусом «Требуются материалы» (вдруг материалы подвезли)
+            var notEnoughMaterialsOrders = orderLogic.Read(new OrderBindingModel { 
+                NotEnoughMaterialsOrders = true
+            }); 
             orders.RemoveAll(x => notEnoughMaterialsOrders.Contains(x));
             this.DoWork(implementer, notEnoughMaterialsOrders);
 
+            // и только потом новые заказы.
             await Task.Run(() =>
             {
                 this.DoWork(implementer, orders);
