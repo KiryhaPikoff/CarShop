@@ -28,7 +28,6 @@ namespace CarShopView
         }
         private void FormCar_Load(object sender, EventArgs e)
         {
-            dataGridView.Columns.Add("Id", "Id");
             dataGridView.Columns.Add("Компонент", "Компонент");
             dataGridView.Columns.Add("Количество", "Количество");
             if (id.HasValue)
@@ -69,7 +68,7 @@ namespace CarShopView
                     dataGridView.Rows.Clear();
                     foreach (var carComponent in carComponents)
                     {
-                        dataGridView.Rows.Add(new object[] { carComponent.Key, carComponent.Value.Item1, carComponent.Value.Item2 });
+                        dataGridView.Rows.Add(new object[] { carComponent.Value.Item1, carComponent.Value.Item2 });
                     }
                 }
             }
